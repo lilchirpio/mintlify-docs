@@ -1,0 +1,274 @@
+---
+title: 'Custom Fields Best Practices'
+description: 'Learn the essential rules and best practices for using custom fields effectively in your AI prompts'
+---
+
+# Custom Fields Best Practices
+
+<Info>
+  **What you'll learn:** Essential rules, naming conventions, and best practices to make your custom fields work perfectly every time.
+</Info>
+
+## The Golden Rules of Custom Fields
+
+### **Rule 1: No Spaces Ever** 🚨
+
+This is the most important rule: **Custom field names cannot contain spaces**.
+
+| ✅ **Correct** | ❌ **Wrong** | What Happens |
+|----------------|---------------|--------------|
+| `{FirstName}` | `{First Name}` | ❌ System error |
+| `{AccountNumber}` | `{Account Number}` | ❌ Data not found |
+| `{PaymentAmount}` | `{Payment Amount}` | ❌ Field fails |
+
+### **Rule 2: Use Underscores for Multiple Words**
+
+When you need multiple words, connect them with underscores:
+
+```
+{Account_Number}     ✅ Correct
+{Payment_Amount}     ✅ Correct
+{Appointment_Date}   ✅ Correct
+{Doctor_Name}        ✅ Correct
+```
+
+### **Rule 3: Be Consistent with Naming**
+
+Choose a naming style and stick to it throughout your system:
+
+**Option A: CamelCase (Recommended)**
+```
+{firstName}
+{accountNumber}
+{paymentAmount}
+```
+
+**Option B: PascalCase**
+```
+{FirstName}
+{AccountNumber}
+{PaymentAmount}
+```
+
+**Option C: Snake_Case**
+```
+{first_name}
+{account_number}
+{payment_amount}
+```
+
+<Warning>
+  **Important:** Pick one style and use it consistently. Don't mix different naming conventions in the same system.
+</Warning>
+
+## Field Naming Guidelines
+
+### **✅ Good Field Names**
+
+- **Clear and descriptive:** `{AccountNumber}` instead of `{Acc}`
+- **Consistent format:** All fields follow the same pattern
+- **Easy to understand:** `{PaymentAmount}` instead of `{PayAmt}`
+- **Professional:** `{CustomerName}` instead of `{CustName}`
+
+### **❌ Avoid These Naming Patterns**
+
+- **Abbreviations:** `{AccNum}` (unclear)
+- **Mixed formats:** `{FirstName}` and `{last_name` (inconsistent)
+- **Too long:** `{CustomerAccountPaymentAmountDueDate}` (confusing)
+- **Special characters:** `{Account#}` or `{Amount$}` (causes errors)
+
+## Common Custom Field Categories
+
+### **Personal Information Fields**
+
+| Field Name | Purpose | Example |
+|------------|---------|---------|
+| `{FirstName}` | User's first name | "Hello John" |
+| `{LastName}` | User's last name | "Mr. Smith" |
+| `{FullName}` | Complete name | "John Smith" |
+| `{Title}` | Professional title | "Dr. Smith" |
+| `{Company}` | Company name | "ABC Corporation" |
+
+### **Contact Information Fields**
+
+| Field Name | Purpose | Example |
+|------------|---------|---------|
+| `{PhoneNumber}` | Contact phone | "555-123-4567" |
+| `{EmailAddress}` | Email address | "john@email.com" |
+| `{Address}` | Physical address | "123 Main St" |
+| `{City}` | City name | "New York" |
+| `{State}` | State/province | "NY" |
+| `{ZipCode}` | Postal code | "10001" |
+
+### **Account and Financial Fields**
+
+| Field Name | Purpose | Example |
+|------------|---------|---------|
+| `{AccountNumber}` | Account identifier | "ACC12345" |
+| `{AccountType}` | Type of account | "Savings" |
+| `{Balance}` | Current balance | "$1,250.00" |
+| `{AmountDue}` | Outstanding amount | "$500.00" |
+| `{DueDate}` | Payment deadline | "March 30, 2024" |
+| `{LastPayment}` | Last payment amount | "$200.00" |
+| `{PaymentDate}` | Last payment date | "February 15, 2024" |
+
+### **Time and Date Fields**
+
+| Field Name | Purpose | Example |
+|------------|---------|---------|
+| `{today}` | Current date | "March 15, 2024" |
+| `{time_zone}` | User's time zone | "Eastern Time" |
+| `{AppointmentDate}` | Scheduled date | "March 20, 2024" |
+| `{AppointmentTime}` | Scheduled time | "3:00 PM" |
+
+### **Product and Service Fields**
+
+| Field Name | Purpose | Example |
+|------------|---------|---------|
+| `{ProductName}` | Product name | "Premium Plan" |
+| `{ServiceType}` | Service category | "Technical Support" |
+| `{OrderNumber}` | Order identifier | "ORD789" |
+| `{OrderDate}` | Order placement date | "March 10, 2024" |
+| `{ProductPrice}` | Product cost | "$99.99" |
+
+## Advanced Custom Field Techniques
+
+### **Combining Multiple Fields**
+
+You can use multiple custom fields in the same sentence for rich, personalized conversations:
+
+```
+"Hello {FirstName}, I can see you have an outstanding balance of {AmountDue} 
+on account {AccountNumber} that was due on {DueDate}. Based on your 
+payment history, I'd like to discuss a payment plan that works for you."
+```
+
+### **Conditional Custom Fields**
+
+Some systems support conditional logic with custom fields:
+
+```
+"Hello {FirstName}, your account {AccountNumber} shows a balance of {Balance}. 
+{IfBalancePositive: Since you have a credit, you're all set!} 
+{IfBalanceNegative: You have an outstanding amount of {AmountDue} due by {DueDate}.}"
+```
+
+<Info>
+  **Note:** Conditional custom fields require advanced system support. Check with your platform provider for availability.
+</Info>
+
+## Testing Your Custom Fields
+
+### **Before Going Live**
+
+1. **Test with sample data** - Use real user information to verify fields populate correctly
+2. **Check field names** - Ensure no spaces or special characters
+3. **Verify data accuracy** - Confirm the right information appears in the right places
+4. **Test conversation flow** - Make sure the personalized message sounds natural
+
+### **Common Testing Scenarios**
+
+| Test Case | What to Check | Expected Result |
+|-----------|---------------|-----------------|
+| **Basic fields** | `{FirstName}`, `{LastName}` | Names appear correctly |
+| **Financial fields** | `{AmountDue}`, `{DueDate}` | Numbers and dates format properly |
+| **Time fields** | `{today}`,`{time_zone}` | Current date displays |
+| **Empty fields** | Missing data | Graceful handling or fallback text |
+
+## Troubleshooting Common Issues
+
+### **Problem: Field Not Populating**
+
+**Possible Causes:**
+- Field name has spaces
+- Field name doesn't match database
+- Data is missing for that user
+- System configuration error
+
+**Solutions:**
+1. Check for spaces in field name
+2. Verify field name matches exactly
+3. Confirm data exists in database
+4. Check system configuration
+
+### **Problem: Wrong Data Appearing**
+
+**Possible Causes:**
+- Field name too similar to another field
+- Database mapping error
+- Data corruption
+
+**Solutions:**
+1. Use unique, descriptive field names
+2. Verify database field mapping
+3. Check data integrity
+
+### **Problem: Field Causes Error**
+
+**Possible Causes:**
+- Invalid characters in field name
+- System doesn't recognize field
+- Syntax error in prompt
+
+**Solutions:**
+1. Remove special characters
+2. Use only letters, numbers, and underscores
+3. Check prompt syntax
+
+## Best Practices Checklist
+
+Use this checklist to ensure your custom fields work perfectly:
+
+- [ ] **Field names have no spaces** - Use underscores instead
+- [ ] **Naming is consistent** - Same format throughout system
+- [ ] **Names are descriptive** - Clear what each field contains
+- [ ] **Testing completed** - Verified with real data
+- [ ] **Error handling** - Graceful fallbacks for missing data
+- [ ] **Documentation updated** - Team knows how to use fields
+- [ ] **Backup plan** - What happens if fields fail
+
+## Performance Considerations
+
+### **Field Loading Speed**
+
+- **Keep field names short** - Long names can slow processing
+- **Limit field count** - Too many fields may impact performance
+- **Cache frequently used data** - Reduce database lookups
+
+### **Data Accuracy**
+
+- **Real-time updates** - Ensure data is current
+- **Validation rules** - Check data quality before using
+- **Fallback values** - Provide defaults for missing data
+
+## Security and Privacy
+
+### **Data Protection**
+
+- **Sensitive information** - Don't include passwords or SSNs in custom fields
+- **Access control** - Limit who can see custom field data
+- **Audit logging** - Track when custom fields are used
+
+### **Compliance**
+
+- **GDPR considerations** - Ensure user consent for personal data
+- **Industry regulations** - Follow financial, healthcare, or other specific rules
+- **Data retention** - Know how long to keep custom field data
+
+## Next Steps
+
+Now that you understand custom field best practices:
+
+1. **Review your current fields** - Apply these best practices to existing custom fields
+2. **Plan new implementations** - Use proper naming conventions from the start
+3. **Test thoroughly** - Verify everything works before going live
+4. **Train your team** - Ensure everyone follows the same standards
+5. **Monitor performance** - Watch for any issues and optimize as needed
+
+<Check>
+  **Ready to implement custom fields correctly?** Following these best practices will ensure your custom fields work reliably, efficiently, and professionally. Start implementing them today to create more engaging and personalized AI conversations.
+</Check>
+
+---
+
+**Need the basics?** Check out our [Custom Fields Introduction](/custom-fields/introduction) to understand the fundamentals before diving into these best practices.

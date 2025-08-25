@@ -1,0 +1,202 @@
+---
+title: 'Introduction to Custom Fields'
+description: 'Learn how custom fields make your AI prompts dynamic and personalized by automatically inserting user-specific information'
+---
+
+# Introduction to Custom Fields
+
+<Info>
+  **What you'll learn:** How custom fields work as dynamic placeholders that automatically insert personalized information into your AI conversations.
+</Info>
+
+## What Are Custom Fields?
+
+Custom fields are like **smart placeholders** that you put inside your AI prompt. Think of them as empty boxes that automatically fill up with specific information about each user when the AI talks to them.
+
+Instead of writing the same script for everyone, custom fields let you create **one prompt that works for thousands of users** by automatically including their personal details.
+
+## How Custom Fields Work 🔄
+
+Here's the simple process:
+
+1. **You write a prompt** with placeholders like `{FirstName}` and `{AccountNumber}`
+2. **The system finds the user** and looks up their information
+3. **Custom fields get filled** with real data from your database
+4. **AI delivers personalized message** using the actual user information
+
+It's like having a smart template that automatically personalizes itself for each person!
+
+## Why Custom Fields Matter 🎯
+
+### **The Problem Without Custom Fields:**
+- Writing separate scripts for every single user
+- Manually updating information for each call
+- Risk of errors when copying and pasting details
+- Time-consuming and inefficient process
+
+### **The Solution With Custom Fields:**
+- One prompt works for everyone
+- Information updates automatically
+- No more copy-paste errors
+- Fast, efficient, and accurate
+
+## Basic Custom Field Examples
+
+### **Personal Information Fields**
+
+These are the most commonly used custom fields:
+
+| Field | What It Does | Example Output |
+|-------|--------------|----------------|
+| `{FirstName}` | Inserts the user's first name | "Hello **John**" |
+| `{LastName}` | Inserts the user's last name | "Mr. **Smith**" |
+| `{FullName}` | Inserts complete name | "**John Smith**" |
+
+### **Time and Date Fields**
+
+These provide dynamic time information:
+
+| Field | What It Does | Example Output |
+|-------|--------------|----------------|
+| `{today}` | Current date | "Today is **March 15, 2024**" |
+| `{time_zone}` | User's time zone | "Your time zone is **Eastern Time**" |
+
+### **Account and Financial Fields**
+
+These are essential for business conversations:
+
+| Field | What It Does | Example Output |
+|-------|--------------|----------------|
+| `{AccountNumber}` | User's account ID | "Account **12345**" |
+| `{AmountDue}` | Outstanding balance | "Balance of **$500.00**" |
+| `{DueDate}` | Payment deadline | "Due by **March 30, 2024**" |
+
+## Real-World Example
+
+### **Without Custom Fields (Static Script):**
+```
+"Hello, this is Alex from Stone & Saunders. I'm calling regarding your account. 
+Our records show an outstanding balance. Can we discuss this today?"
+```
+
+**Problems:** Generic, impersonal, no specific details
+
+### **With Custom Fields (Dynamic Script):**
+```
+"Hello {FirstName}, this is Alex from Stone & Saunders. I'm calling regarding 
+your account number {AccountNumber}. Our records show an outstanding balance 
+of {AmountDue}. Can we discuss this today?"
+```
+
+**Benefits:** Personal, specific, professional, engaging
+
+### **What the User Actually Hears:**
+```
+"Hello John, this is Alex from Stone & Saunders. I'm calling regarding 
+your account number 12345. Our records show an outstanding balance 
+of $500.00. Can we discuss this today?"
+```
+
+## How Custom Fields Make Conversations Better
+
+### **1. Personalization**
+- User feels recognized and valued
+- Conversation feels natural and human
+- Higher engagement and response rates
+
+### **2. Accuracy**
+- Information is always current
+- No outdated or incorrect details
+- Professional and trustworthy appearance
+
+### **3. Efficiency**
+- One prompt works for everyone
+- No need to rewrite scripts
+- Easy to maintain and update
+
+### **4. Scalability**
+- Handle thousands of users
+- Add new users without changing prompts
+- Consistent quality across all conversations
+
+## Common Use Cases
+
+### **Debt Collection**
+```
+"Hello {FirstName}, your outstanding balance of {AmountDue} on account 
+{AccountNumber} is due by {DueDate}."
+```
+
+### **Appointment Reminders**
+```
+"Hi {FirstName}, this is a reminder about your appointment on {AppointmentDate} 
+at {AppointmentTime} with Dr. {DoctorName}."
+```
+
+### **Customer Service**
+```
+"Thank you for calling, {FirstName}. I can see you're calling about 
+order {OrderNumber} placed on {OrderDate}."
+```
+
+### **Sales and Marketing**
+```
+"Hello {FirstName}, I noticed you were interested in our {ProductName} 
+service. Based on your location in {City}, I think this would be perfect for you."
+```
+
+## Important Rules to Remember
+
+### **🚨 Critical: No Spaces in Field Names**
+
+Custom fields are **space-sensitive** and must follow strict naming rules:
+
+| ✅ **Correct** | ❌ **Wrong** | Why It Matters |
+|----------------|---------------|----------------|
+| `{FirstName}` | `{First Name}` | Spaces cause errors |
+| `{AccountNumber}` | `{Account Number}` | System can't find the field |
+| `{AmountDue}` | `{Amount Due}` | Data retrieval fails |
+
+### **✅ Use Underscores Instead of Spaces**
+
+When you need multiple words, connect them with underscores:
+
+```
+{Account_Number}    ✅ Correct
+{Payment_Amount}    ✅ Correct
+{Due_Date}          ✅ Correct
+```
+
+## Getting Started with Custom Fields
+
+### **Step 1: Identify Your Data**
+- What information do you have about users?
+- What details would make conversations more personal?
+- What data changes frequently?
+
+### **Step 2: Choose Field Names**
+- Use clear, descriptive names
+- Always use underscores instead of spaces
+- Keep names consistent across your system
+
+### **Step 3: Test Your Fields**
+- Verify that data populates correctly
+- Check for any naming errors
+- Ensure the conversation flows naturally
+
+## Next Steps
+
+Now that you understand the basics of custom fields:
+
+1. **Review your current prompts** - Identify where personalization would help
+2. **List your available data** - What user information can you access?
+3. **Start with simple fields** - Begin with `{FirstName}` and `{today}`
+4. **Test and expand** - Add more fields as you become comfortable
+
+<Check>
+  **Ready to personalize your AI conversations?** Custom fields are the key to making your prompts dynamic, engaging, and professional. Start implementing them today to see immediate improvements in user engagement and conversation quality.
+</Check>
+
+---
+
+**Need help with best practices?** Check out our [Custom Fields Best Practices](/custom-fields/best-practices) guide to learn how to use custom fields effectively and avoid common mistakes.
