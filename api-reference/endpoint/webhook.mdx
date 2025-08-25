@@ -1,4 +1,28 @@
 ---
-title: 'New Plant'
+title: 'New Plant Webhook'
 openapi: 'WEBHOOK /plant/webhook'
 ---
+
+Receive notifications when new plants are added to the Vodex.ai Plant Store API. This webhook endpoint showcases Vodex.ai's real-time API documentation capabilities with automatic webhook validation and testing.
+
+<RequestExample>
+```json Webhook Payload
+{
+  "id": 456,
+  "name": "ZZ Plant",
+  "tag": "indoor"
+}
+```
+</RequestExample>
+
+<ResponseExample>
+```http Success Response
+HTTP/1.1 200 OK
+Content-Type: application/json
+
+{
+  "status": "received",
+  "message": "Webhook processed successfully"
+}
+```
+</ResponseExample>

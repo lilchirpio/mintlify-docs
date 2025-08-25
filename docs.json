@@ -1,13 +1,13 @@
 {
   "$schema": "https://mintlify.com/docs.json",
   "theme": "mint",
-  "name": "Mint Starter Kit",
+  "name": "Vodex.ai Documentation",
   "colors": {
-    "primary": "#16A34A",
-    "light": "#07C983",
-    "dark": "#15803D"
+    "primary": "#FF4D00",
+    "light": "#FF4D00",
+    "dark": "#FF4D00"
   },
-  "favicon": "/favicon.svg",
+  "favicon": "/vodexfavicon.png",
   "navigation": {
     "tabs": [
       {
@@ -44,6 +44,13 @@
               "ai-tools/claude-code",
               "ai-tools/windsurf"
             ]
+          },
+          {
+            "group": "Agents",
+            "pages": [
+              "agents/prompt",
+              "agents/tags"
+            ]
           }
         ]
       },
@@ -72,37 +79,37 @@
       "anchors": [
         {
           "anchor": "Documentation",
-          "href": "https://mintlify.com/docs",
+          "href": "https://docs.vodex.ai",
           "icon": "book-open-cover"
         },
         {
           "anchor": "Community",
-          "href": "https://mintlify.com/community",
+          "href": "https://community.vodex.ai",
           "icon": "slack"
         },
         {
           "anchor": "Blog",
-          "href": "https://mintlify.com/blog",
+          "href": "https://blog.vodex.ai",
           "icon": "newspaper"
         }
       ]
     }
   },
   "logo": {
-    "light": "/logo/light.svg",
-    "dark": "/logo/dark.svg"
+    "light": "/logo/vodex-full.svg",
+    "dark": "/logo/vodex-full.svg"
   },
   "navbar": {
     "links": [
       {
         "label": "Support",
-        "href": "mailto:hi@mintlify.com"
+        "href": "mailto:support@vodex.ai"
       }
     ],
     "primary": {
       "type": "button",
       "label": "Dashboard",
-      "href": "https://dashboard.mintlify.com"
+      "href": "https://dashboard.vodex.ai"
     }
   },
   "contextual": {
@@ -119,9 +126,9 @@
   },
   "footer": {
     "socials": {
-      "x": "https://x.com/mintlify",
-      "github": "https://github.com/mintlify",
-      "linkedin": "https://linkedin.com/company/mintlify"
+      "x": "https://x.com/vodexai",
+      "github": "https://github.com/vodexai",
+      "linkedin": "https://linkedin.com/company/vodexai"
     }
   }
 }

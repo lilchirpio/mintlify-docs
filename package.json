@@ -1,0 +1,16 @@
+{
+  "name": "vodexai-docs",
+  "version": "1.0.0",
+  "description": "Vodex.ai Documentation Starter Kit",
+  "dependencies": {
+    "mint": "^4.2.81"
+  },
+  "scripts": {
+    "dev": "mint dev",
+    "build": "mint build",
+    "serve": "mint serve"
+  },
+  "keywords": ["vodexai", "documentation", "docs", "mdx"],
+  "author": "Vodex.ai",
+  "license": "MIT"
+}

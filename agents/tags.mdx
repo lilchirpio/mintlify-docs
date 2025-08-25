@@ -1,0 +1,325 @@
+---
+title: 'Understanding AI Prompt Tags'
+description: 'Learn how to use special tags in your AI prompts to trigger automated actions and backend processes'
+---
+
+# Understanding AI Prompt Tags
+
+<Info>
+  **What you'll learn:** How to use special tags in your AI prompts to automatically trigger actions like ending calls, sending SMS messages, and transferring to live agents.
+</Info>
+
+## What Are AI Prompt Tags?
+
+Think of tags as **special instructions** that you hide inside your AI prompt. While the main prompt teaches the AI what to say and how to handle conversations, tags handle what happens **after** the AI finishes speaking.
+
+Tags are like secret commands that tell the backend system: "Hey, do this specific action right now!"
+
+## Why Are Tags Important? 🎯
+
+Tags solve a big problem: **seamless automation**. Instead of writing complicated instructions for every possible scenario, you use simple tags as shortcuts to trigger actions instantly.
+
+### **The Problem Without Tags:**
+- AI says goodbye but doesn't know how to end the call
+- User needs help but AI doesn't know how to transfer to a human
+- Follow-up information needs to be sent but AI doesn't know how
+
+### **The Solution With Tags:**
+- AI says goodbye and automatically ends the call
+- AI transfers difficult calls to human agents instantly
+- AI sends follow-up SMS messages automatically
+
+## How Tags Work 🔧
+
+Tags work like this:
+
+1. **AI delivers its message** (what it says to the user)
+2. **Tag triggers an action** (what happens behind the scenes)
+3. **User gets the result** (call ends, SMS sent, transfer happens)
+
+It's like having a smart assistant who not only talks to people but also knows exactly what to do next without being told twice.
+
+## Common Tags and Their Purposes
+
+### **1. (disconnect) - End the Call**
+
+**What it does:** Immediately ends the call after the AI finishes speaking.
+
+**When to use:** When the conversation is complete and you want to end the call politely.
+
+**Example:**
+```
+"Thank you for your time today. Have a wonderful day!" (disconnect)
+```
+
+**What happens:** AI says goodbye, then the call automatically ends.
+
+---
+
+### **2. (transfer) - Connect to Human Agent**
+
+**What it does:** Moves the call directly to a live human agent.
+
+**When to use:** When the user needs help that only a human can provide, or when the situation is too complex for the AI.
+
+**Example:**
+```
+"I understand this is complicated. Let me transfer you to a specialist who can better assist you." (transfer)
+```
+
+**What happens:** AI explains the transfer, then the call automatically moves to a human agent.
+
+---
+
+### **3. (sms) - Send Follow-up Message**
+
+**What it does:** Sends an automated text message to the user after the call.
+
+**When to use:** When you need to send links, instructions, or confirmation details that the user can reference later.
+
+**Example:**
+```
+"I've just sent you the application link by text message. You'll receive it in a moment." (sms)
+```
+
+**What happens:** AI tells the user about the SMS, then the system automatically sends the text message.
+
+---
+
+### **4. (sms+transfer) - Send SMS and Transfer**
+
+**What it does:** Combines two actions: sends an SMS and then transfers the call to a human agent.
+
+**When to use:** When you want to provide information AND get the user immediate human assistance.
+
+**Example:**
+```
+"I've sent you the details by text and will now connect you to our specialist who can answer your questions." (sms+transfer)
+```
+
+**What happens:** AI sends the SMS, then automatically transfers the call to a human agent.
+
+---
+
+### **5. (sms+disconnect) - Send SMS and End Call**
+
+**What it does:** Sends an SMS message and then politely ends the call.
+
+**When to use:** When you need to provide follow-up information but the conversation is complete.
+
+**Example:**
+```
+"I've sent the payment link to your phone. Please check it when you have a moment. Thank you for calling!" (sms+disconnect)
+```
+
+**What happens:** AI sends the SMS, then automatically ends the call.
+
+## Where to Place Tags in Your Prompts
+
+### **Golden Rule: Place tags AFTER the AI's final spoken words**
+
+Tags should always come at the very end of what you want the AI to say. Think of it like this:
+
+**❌ Wrong Placement:**
+```
+(disconnect) "Thank you for calling. Have a great day!"
+```
+
+**✅ Correct Placement:**
+```
+"Thank you for calling. Have a great day!" (disconnect)
+```
+
+### **Why This Matters:**
+
+1. **AI speaks first** - User hears the complete message
+2. **Tag triggers action** - Backend system performs the action
+3. **Seamless transition** - No awkward pauses or confusion
+
+## Real-World Examples
+
+### **Example 1: Simple Call Ending**
+
+**Scenario:** Lead qualification call where the prospect isn't interested.
+
+**Prompt:**
+```
+"Thank you for your time today. I understand this isn't the right fit for you right now. 
+We'll keep your information on file, and if anything changes, feel free to reach out. 
+Have a wonderful day!" (disconnect)
+```
+
+**What happens:** AI politely ends the conversation, then the call automatically disconnects.
+
+---
+
+### **Example 2: Transfer with Information**
+
+**Scenario:** Customer needs technical support that requires human assistance.
+
+**Prompt:**
+```
+"I understand you're experiencing a technical issue. I've sent you a troubleshooting guide 
+by text message, and now I'll connect you to our technical support team who can help 
+you resolve this immediately." (sms+transfer)
+```
+
+**What happens:** AI sends troubleshooting guide via SMS, then transfers the call to technical support.
+
+---
+
+### **Example 3: Follow-up with Call Ending**
+
+**Scenario:** Appointment reminder call where the user confirms they'll attend.
+
+**Prompt:**
+```
+"Perfect! I've sent you a confirmation email and calendar reminder by text message. 
+Your appointment is confirmed for tomorrow at 2 PM. We look forward to seeing you!" (sms+disconnect)
+```
+
+**What happens:** AI sends confirmation details via SMS, then ends the call.
+
+## Best Practices for Using Tags
+
+### **✅ Do's**
+
+- **Keep it simple** - Use one tag per action unless combining makes sense
+- **Be clear** - Make sure the AI's message explains what's about to happen
+- **Test thoroughly** - Verify that tags trigger the correct actions
+- **Use consistently** - Apply the same tag patterns across similar scenarios
+
+### **❌ Don'ts**
+
+- **Don't overcomplicate** - Avoid using multiple tags unless necessary
+- **Don't hide tags** - Make sure the AI's message explains the action
+- **Don't forget context** - Ensure the tag matches the user's needs
+- **Don't skip testing** - Always verify tags work as expected
+
+## Common Mistakes to Avoid
+
+### **Mistake 1: Tag in Wrong Location**
+
+**Problem:** Tag appears before the AI's message.
+
+**Solution:** Always place tags at the end of what you want the AI to say.
+
+---
+
+### **Mistake 2: Unclear User Communication**
+
+**Problem:** AI doesn't explain what action is about to happen.
+
+**Solution:** Make sure the AI clearly tells the user what to expect.
+
+---
+
+### **Mistake 3: Inappropriate Tag Usage**
+
+**Problem:** Using (transfer) for simple questions that AI can handle.
+
+**Solution:** Only use (transfer) when human assistance is truly needed.
+
+## Advanced Tag Strategies
+
+### **Combining Tags Effectively**
+
+Some tags work well together, but don't overdo it:
+
+**Good Combinations:**
+- `(sms+transfer)` - Provides information AND human help
+- `(sms+disconnect)` - Provides information AND ends call
+
+**Avoid:**
+- `(disconnect+transfer)` - These contradict each other
+- `(sms+sms)` - Redundant and confusing
+
+### **Context-Aware Tagging**
+
+Choose tags based on the conversation outcome:
+
+| Conversation Result | Recommended Tag | Why |
+|---------------------|-----------------|-----|
+| **User satisfied, call complete** | `(disconnect)` | Clean ending |
+| **User needs human help** | `(transfer)` | Immediate assistance |
+| **User needs follow-up info** | `(sms)` | Information delivery |
+| **User needs both info and help** | `(sms+transfer)` | Complete solution |
+
+## Testing Your Tags
+
+### **Before Deployment:**
+
+1. **Test each tag individually** - Make sure each one works correctly
+2. **Test tag combinations** - Verify that combined tags work as expected
+3. **Test user experience** - Ensure the AI's message flows naturally into the action
+4. **Test backend integration** - Confirm that actions actually happen
+
+### **Test Scenarios:**
+
+- **Disconnect test:** Does the call end smoothly?
+- **Transfer test:** Does the call move to the right agent?
+- **SMS test:** Does the message get sent to the correct number?
+- **Combination test:** Do multiple actions happen in the right order?
+
+## Troubleshooting Common Issues
+
+### **Problem: Tag Not Working**
+
+**Possible Causes:**
+- Tag placed in wrong location
+- Tag syntax is incorrect
+- Backend system not configured properly
+
+**Solution:** Check tag placement and syntax, then verify backend configuration.
+
+---
+
+### **Problem: Wrong Action Triggered**
+
+**Possible Causes:**
+- Tag syntax error
+- Backend system confusion
+- Multiple conflicting tags
+
+**Solution:** Review tag syntax and ensure only one action is intended.
+
+---
+
+### **Problem: User Confusion**
+
+**Possible Causes:**
+- AI doesn't explain what's happening
+- Action happens too quickly
+- Unexpected behavior
+
+**Solution:** Make sure AI clearly explains the action and timing.
+
+## Implementation Checklist
+
+Use this checklist to implement tags effectively:
+
+- [ ] **Understand your needs** - Identify which actions you want to automate
+- [ ] **Choose appropriate tags** - Select tags that match your use cases
+- [ ] **Write clear AI messages** - Ensure the AI explains what's about to happen
+- [ ] **Place tags correctly** - Put tags at the end of AI messages
+- [ ] **Test thoroughly** - Verify all tags work as expected
+- [ ] **Train your team** - Make sure everyone understands how tags work
+- [ ] **Monitor performance** - Track how tags improve user experience
+
+## Next Steps
+
+Now that you understand how AI prompt tags work:
+
+1. **Review your current prompts** - Identify where tags could improve efficiency
+2. **Start with simple tags** - Begin with `(disconnect)` and `(transfer)`
+3. **Add SMS functionality** - Implement `(sms)` for follow-up information
+4. **Combine when beneficial** - Use combinations like `(sms+transfer)` for complex scenarios
+5. **Test and refine** - Continuously improve your tag implementation
+
+<Check>
+  **Ready to automate your AI calls?** Start implementing tags in your prompts today. Remember, tags are the bridge between AI conversation and automated action - they make your system smarter and more efficient.
+</Check>
+
+---
+
+**Need help with prompts?** Check out our [Prompt documentation](/agents/prompt) to learn how to create effective AI call prompts that work perfectly with tags.
