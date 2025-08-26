@@ -1,0 +1,3570 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "Vodex API",
+    "description": "Comprehensive API documentation for Vodex.ai - AI-powered telecalling and voice automation platform. Manage projects, campaigns, audiences, and analyze call data with our robust API suite.",
+    "termsOfService": "https://vodex.ai/terms-of-use",
+    "contact": {
+      "name": "Vodex Developer Support",
+      "email": "developers@vodex.ai",
+      "url": "https://vodex.ai/support"
+    },
+    "license": {
+      "name": "Proprietary",
+      "url": "https://vodex.ai/license"
+    },
+    "version": "2.0.0",
+    "x-logo": {
+      "url": "https://firebasestorage.googleapis.com/v0/b/lilchirp-io.appspot.com/o/logo.png?alt=media&token=3178b5f8-84ff-426d-ba89-8088fa2c4d92",
+      "backgroundColor": "#FFFFFF",
+      "altText": "Vodex"
+    }
+  },
+  "externalDocs": {
+    "description": "Find out more about Vodex",
+    "url": "https://vodex.ai"
+  },
+  "servers": [
+    {
+      "url": "https://api.vodex.ai",
+      "description": "Production server"
+    }
+  ],
+  "security": [
+    {
+      "ApiKeyAuth": []
+    }
+  ],
+  "tags": [
+    {
+      "name": "Authentication",
+      "description": "Vodex uses API Key for authentication. If you are looking for the API Key(s) for your account, please fill the [Google Form](https://docs.google.com/forms/d/e/1FAIpQLSddntmCxrGt2TyKwPuXiDciLJC_dCMolSqU8qrikTNY00vr1A/viewform) with all the required details."
+    },
+    {
+      "name": "Projects",
+      "description": "Manage different projects in a single account. Create isolated bots for different use cases with comprehensive project management capabilities."
+    },
+    {
+      "name": "Audience",
+      "description": "Manage target audience information including names, mobile numbers, and custom fields for your calling campaigns."
+    },
+    {
+      "name": "Agent Setting",
+      "description": "Configure AI agents with custom prompts, greetings, context, and conversation flows for your telecalling campaigns."
+    },
+    {
+      "name": "Campaign",
+      "description": "Create, manage, and monitor telecalling campaigns with comprehensive campaign management tools."
+    },
+    {
+      "name": "Campaign Runs",
+      "description": "Track and analyze individual campaign execution runs with detailed performance metrics."
+    },
+    {
+      "name": "Call Trigger",
+      "description": "Trigger automated calls and manage call execution with custom parameters and real-time control."
+    },
+    {
+      "name": "Call Setting",
+      "description": "Configure call settings including caller ID, transfer numbers, voice settings, and call behavior parameters."
+    },
+    {
+      "name": "Advance Settings",
+      "description": "Advanced configuration options for API keys, rule IDs, account settings, and client configurations."
+    },
+    {
+      "name": "Appointment Settings",
+      "description": "Manage appointment booking settings, slot availability, and scheduling configurations for your campaigns."
+    },
+    {
+      "name": "Recording",
+      "description": "Upload and manage audio recordings for use in your telecalling campaigns and voice interactions."
+    },
+    {
+      "name": "Dashboard",
+      "description": "Access comprehensive analytics, metrics, and dashboard data for monitoring campaign performance."
+    },
+    {
+      "name": "Run Campaign Details",
+      "description": "Detailed analytics and reporting for individual campaign runs with filtering and pagination support."
+    },
+    {
+      "name": "Analyze",
+      "description": "AI-powered call analysis tools for generating summaries and extracting insights from call transcripts."
+    },
+    {
+      "name": "Twilio",
+      "description": "Twilio integration for caller ID verification and OTP management for enhanced call security."
+    }
+  ],
+  "paths": {
+    "/api/v1/project": {
+      "get": {
+        "tags": [
+          "Projects"
+        ],
+        "summary": "Get All Projects",
+        "description": "Retrieve a list of all projects associated with your account",
+        "operationId": "getAllProjectsController",
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "API Key",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "dburl",
+            "in": "header",
+            "description": "Database URL - unique key received from login API under account section as 'accountUrl'",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successfully retrieved all projects",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "integer"
+                    },
+                    "data": {
+                      "type": "array",
+                      "items": {
+                        "type": "object"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request - Invalid parameters",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized - Invalid API key",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        },
+        "x-swagger-router-controller": "projectController"
+      },
+      "post": {
+        "tags": [
+          "Projects"
+        ],
+        "summary": "Create Project",
+        "description": "Create a new project and add it to your account with specified configuration settings",
+        "operationId": "createProjectController",
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "API Key",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "dburl",
+            "in": "header",
+            "description": "Database URL - unique key received from login API under account section as 'accountUrl'",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "payload",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/createProject"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Project created successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "integer"
+                    },
+                    "msg": {
+                      "type": "string"
+                    },
+                    "data": {
+                      "required": [
+                        "projectId"
+                      ],
+                      "type": "object",
+                      "properties": {
+                        "projectId": {
+                          "type": "string"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request - Invalid project data",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized - Invalid API key",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        },
+        "x-swagger-router-controller": "projectController",
+        "x-codegen-request-body-name": "body"
+      }
+    },
+    "/api/v1/project/{id}": {
+      "delete": {
+        "tags": [
+          "Projects"
+        ],
+        "summary": "Delete Project",
+        "description": "Delete an existing project from your account by project ID",
+        "operationId": "deleteProjectsController",
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "API Key",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Project ID - unique identifier for the project",
+            "required": true,
+            "schema": {
+              "minimum": 1,
+              "type": "string"
+            }
+          },
+          {
+            "name": "dburl",
+            "in": "header",
+            "description": "Database URL - unique account identifier",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Project deleted successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "integer"
+                    },
+                    "msg": {
+                      "type": "string"
+                    },
+                    "data": {
+                      "required": [
+                        "acknowledged",
+                        "deletedCount"
+                      ],
+                      "type": "object",
+                      "properties": {
+                        "acknowledged": {
+                          "type": "boolean"
+                        },
+                        "deletedCount": {
+                          "type": "integer"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request - Invalid project ID",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized - Invalid API key",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Project not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        },
+        "x-swagger-router-controller": "projectController"
+      }
+    },
+    "/api/v1/audience": {
+      "post": {
+        "tags": [
+          "Audience"
+        ],
+        "summary": "Create Audience List",
+        "description": "Create a new audience list with target contacts for your campaigns",
+        "operationId": "createAudienceController",
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "API Key",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "dburl",
+            "in": "header",
+            "description": "Database URL - unique key received from login API under account section as 'accountUrl'",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "payload",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AudienceList"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Audience list created successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "integer"
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "projectId": {
+                          "type": "string"
+                        },
+                        "audienceName": {
+                          "type": "string"
+                        },
+                        "source": {
+                          "type": "string"
+                        },
+                        "audienceList": {
+                          "type": "array",
+                          "items": {
+                            "type": "object"
+                          }
+                        },
+                        "audienceHeader": {
+                          "type": "array",
+                          "items": {
+                            "type": "object"
+                          }
+                        },
+                        "_id": {
+                          "type": "string"
+                        },
+                        "createdAt": {
+                          "type": "string"
+                        },
+                        "updatedAt": {
+                          "type": "string"
+                        },
+                        "__v": {
+                          "type": "integer"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request - Invalid audience data",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized - Invalid API key",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        },
+        "x-swagger-router-controller": "audienceController",
+        "x-codegen-request-body-name": "body"
+      }
+    },
+    "/api/v1/audience/{id}": {
+      "get": {
+        "tags": [
+          "Audience"
+        ],
+        "summary": "Get Audience List",
+        "description": "Retrieve audience list data with pagination support for a specific project",
+        "operationId": "getAudienceController",
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "API Key",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "dburl",
+            "in": "header",
+            "description": "Database URL - unique key received from login API under account section as 'accountUrl'",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Project ID - unique identifier for the project",
+            "required": true,
+            "schema": {
+              "minimum": 1,
+              "type": "string"
+            }
+          },
+          {
+            "name": "pageIndex",
+            "in": "query",
+            "description": "Page index for pagination (0-based offset)",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "name": "pageSize",
+            "in": "query",
+            "description": "Number of items per page (limit)",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Audience list retrieved successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "integer"
+                    },
+                    "data": {
+                      "required": [
+                        "doc",
+                        "totalCount"
+                      ],
+                      "type": "object",
+                      "properties": {
+                        "totalCount": {
+                          "type": "integer"
+                        },
+                        "doc": {
+                          "type": "array",
+                          "items": {
+                            "type": "object"
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request - Invalid parameters",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized - Invalid API key",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Audience list not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        },
+        "x-swagger-router-controller": "audienceController"
+      },
+      "put": {
+        "tags": [
+          "Audience"
+        ],
+        "summary": "Update Audience List",
+        "description": "Update an existing audience list with new contact information",
+        "operationId": "updateAudienceController",
+        "parameters": [
+          {
+            "name": "dburl",
+            "in": "header",
+            "description": "Database URL - unique account identifier",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "API Key",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Audience ID - unique identifier for the audience list",
+            "required": true,
+            "schema": {
+              "minimum": 1,
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "payload",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AudienceList"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Audience list updated successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "integer"
+                    },
+                    "msg": {
+                      "type": "string"
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "acknowledged": {
+                          "type": "boolean"
+                        },
+                        "modifiedCount": {
+                          "type": "integer"
+                        },
+                        "upsertedCount": {
+                          "type": "integer"
+                        },
+                        "matchedCount": {
+                          "type": "integer"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request - Invalid audience data",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized - Invalid API key",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Audience list not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        },
+        "x-swagger-router-controller": "audienceController",
+        "x-codegen-request-body-name": "body"
+      },
+      "delete": {
+        "tags": [
+          "Audience"
+        ],
+        "summary": "Delete Audience List",
+        "description": "Delete an audience list by ID from your project",
+        "operationId": "deleteAudienceController",
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "API Key",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "dburl",
+            "in": "header",
+            "description": "Database URL - unique key received from login API under account section as 'accountUrl'",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Audience ID - unique identifier for the audience list",
+            "required": true,
+            "schema": {
+              "minimum": 1,
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Audience list deleted successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "integer"
+                    },
+                    "msg": {
+                      "type": "string"
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "acknowledged": {
+                          "type": "boolean"
+                        },
+                        "deletedCount": {
+                          "type": "integer"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request - Invalid audience ID",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized - Invalid API key",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Audience list not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        },
+        "x-swagger-router-controller": "audienceController"
+      }
+    },
+    "/api/v1/trigger-call": {
+      "post": {
+        "tags": [
+          "Call Trigger"
+        ],
+        "summary": "Trigger Campaign Call",
+        "description": "Initiate automated calls for a campaign. You can pass custom parameters defined in your agent configuration by including the field name and value for each contact.",
+        "operationId": "triggerAutomaticCallController",
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "API Key - authentication token for your account",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "payload",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/triggerCall"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Campaign calls triggered successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request - Invalid call data",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized - Invalid API key",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        },
+        "x-swagger-router-controller": "triggerCallController",
+        "x-codegen-request-body-name": "body"
+      }
+    },
+    "/api/v1/campaigns/{id}": {
+      "get": {
+        "tags": [
+          "Campaign"
+        ],
+        "summary": "Get All Campaigns",
+        "description": "Retrieve all campaigns for a specific project with pagination support",
+        "operationId": "getCampaignController",
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "API Key",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Project ID - unique identifier for the project",
+            "required": true,
+            "schema": {
+              "minimum": 1,
+              "type": "string"
+            }
+          },
+          {
+            "name": "dburl",
+            "in": "header",
+            "description": "Database URL - unique account identifier",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "pageIndex",
+            "in": "query",
+            "description": "Page index for pagination (0-based offset)",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "name": "pageSize",
+            "in": "query",
+            "description": "Number of items per page (limit)",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "integer"
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "totalCount": {
+                          "type": "integer"
+                        },
+                        "doc": {
+                          "type": "array",
+                          "items": {
+                            "type": "object"
+                          }
+                        },
+                        "campaignRun": {
+                          "type": "integer"
+                        },
+                        "campaignRunDetails": {
+                          "type": "integer"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        },
+        "x-swagger-router-controller": "campaignController"
+      },
+      "delete": {
+        "tags": [
+          "Campaign"
+        ],
+        "summary": "Delete Campaign",
+        "description": "Delete a campaign by ID from your project",
+        "operationId": "deleteCampaignController",
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "API Key",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Campaign ID - unique identifier for the campaign",
+            "required": true,
+            "schema": {
+              "minimum": 1,
+              "type": "string"
+            }
+          },
+          {
+            "name": "dburl",
+            "in": "header",
+            "description": "Database URL - unique account identifier",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "integer"
+                    },
+                    "msg": {
+                      "type": "string"
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "acknowledged": {
+                          "type": "boolean"
+                        },
+                        "modifiedCount": {
+                          "type": "integer"
+                        },
+                        "upsertedCount": {
+                          "type": "integer"
+                        },
+                        "matchedCount": {
+                          "type": "integer"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        },
+        "x-swagger-router-controller": "campaignController"
+      }
+    },
+    "/api/v1/campaigns": {
+      "post": {
+        "tags": [
+          "Campaign"
+        ],
+        "summary": "Create Campaign",
+        "description": "Create a new campaign with specified audience lists and configuration",
+        "operationId": "createCampaignController",
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "API Key",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "dburl",
+            "in": "header",
+            "description": "Database URL - unique account identifier",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "payload",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/campaign"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "integer"
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "projectId": {
+                          "type": "string"
+                        },
+                        "audienceListId": {
+                          "type": "array",
+                          "items": {
+                            "type": "object"
+                          }
+                        },
+                        "campaignName": {
+                          "type": "string"
+                        },
+                        "isDelete": {
+                          "type": "boolean"
+                        },
+                        "_id": {
+                          "type": "string"
+                        },
+                        "createdAt": {
+                          "type": "string"
+                        },
+                        "updatedAt": {
+                          "type": "string"
+                        },
+                        "__v": {
+                          "type": "integer"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        },
+        "x-swagger-router-controller": "campaignController",
+        "x-codegen-request-body-name": "body"
+      }
+    },
+    "/api/v1/agent/import": {
+      "post": {
+        "tags": [
+          "Agent Setting"
+        ],
+        "summary": "Import Agent Configuration",
+        "description": "Import an existing agent configuration from another project",
+        "operationId": "agentSettingImportController",
+        "parameters": [
+          {
+            "name": "dburl",
+            "in": "header",
+            "description": "Database URL - unique account identifier",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "API Key",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "payload",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/agentSettingImport"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "integer"
+                    },
+                    "msg": {
+                      "type": "string"
+                    },
+                    "data": {
+                      "type": "array",
+                      "items": {
+                        "type": "object"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        },
+        "x-swagger-router-controller": "promptsController",
+        "x-codegen-request-body-name": "body"
+      }
+    },
+    "/api/v1/default-agent/{id}": {
+      "post": {
+        "tags": [
+          "Agent Setting"
+        ],
+        "summary": "Set Default Agent",
+        "description": "Set a specific agent as the default for a project",
+        "operationId": "defaultAgentSettingController",
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "API Key",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "dburl",
+            "in": "header",
+            "description": "Database URL - unique account identifier",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Project ID - unique identifier for the project",
+            "required": true,
+            "schema": {
+              "minimum": 1,
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "payload",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/defaultAgent"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "integer"
+                    },
+                    "msg": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        },
+        "x-swagger-router-controller": "agentSettingController",
+        "x-codegen-request-body-name": "body"
+      }
+    },
+    "/api/v1/advance-settings/{id}": {
+      "get": {
+        "tags": [
+          "Advance Settings"
+        ],
+        "summary": "Get Advanced Settings",
+        "description": "Retrieve advanced configuration settings for a project",
+        "operationId": "getAdvSettingController",
+        "parameters": [
+          {
+            "name": "dburl",
+            "in": "header",
+            "description": "Database URL - unique account identifier",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "API Key",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Project ID - unique identifier for the project",
+            "required": true,
+            "schema": {
+              "minimum": 1,
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResponse"
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        },
+        "x-swagger-router-controller": "advanceSettingController"
+      },
+      "post": {
+        "tags": [
+          "Advance Settings"
+        ],
+        "summary": "Create or Update Advanced Settings",
+        "description": "Create or update advanced configuration settings for a project",
+        "operationId": "createOrUpdateAdvanceSettingController",
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "API Key",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "dburl",
+            "in": "header",
+            "description": "Database URL - unique account identifier",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Project ID - unique identifier for the project",
+            "required": true,
+            "schema": {
+              "minimum": 1,
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "payload",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/advanceSetting"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResponse"
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        },
+        "x-swagger-router-controller": "advanceSettingController",
+        "x-codegen-request-body-name": "body"
+      }
+    },
+    "/api/v1/call-settings/{id}": {
+      "get": {
+        "tags": [
+          "Call Setting"
+        ],
+        "summary": "Get Call Settings",
+        "description": "Retrieve call configuration settings for a specific project",
+        "operationId": "getCallSettingController",
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "API Key",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "dburl",
+            "in": "header",
+            "description": "Database URL - unique account identifier",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Project ID - unique identifier for the project",
+            "required": true,
+            "schema": {
+              "minimum": 1,
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "integer"
+                    },
+                    "data": {
+                      "type": "array",
+                      "items": {
+                        "type": "object"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        },
+        "x-swagger-router-controller": "callSettingController"
+      },
+      "delete": {
+        "tags": [
+          "Call Setting"
+        ],
+        "summary": "Delete Call Setting",
+        "description": "Delete a specific call setting configuration by ID",
+        "operationId": "deleteCallSettingController",
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "API Key",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "dburl",
+            "in": "header",
+            "description": "Database URL - unique account identifier",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Call Setting ID - unique identifier for the call setting",
+            "required": true,
+            "schema": {
+              "minimum": 1,
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResponse"
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        },
+        "x-swagger-router-controller": "callSettingController"
+      }
+    },
+    "/api/v1/call-settings": {
+      "post": {
+        "tags": [
+          "Call Setting"
+        ],
+        "summary": "Create Call Setting",
+        "description": "Create or update call settings for a project",
+        "operationId": "addCallSettingController",
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "API Key",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "dburl",
+            "in": "header",
+            "description": "Database URL - unique account identifier",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "payload",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/callSetting"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "integer"
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "acknowledged": {
+                          "type": "boolean"
+                        },
+                        "modifiedCount": {
+                          "type": "integer"
+                        },
+                        "upsertedCount": {
+                          "type": "integer"
+                        },
+                        "matchedCount": {
+                          "type": "integer"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        },
+        "x-swagger-router-controller": "callSettingController",
+        "x-codegen-request-body-name": "body"
+      }
+    },
+    "/api/v1/verify-otp": {
+      "post": {
+        "tags": [
+          "Twilio"
+        ],
+        "summary": "Verify OTP",
+        "description": "Verify OTP code for Twilio caller ID validation",
+        "operationId": "voximplantVerifyOtpController",
+        "parameters": [
+          {
+            "name": "dburl",
+            "in": "header",
+            "description": "Database URL - unique account identifier",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "API Key",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "payload",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/voximplantVerifyOtp"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "integer"
+                    },
+                    "msg": {
+                      "type": "string"
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "status": {
+                          "type": "boolean"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        },
+        "x-swagger-router-controller": "voximplantOtpController",
+        "x-codegen-request-body-name": "body"
+      }
+    },
+    "/twilio/caller_id/create": {
+      "post": {
+        "tags": [
+          "Twilio"
+        ],
+        "summary": "Create OTP",
+        "description": "Generate OTP for Twilio caller ID verification",
+        "operationId": "voximplantGetOtpController",
+        "parameters": [
+          {
+            "name": "dburl",
+            "in": "header",
+            "description": "Database URL - unique account identifier",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "API Key",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "payload",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/voximplantGetOtp"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "otp": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        },
+        "x-swagger-router-controller": "voximplantOtpController",
+        "x-codegen-request-body-name": "body"
+      }
+    },
+    "/api/v1/agent-setting": {
+      "get": {
+        "tags": [
+          "Agent Setting"
+        ],
+        "summary": "Get Agent Settings",
+        "description": "Retrieve all agent configurations for your account",
+        "operationId": "getAgentSettingController",
+        "parameters": [
+          {
+            "name": "dburl",
+            "in": "header",
+            "description": "Database URL - unique account identifier",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "API Key",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "integer"
+                    },
+                    "data": {
+                      "type": "array",
+                      "items": {
+                        "type": "object"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        },
+        "x-swagger-router-controller": "promptsController"
+      },
+      "put": {
+        "tags": [
+          "Agent Setting"
+        ],
+        "summary": "Update Agent Setting",
+        "description": "Update an existing agent configuration with new parameters",
+        "operationId": "updatePromptsController",
+        "parameters": [
+          {
+            "name": "dburl",
+            "in": "header",
+            "description": "Database URL - unique account identifier",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "API Key",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "payload",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/agentSetting"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "integer"
+                    },
+                    "msg": {
+                      "type": "string"
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "acknowledged": {
+                          "type": "boolean"
+                        },
+                        "modifiedCount": {
+                          "type": "integer"
+                        },
+                        "upsertedCount": {
+                          "type": "integer"
+                        },
+                        "matchedCount": {
+                          "type": "integer"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        },
+        "x-swagger-router-controller": "promptsController",
+        "x-codegen-request-body-name": "body"
+      },
+      "post": {
+        "tags": [
+          "Agent Setting"
+        ],
+        "summary": "Create Agent Setting",
+        "description": "Create a new agent configuration with custom prompts and behavior settings",
+        "operationId": "createPromptsController",
+        "parameters": [
+          {
+            "name": "dburl",
+            "in": "header",
+            "description": "Database URL - unique account identifier",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "API Key",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "payload",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/agentSetting"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "integer"
+                    },
+                    "msg": {
+                      "type": "string"
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "projectId": {
+                          "type": "string"
+                        },
+                        "conversationData": {
+                          "type": "array",
+                          "items": {
+                            "type": "object"
+                          }
+                        },
+                        "agentName": {
+                          "type": "string"
+                        },
+                        "organisationName": {
+                          "type": "string"
+                        },
+                        "greetingMessage": {
+                          "type": "string"
+                        },
+                        "context": {
+                          "type": "string"
+                        },
+                        "rules": {
+                          "type": "string"
+                        },
+                        "default": {
+                          "type": "boolean"
+                        },
+                        "objections": {
+                          "type": "array",
+                          "items": {
+                            "type": "object"
+                          }
+                        },
+                        "voicemailMessage": {
+                          "type": "string"
+                        },
+                        "_id": {
+                          "type": "string"
+                        },
+                        "createdAt": {
+                          "type": "string"
+                        },
+                        "updatedAt": {
+                          "type": "string"
+                        },
+                        "__v": {
+                          "type": "integer"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        },
+        "x-swagger-router-controller": "promptsController",
+        "x-codegen-request-body-name": "body"
+      }
+    },
+    "/api/v1/recording": {
+      "post": {
+        "tags": [
+          "Recording"
+        ],
+        "summary": "Upload Recording",
+        "description": "Upload an audio recording file for use in your campaigns",
+        "operationId": "createRecordingController",
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "API Key",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "dburl",
+            "in": "header",
+            "description": "Database URL - unique account identifier",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "file": {
+                    "type": "string",
+                    "description": "The file to upload.",
+                    "format": "binary"
+                  },
+                  "projectId": {
+                    "type": "string",
+                    "description": "projectId"
+                  },
+                  "recordingName": {
+                    "type": "string",
+                    "description": "recordingName"
+                  },
+                  "tag": {
+                    "type": "string",
+                    "description": "tag"
+                  },
+                  "recordingUrl": {
+                    "type": "string",
+                    "description": "recordingUrl"
+                  },
+                  "isFromTemplate": {
+                    "type": "boolean",
+                    "description": "isFromTemplate"
+                  },
+                  "helperText": {
+                    "type": "string",
+                    "description": "helperText"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResponse"
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        },
+        "x-swagger-router-controller": "recordingController"
+      }
+    },
+    "/api/v1/dashboard": {
+      "get": {
+        "tags": [
+          "Dashboard"
+        ],
+        "summary": "Get Dashboard Data",
+        "description": "Retrieve comprehensive dashboard analytics including call statistics, costs, and performance metrics",
+        "operationId": "getDashboardController",
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "API Key",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "dburl",
+            "in": "header",
+            "description": "Database URL - unique account identifier",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "integer"
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "totalDuration": {
+                          "type": "integer"
+                        },
+                        "totalCost": {
+                          "type": "string"
+                        },
+                        "balance": {
+                          "type": "string"
+                        },
+                        "onHoldBalance": {
+                          "type": "string"
+                        },
+                        "remainingMinutes": {
+                          "type": "integer"
+                        },
+                        "totalCallsMade": {
+                          "type": "integer"
+                        },
+                        "callStatus": {
+                          "required": [
+                            "totalConnected",
+                            "totalEnded",
+                            "totalFailed",
+                            "undefined"
+                          ],
+                          "type": "object",
+                          "properties": {
+                            "totalFailed": {
+                              "type": "integer"
+                            },
+                            "totalEnded": {
+                              "type": "integer"
+                            },
+                            "undefined": {
+                              "type": "integer"
+                            },
+                            "totalConnected": {
+                              "type": "integer"
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        },
+        "x-swagger-router-controller": "dashboardController"
+      }
+    },
+    "/api/v1/dashboard/chart": {
+      "get": {
+        "tags": [
+          "Dashboard"
+        ],
+        "summary": "Get Dashboard Charts",
+        "description": "Retrieve chart data for dashboard visualizations and analytics",
+        "operationId": "getDashboardChartsController",
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "API Key",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "dburl",
+            "in": "header",
+            "description": "Database URL - unique account identifier",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "integer"
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "2023-12-20": {
+                          "type": "integer"
+                        },
+                        "2023-12-19": {
+                          "type": "integer"
+                        },
+                        "2023-12-18": {
+                          "type": "integer"
+                        },
+                        "2023-12-17": {
+                          "type": "integer"
+                        },
+                        "2023-12-16": {
+                          "type": "integer"
+                        },
+                        "2023-12-15": {
+                          "type": "integer"
+                        },
+                        "2023-12-14": {
+                          "type": "integer"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        },
+        "x-swagger-router-controller": "dashboardController"
+      }
+    },
+    "/api/v1/campaign-runs/{projectId}/{campaignId}": {
+      "get": {
+        "tags": [
+          "Campaign Runs"
+        ],
+        "summary": "Get Campaign Runs",
+        "description": "Retrieve all execution runs for a specific campaign with pagination support",
+        "operationId": "getCampaignRunController",
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "API Key",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "projectId",
+            "in": "path",
+            "description": "Project ID - unique identifier for the project",
+            "required": true,
+            "schema": {
+              "minimum": 1,
+              "type": "string"
+            }
+          },
+          {
+            "name": "campaignId",
+            "in": "path",
+            "description": "Campaign ID - unique identifier for the campaign",
+            "required": true,
+            "schema": {
+              "minimum": 1,
+              "type": "string"
+            }
+          },
+          {
+            "name": "dburl",
+            "in": "header",
+            "description": "Database URL - unique account identifier",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "offset",
+            "in": "query",
+            "description": "Offset for pagination (number of items to skip)",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "description": "Maximum number of items to return",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "integer"
+                    },
+                    "data": {
+                      "type": "array",
+                      "items": {
+                        "type": "object"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        },
+        "x-swagger-router-controller": "campaignRunController"
+      }
+    },
+    "/api/v1/campaign-run/details/{projectId}/{campaignrunId}": {
+      "get": {
+        "tags": [
+          "Run Campaign Details"
+        ],
+        "summary": "Get Campaign Run Details",
+        "description": "Retrieve detailed analytics and call data for a specific campaign run",
+        "operationId": "getCampaignRunDetailsController",
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "API Key",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "dburl",
+            "in": "header",
+            "description": "Database URL - unique account identifier",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "projectId",
+            "in": "path",
+            "description": "Project ID - unique identifier for the project",
+            "required": true,
+            "schema": {
+              "minimum": 1,
+              "type": "string"
+            }
+          },
+          {
+            "name": "campaignrunId",
+            "in": "path",
+            "description": "Campaign Run ID - unique identifier for the campaign run",
+            "required": true,
+            "schema": {
+              "minimum": 1,
+              "type": "string"
+            }
+          },
+          {
+            "name": "pageIndex",
+            "in": "query",
+            "description": "Page index for pagination (0-based offset)",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "name": "pageSize",
+            "in": "query",
+            "description": "Number of items per page (limit)",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "name": "live",
+            "in": "query",
+            "description": "Filter for live/active calls only",
+            "required": true,
+            "schema": {
+              "type": "boolean"
+            }
+          },
+          {
+            "name": "duration",
+            "in": "query",
+            "description": "Filter by call duration range",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "callStatus",
+            "in": "query",
+            "description": "Filter by call status (connected, failed, ended)",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "outcome",
+            "in": "query",
+            "description": "Filter by call outcomes (array of outcome values)",
+            "style": "form",
+            "explode": false,
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "integer"
+                    },
+                    "data": {
+                      "required": [
+                        "countsData",
+                        "doc",
+                        "totalCount"
+                      ],
+                      "type": "object",
+                      "properties": {
+                        "countsData": {
+                          "type": "array",
+                          "items": {
+                            "type": "object"
+                          }
+                        },
+                        "doc": {
+                          "type": "array",
+                          "items": {
+                            "type": "object"
+                          }
+                        },
+                        "totalCount": {
+                          "type": "integer"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        },
+        "x-swagger-router-controller": "campaignRunDetailsController"
+      }
+    },
+    "/api/v1/appointment-settings": {
+      "post": {
+        "tags": [
+          "Appointment Settings"
+        ],
+        "summary": "Create Appointment Settings",
+        "description": "Create or update appointment settings for a project",
+        "operationId": "addAppointmentSettingController",
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "API Key",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "dburl",
+            "in": "header",
+            "description": "Database URL - unique account identifier",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "payload",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/appointmentSetting"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "integer"
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "acknowledged": {
+                          "type": "boolean"
+                        },
+                        "modifiedCount": {
+                          "type": "integer"
+                        },
+                        "upsertedCount": {
+                          "type": "integer"
+                        },
+                        "matchedCount": {
+                          "type": "integer"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        },
+        "x-swagger-router-controller": "appointmentController",
+        "x-codegen-request-body-name": "body"
+      }
+    },
+    "/api/v1/appointment-settings/{id}": {
+      "get": {
+        "tags": [
+          "Appointment Settings"
+        ],
+        "summary": "Get Appointment Settings",
+        "description": "Retrieve appointment booking settings for a specific project",
+        "operationId": "getAppointmentSettingController",
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "API Key",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "dburl",
+            "in": "header",
+            "description": "Database URL - unique account identifier",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Project ID - unique identifier for the project",
+            "required": true,
+            "schema": {
+              "minimum": 1,
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "integer"
+                    },
+                    "data": {
+                      "type": "array",
+                      "items": {
+                        "type": "object"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        },
+        "x-swagger-router-controller": "appointmentController"
+      }
+    },
+    "/analyze/summary": {
+      "post": {
+        "tags": [
+          "Analyze"
+        ],
+        "summary": "Generate Call Summary",
+        "description": "Generate AI-powered summary from call transcript using call UUID",
+        "operationId": "summarize_analyze_summary_post",
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "API Key",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "payload",
+          "content": {
+            "*/*": {
+              "schema": {
+                "$ref": "#/components/schemas/Summary"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/SummaryOutput"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        },
+        "x-codegen-request-body-name": "body"
+      }
+    },
+    "/analyze/transcript/{call_uuid}": {
+      "get": {
+        "tags": [
+          "Analyze"
+        ],
+        "summary": "Get Call Transcript",
+        "description": "Retrieve the complete transcript of a call using the call UUID",
+        "operationId": "get_transcript_analyze_transcript__call_uuid__get",
+        "parameters": [
+          {
+            "name": "call_uuid",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "API Key",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "googleid": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          }
+        }
+      },
+      "createProject": {
+        "required": [
+          "accountId",
+          "botPlatform",
+          "description",
+          "languageCode",
+          "projectAccess",
+          "projectName"
+        ],
+        "type": "object",
+        "properties": {
+          "projectName": {
+            "type": "string",
+            "description": "your project name"
+          },
+          "projectKey": {
+            "type": "string",
+            "description": "your project key"
+          },
+          "botPlatform": {
+            "type": "string"
+          },
+          "accountId": {
+            "type": "string",
+            "description": "your account Id"
+          },
+          "callerIdNumber": {
+            "type": "string"
+          },
+          "callTransferNumber": {
+            "type": "string"
+          },
+          "whatsappId": {
+            "type": "string"
+          },
+          "languageCode": {
+            "type": "string"
+          },
+          "projectAccess": {
+            "type": "array",
+            "description": "your user Id which will be used to access the account.",
+            "items": {
+              "type": "string"
+            }
+          },
+          "description": {
+            "type": "string",
+            "description": "your project description"
+          }
+        }
+      },
+      "triggerCall": {
+        "type": "object",
+        "properties": {
+          "callList": {
+            "type": "array",
+            "description": "you can add the extra parameters required for the call inside the array objects",
+            "items": {
+              "$ref": "#/components/schemas/AudienceList_audienceList"
+            }
+          },
+          "projectId": {
+            "type": "string"
+          }
+        }
+      },
+      "campaign": {
+        "type": "object",
+        "properties": {
+          "audienceListId": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "campaignName": {
+            "type": "string"
+          },
+          "projectId": {
+            "type": "string"
+          }
+        }
+      },
+      "trigger_call": {
+        "type": "object",
+        "properties": {
+          "firstName": {
+            "type": "string"
+          },
+          "lastName": {
+            "type": "string"
+          },
+          "mobileNumber": {
+            "type": "string"
+          }
+        }
+      },
+      "recordings": {
+        "type": "object",
+        "properties": {
+          "projectId": {
+            "type": "string"
+          },
+          "projectName": {
+            "type": "string"
+          },
+          "recordingName": {
+            "type": "string"
+          },
+          "recordingUrl": {
+            "type": "string"
+          },
+          "tag": {
+            "type": "string"
+          },
+          "triggerKeywords": {
+            "type": "string"
+          }
+        }
+      },
+      "agentSetting": {
+        "type": "object",
+        "properties": {
+          "projectId": {
+            "type": "string"
+          },
+          "seletedType": {
+            "type": "string"
+          },
+          "conversationData": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {}
+            }
+          },
+          "agentName": {
+            "type": "string"
+          },
+          "organisationName": {
+            "type": "string"
+          },
+          "greetingMessage": {
+            "type": "string"
+          },
+          "context": {
+            "type": "string"
+          },
+          "rules": {
+            "type": "string"
+          }
+        }
+      },
+      "agentSettingImport": {
+        "type": "object",
+        "properties": {
+          "projectId": {
+            "type": "string"
+          },
+          "agentId": {
+            "type": "string"
+          }
+        }
+      },
+      "SampleAPi": {
+        "type": "object"
+      },
+      "accountbasedGetRunCampaignDetails": {
+        "type": "object",
+        "properties": {
+          "filterdata": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        }
+      },
+      "create": {
+        "type": "object",
+        "properties": {
+          "email": {
+            "type": "string"
+          },
+          "password": {
+            "type": "string"
+          },
+          "confirmPassword": {
+            "type": "string"
+          },
+          "countryCode": {
+            "type": "string"
+          }
+        }
+      },
+      "runCampaign": {
+        "type": "object",
+        "properties": {
+          "listname": {
+            "type": "string"
+          },
+          "campaignrunid": {
+            "type": "string"
+          },
+          "apikey": {
+            "type": "string"
+          },
+          "ruleId": {
+            "type": "string"
+          },
+          "accountId": {
+            "type": "string"
+          },
+          "botPlatform": {
+            "type": "string"
+          },
+          "unit": {
+            "type": "string"
+          },
+          "currency": {
+            "type": "string"
+          }
+        }
+      },
+      "apiKey": {
+        "type": "object",
+        "properties": {
+          "email": {
+            "type": "string"
+          },
+          "password": {
+            "type": "string"
+          }
+        }
+      },
+      "voximplantVerifyOtp": {
+        "type": "object",
+        "properties": {
+          "callerIdNo": {
+            "type": "string"
+          },
+          "code": {
+            "type": "string"
+          },
+          "projectId": {
+            "type": "string"
+          },
+          "type": {
+            "type": "string"
+          }
+        }
+      },
+      "voximplantGetOtp": {
+        "type": "object",
+        "properties": {
+          "friendly_name": {
+            "type": "string"
+          },
+          "phone_number": {
+            "type": "string"
+          }
+        }
+      },
+      "appointmentSetting": {
+        "type": "object",
+        "properties": {
+          "project_Id": {
+            "type": "string"
+          },
+          "slotsAvailability": {
+            "type": "string"
+          },
+          "slotsIndex": {
+            "type": "array"
+          },
+          "slotsError": {
+            "type": "string"
+          },
+          "noSlotsAvailable": {
+            "type": "string"
+          },
+          "errorBookingAppointment": {
+            "type": "string"
+          },
+          "appointmentBooked": {
+            "type": "string"
+          },
+          "slotsSeparator": {
+            "type": "string"
+          }
+        }
+      },
+      "defaultAgent": {
+        "type": "object",
+        "properties": {
+          "agentId": {
+            "type": "string"
+          }
+        }
+      },
+      "AudienceList": {
+        "required": [
+          "audienceList",
+          "audienceName",
+          "projectId"
+        ],
+        "type": "object",
+        "properties": {
+          "audienceName": {
+            "type": "string",
+            "description": "give your audience list a name"
+          },
+          "source": {
+            "type": "string",
+            "description": "put hard code value as \"manual\""
+          },
+          "projectId": {
+            "type": "string",
+            "description": "your project Id"
+          },
+          "audienceList": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/AudienceList_audienceList"
+            }
+          }
+        }
+      },
+      "advanceSetting": {
+        "type": "object",
+        "properties": {
+          "apiKey": {
+            "type": "string"
+          },
+          "ruleId": {
+            "type": "string"
+          },
+          "accountId": {
+            "type": "string"
+          },
+          "clientId": {
+            "type": "string"
+          }
+        }
+      },
+      "callSetting": {
+        "type": "object",
+        "properties": {
+          "projectId": {
+            "type": "string"
+          },
+          "callerIdNumber": {
+            "type": "string"
+          },
+          "callTransferNumber": {
+            "type": "string"
+          },
+          "disconnectedTime": {
+            "type": "string"
+          },
+          "asrEngine": {
+            "type": "string"
+          },
+          "gateway": {
+            "type": "string"
+          },
+          "checkDnc": {
+            "type": "boolean"
+          },
+          "checkDnd": {
+            "type": "boolean"
+          },
+          "checkUser": {
+            "type": "boolean"
+          },
+          "voiceMailDetection": {
+            "type": "boolean"
+          },
+          "responseFormat": {
+            "type": "string"
+          },
+          "voice": {
+            "type": "string"
+          },
+          "languageCode": {
+            "type": "string"
+          },
+          "Interrupt": {
+            "type": "string"
+          },
+          "model": {
+            "type": "string"
+          },
+          "pauseBetweenSentence": {
+            "type": "string"
+          },
+          "ringingDisconnect": {
+            "type": "string"
+          },
+          "silentThreshold": {
+            "type": "string"
+          },
+          "temperature": {
+            "type": "string"
+          },
+          "transferGateway": {
+            "type": "string"
+          },
+          "transferWebhook": {
+            "type": "string"
+          }
+        }
+      },
+      "ApiResponse": {
+        "type": "object",
+        "properties": {
+          "userId": {
+            "type": "string"
+          },
+          "apiKey": {
+            "type": "string"
+          }
+        },
+        "example": {
+          "userId": 0,
+          "apiKey": ""
+        }
+      },
+      "ErrorResponse": {
+        "type": "object",
+        "properties": {
+          "code": {
+            "type": "integer",
+            "format": "int32"
+          }
+        }
+      },
+      "AudienceList_audienceList": {
+        "type": "object",
+        "properties": {
+          "firstName": {
+            "type": "string"
+          },
+          "lastName": {
+            "type": "string"
+          },
+          "phone": {
+            "type": "string"
+          }
+        }
+      },
+      "Summary": {
+        "title": "Summary",
+        "required": [
+          "call_uuid"
+        ],
+        "type": "object",
+        "properties": {
+          "call_uuid": {
+            "title": "Call Uuid",
+            "type": "string"
+          }
+        }
+      },
+      "SummaryOutput": {
+        "title": "SummaryOutput",
+        "required": [
+          "summary"
+        ],
+        "type": "object",
+        "properties": {
+          "summary": {
+            "title": "Summary",
+            "type": "string"
+          }
+        }
+      },
+      "ValidationError": {
+        "title": "ValidationError",
+        "required": [
+          "loc",
+          "msg",
+          "type"
+        ],
+        "type": "object",
+        "properties": {
+          "loc": {
+            "title": "Location",
+            "type": "array"
+          },
+          "msg": {
+            "title": "Message",
+            "type": "string"
+          },
+          "type": {
+            "title": "Error Type",
+            "type": "string"
+          }
+        }
+      },
+      "HTTPValidationError": {
+        "title": "HTTPValidationError",
+        "type": "object",
+        "properties": {
+          "detail": {
+            "title": "Detail",
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ValidationError"
+            }
+          }
+        }
+      }
+    },
+    "securitySchemes": {
+      "ApiKeyAuth": {
+        "type": "apiKey",
+        "description": "API Key authentication. Pass your API key in the Authorization header.",
+        "name": "Authorization",
+        "in": "header"
+      },
+      "Bearer": {
+        "type": "apiKey",
+        "description": "For accessing the API, a valid API Key must be passed in the Authorization header.",
+        "name": "Authorization",
+        "in": "header"
+      }
+    }
+  },
+  "x-original-swagger-version": "2.0"
+}

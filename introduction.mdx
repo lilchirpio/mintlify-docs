@@ -1,0 +1,43 @@
+---
+title: 'Introduction'
+description: 'Vodex.ai API Reference Documentation'
+---
+
+## Welcome
+
+Welcome to the Vodex.ai API documentation. This comprehensive API reference provides access to Vodex.ai's telecalling service capabilities, allowing you to integrate AI-powered voice calling into your applications.
+
+## Authentication
+
+All API endpoints are authenticated using API Keys. You can obtain your API key by filling out the [Google Form](https://docs.google.com/forms/d/e/1FAIpQLSddntmCxrGt2TyKwPuXiDciLJC_dCMolSqU8qrikTNY00vr1A/viewform) with all the required details.
+
+Include your API key in the `Authorization` header of your requests:
+
+```bash
+Authorization: YOUR_API_KEY
+```
+
+You'll also need to include the `dburl` header with your unique account URL:
+
+```bash
+dburl: YOUR_ACCOUNT_URL
+```
+
+## Base URL
+
+All API requests should be made to:
+
+```
+https://api.vodex.ai
+```
+
+## Getting Started
+
+The Vodex.ai API is organized around REST principles and uses standard HTTP response codes. The API accepts and returns JSON-encoded data.
+
+Key features include:
+- **Projects**: Manage different bot projects for various use cases
+- **Audience**: Add and manage target audience information
+- **Campaigns**: Create and run calling campaigns
+- **Agent Settings**: Configure AI agent behavior and responses
+- **Call Triggers**: Initiate automated calls programmatically
