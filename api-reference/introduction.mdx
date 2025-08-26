@@ -1,0 +1,447 @@
+---
+title: 'API Reference Introduction'
+description: 'Get started with the Vodex.ai API for programmatic access to AI-powered voice calling capabilities'
+---
+
+
+Welcome to the Vodex.ai API documentation. This comprehensive API reference provides programmatic access to Vodex.ai's AI-powered voice calling capabilities, allowing you to integrate intelligent voice automation into your applications and workflows.
+
+<Info>
+  **What you'll learn:** How to authenticate with the Vodex.ai API, make your first API calls, and integrate voice calling capabilities into your applications.
+</Info>
+
+---
+
+## Base URL
+
+All API requests should be made to the following base URL:
+
+```
+https://api.vodex.ai
+```
+
+<Note>
+  **HTTPS Required:** All API requests must use HTTPS. HTTP requests will be rejected for security reasons.
+</Note>
+
+---
+
+## Authentication
+
+The Vodex.ai API uses API key authentication. You'll need two pieces of information to authenticate your requests:
+
+### Required Headers
+
+<Tabs>
+  <Tab title="Authorization Header">
+    **API Key Authentication**
+    
+    Include your API key in the `Authorization` header of all requests:
+    
+    ```bash
+    Authorization: YOUR_API_KEY
+    ```
+    
+    <Warning>
+      **Keep Your API Key Secure:** Never expose your API key in client-side code or public repositories. Store it securely and use environment variables.
+    </Warning>
+  </Tab>
+  
+  <Tab title="Database URL Header">
+    **Account Identification**
+    
+    Include your unique account URL in the `dburl` header:
+    
+    ```bash
+    dburl: YOUR_ACCOUNT_URL
+    ```
+    
+    <Info>
+      **Account URL Format:** Your account URL is provided when you receive your API credentials and identifies your specific Vodex.ai account.
+    </Info>
+  </Tab>
+</Tabs>
+
+### Complete Authentication Example
+
+<CodeGroup>
+```bash cURL Example
+curl -X GET "https://api.vodex.ai/v1/projects" \
+  -H "Authorization: YOUR_API_KEY" \
+  -H "dburl: YOUR_ACCOUNT_URL" \
+  -H "Content-Type: application/json"
+```
+
+```javascript JavaScript/Node.js
+const headers = {
+  'Authorization': 'YOUR_API_KEY',
+  'dburl': 'YOUR_ACCOUNT_URL',
+  'Content-Type': 'application/json'
+};
+
+fetch('https://api.vodex.ai/v1/projects', {
+  method: 'GET',
+  headers: headers
+})
+.then(response => response.json())
+.then(data => console.log(data));
+```
+
+```python Python
+import requests
+
+headers = {
+    'Authorization': 'YOUR_API_KEY',
+    'dburl': 'YOUR_ACCOUNT_URL',
+    'Content-Type': 'application/json'
+}
+
+response = requests.get('https://api.vodex.ai/v1/projects', headers=headers)
+data = response.json()
+```
+</CodeGroup>
+
+---
+
+## Getting Your API Key
+
+To access the Vodex.ai API, you'll need to request API credentials:
+
+<Note>
+  **Request API Access:** Send an email to [support@vodex.ai](mailto:support@vodex.ai) with the subject "Request API Key". Include your company name, use case, expected API usage volume, and technical contact information.
+</Note>
+
+<Steps>
+  <Step title="Send Request Email">
+    **Email Support**
+    - Use the exact subject line: "Request API Key"
+    - Provide detailed information about your use case
+    - Include your technical requirements
+  </Step>
+  
+  <Step title="Receive Credentials">
+    **Get Your API Access**
+    - Support team will review your request
+    - You'll receive your API key and account URL
+    - Documentation and usage guidelines will be provided
+  </Step>
+  
+  <Step title="Test Integration">
+    **Verify Setup**
+    - Test authentication with a simple API call
+    - Verify your headers are correctly configured
+    - Start with basic endpoints before complex integrations
+  </Step>
+</Steps>
+
+---
+
+## API Structure
+
+The Vodex.ai API is organized around REST principles and uses standard HTTP response codes. The API accepts and returns JSON-encoded data.
+
+### Core Resources
+
+<AccordionGroup>
+  <Accordion title="Projects">
+    **Campaign Management**
+    - Create and manage different bot projects
+    - Configure project-specific settings
+    - Organize campaigns by use case or client
+    
+    **Key Endpoints:**
+    - `GET /v1/projects` - List all projects
+    - `POST /v1/projects` - Create new project
+    - `DELETE /v1/projects/{id}` - Delete project
+  </Accordion>
+  
+  <Accordion title="Audience">
+    **Contact Management**
+    - Upload and manage target audience data
+    - Segment contacts for different campaigns
+    - Update contact information and custom fields
+    
+    **Key Endpoints:**
+    - `POST /v1/audience` - Create audience list
+    - `GET /v1/audience` - Retrieve audience data
+    - `PUT /v1/audience/{id}` - Update audience list
+  </Accordion>
+  
+  <Accordion title="Campaigns">
+    **Campaign Operations**
+    - Create and configure calling campaigns
+    - Monitor campaign performance
+    - Manage campaign lifecycle
+    
+    **Key Endpoints:**
+    - `POST /v1/campaign` - Create campaign
+    - `GET /v1/campaign` - List campaigns
+    - `DELETE /v1/campaign/{id}` - Delete campaign
+  </Accordion>
+  
+  <Accordion title="Agent Settings">
+    **AI Configuration**
+    - Configure AI agent behavior and responses
+    - Set up prompts and conversation flows
+    - Manage agent personalities and voices
+    
+    **Key Endpoints:**
+    - `POST /v1/agent-setting` - Create agent configuration
+    - `GET /v1/agent-setting` - Retrieve agent settings
+    - `PUT /v1/agent-setting/{id}` - Update agent settings
+  </Accordion>
+  
+  <Accordion title="Call Triggers">
+    **Call Execution**
+    - Initiate automated calls programmatically
+    - Trigger individual or batch calls
+    - Monitor call status and outcomes
+    
+    **Key Endpoints:**
+    - `POST /v1/call-trigger/run-campaign` - Start campaign calls
+  </Accordion>
+</AccordionGroup>
+
+---
+
+## Quick Start: Trigger Your First Call
+
+Get started quickly with the most commonly used endpoint - triggering calls:
+
+<Card title="🚀 Call Trigger API" icon="phone" href="/api-reference/call-trigger/run-campaign">
+  **Start Making Calls Immediately**
+  
+  Use the Call Trigger API to programmatically initiate AI-powered calls for your campaigns.
+  
+  **Quick Access:** `/v1/call-trigger/run-campaign`
+</Card>
+
+### Basic Call Trigger Example
+
+<CodeGroup>
+```bash cURL - Trigger Campaign
+curl -X POST "https://api.vodex.ai/v1/call-trigger/run-campaign" \
+  -H "Authorization: YOUR_API_KEY" \
+  -H "dburl: YOUR_ACCOUNT_URL" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "campaignId": "your_campaign_id",
+    "audienceId": "your_audience_id"
+  }'
+```
+
+```javascript JavaScript - Trigger Campaign
+const triggerCall = async () => {
+  const response = await fetch('https://api.vodex.ai/v1/call-trigger/run-campaign', {
+    method: 'POST',
+    headers: {
+      'Authorization': 'YOUR_API_KEY',
+      'dburl': 'YOUR_ACCOUNT_URL',
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({
+      campaignId: 'your_campaign_id',
+      audienceId: 'your_audience_id'
+    })
+  });
+  
+  const result = await response.json();
+  console.log('Campaign triggered:', result);
+};
+```
+</CodeGroup>
+
+---
+
+## Response Format
+
+All API responses follow a consistent JSON format:
+
+### Success Response
+
+```json
+{
+  "success": true,
+  "data": {
+    // Response data here
+  },
+  "message": "Operation completed successfully"
+}
+```
+
+### Error Response
+
+```json
+{
+  "success": false,
+  "error": {
+    "code": "ERROR_CODE",
+    "message": "Human-readable error description"
+  }
+}
+```
+
+### HTTP Status Codes
+
+| Status Code | Meaning | Description |
+|-------------|---------|-------------|
+| **200** | OK | Request successful |
+| **201** | Created | Resource created successfully |
+| **400** | Bad Request | Invalid request parameters |
+| **401** | Unauthorized | Invalid or missing API key |
+| **403** | Forbidden | Insufficient permissions |
+| **404** | Not Found | Resource not found |
+| **429** | Too Many Requests | Rate limit exceeded |
+| **500** | Internal Server Error | Server error occurred |
+
+---
+
+## Rate Limits
+
+The Vodex.ai API implements rate limiting to ensure fair usage and system stability:
+
+<Warning>
+  **Rate Limits Apply:** API requests are limited based on your account tier. Contact support if you need higher limits for your use case.
+</Warning>
+
+### Rate Limit Headers
+
+All API responses include rate limit information in the headers:
+
+```
+X-RateLimit-Limit: 1000
+X-RateLimit-Remaining: 999
+X-RateLimit-Reset: 1640995200
+```
+
+### Best Practices
+
+<Tip>
+  **Optimize Your Requests:** Batch operations when possible and implement exponential backoff for retry logic to handle rate limits gracefully.
+</Tip>
+
+---
+
+## Common Integration Patterns
+
+### Webhook Integration
+
+Many Vodex.ai API operations support webhooks for real-time notifications:
+
+```json
+{
+  "webhookUrl": "https://your-domain.com/webhook",
+  "events": ["call_completed", "campaign_finished"]
+}
+```
+
+### Batch Operations
+
+For high-volume operations, use batch endpoints when available:
+
+```json
+{
+  "batch": true,
+  "items": [
+    {"phone": "+1234567890", "name": "John Doe"},
+    {"phone": "+1234567891", "name": "Jane Smith"}
+  ]
+}
+```
+
+---
+
+## SDK and Libraries
+
+While we don't currently provide official SDKs, the API is designed to work seamlessly with standard HTTP libraries in any programming language.
+
+### Recommended Libraries
+
+<Tabs>
+  <Tab title="JavaScript/Node.js">
+    **HTTP Clients**
+    - `fetch` (built-in)
+    - `axios`
+    - `node-fetch`
+  </Tab>
+  
+  <Tab title="Python">
+    **HTTP Clients**
+    - `requests`
+    - `httpx`
+    - `aiohttp`
+  </Tab>
+  
+  <Tab title="PHP">
+    **HTTP Clients**
+    - `cURL`
+    - `Guzzle`
+    - `file_get_contents`
+  </Tab>
+  
+  <Tab title="Java">
+    **HTTP Clients**
+    - `HttpURLConnection`
+    - `OkHttp`
+    - `Apache HttpClient`
+  </Tab>
+</Tabs>
+
+---
+
+## Next Steps
+
+Now that you understand the basics:
+
+1. **Request your API key** from [support@vodex.ai](mailto:support@vodex.ai)
+2. **Test authentication** with a simple API call
+3. **Explore the [Call Trigger API](/api-reference/call-trigger/run-campaign)** to start making calls
+4. **Review other endpoints** for complete integration
+5. **Set up webhooks** for real-time notifications
+
+<Check>
+  **Ready to integrate?** The Vodex.ai API provides powerful programmatic access to AI-powered voice calling capabilities. Start with the Call Trigger API and expand your integration as needed.
+</Check>
+
+---
+
+## Support and Resources
+
+### Getting Help
+
+- **Email Support:** [support@vodex.ai](mailto:support@vodex.ai)
+- **API Questions:** Include "API Support" in your subject line
+- **Response Time:** Within 24 hours during business days
+
+### Additional Resources
+
+<Columns cols={2}>
+  <Card
+    title="📞 Call Trigger API"
+    icon="phone"
+    href="/api-reference/call-trigger/run-campaign"
+  >
+    Start making AI-powered calls programmatically with the most popular endpoint.
+  </Card>
+  <Card
+    title="📊 Dashboard API"
+    icon="chart-line"
+    href="/api-reference/dashboard/dashboard-api"
+  >
+    Access campaign analytics and performance data via API.
+  </Card>
+  <Card
+    title="👥 Audience Management"
+    icon="users"
+    href="/api-reference/audience/create-audience-list"
+  >
+    Programmatically manage your contact lists and audience data.
+  </Card>
+  <Card
+    title="🤖 Agent Configuration"
+    icon="robot"
+    href="/api-reference/agent-setting/create-agent-setting"
+  >
+    Configure AI agents and conversation flows via API.
+  </Card>
+</Columns>

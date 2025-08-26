@@ -1,0 +1,504 @@
+---
+title: '🔗 GHL Overview and Steps'
+description: 'Complete guide to integrating Vodex.ai with Go High Level for seamless CRM automation and appointment management'
+---
+
+
+<Info>
+  **What you'll learn:** How to integrate Vodex.ai with Go High Level (GHL) for automated calling, CRM updates, and appointment management directly from your GHL workflows.
+</Info>
+
+Vodex.ai provides seamless out-of-the-box integration with Go High Level for premium clients, enabling powerful automation workflows that combine GHL's CRM capabilities with Vodex's AI-powered calling technology.
+
+---
+
+## 🚀 Integration Capabilities
+
+### What GHL Integration Supports
+
+<Tabs>
+  <Tab title="Outbound Calling">
+    **GHL → Vodex Calls**
+    - Trigger AI calls directly from GHL workflows
+    - Pass contact data and custom fields automatically
+    - Initiate calls based on GHL triggers and conditions
+    - Seamless workflow integration
+  </Tab>
+  
+  <Tab title="CRM Updates">
+    **Vodex → GHL Data Sync**
+    - Automatically update contact notes after calls
+    - Add tags based on call outcomes
+    - Sync call results and insights back to GHL
+    - Real-time CRM data updates
+  </Tab>
+  
+  <Tab title="Appointment Management">
+    **Enterprise Appointment Features**
+    - Book appointments directly in GHL calendars
+    - Cancel existing appointments via AI
+    - Reschedule appointments automatically
+    - Sync appointment data between systems
+    
+    <Warning>
+      **Enterprise Only:** Appointment booking, canceling, and rescheduling features are available exclusively for Enterprise plan customers.
+    </Warning>
+  </Tab>
+</Tabs>
+
+---
+
+## 🔧 Setup Process
+
+### Step 1: Install Vodex App from GHL Marketplace
+
+The Vodex app is available directly in the Go High Level marketplace for easy installation.
+
+<Steps>
+  <Step title="Login to Both Platforms">
+    **Prepare Your Accounts**
+    - Login to [app.vodex.ai](https://app.vodex.ai) in one browser tab
+    - Login to your Go High Level account in another tab
+    - Ensure you're using the same browser for both logins
+  </Step>
+  
+  <Step title="Initiate Integration">
+    **Create Connection**
+    - In a new tab (same browser), navigate to: `https://app.vodex.ai/account/ghl-integration`
+    - Click **"Create Connection"** button
+    - This will initiate the OAuth process with GHL
+  </Step>
+  
+  <Step title="Complete OAuth">
+    **Authorize Integration**
+    - OAuth flow will automatically redirect to GHL
+    - Authorize Vodex app permissions in GHL
+    - GHL app will be installed in your GHL account
+    - Return to Vodex dashboard
+  </Step>
+  
+  <Step title="Confirm Success">
+    **Verify Integration**
+    - app.vodex.ai will display "Integration Successfully" popup
+    - Vodex app should now appear in your GHL workflows
+    - Test connection by creating a simple workflow
+  </Step>
+</Steps>
+
+<Tip>
+  **Browser Requirement:** Use the same browser for both Vodex and GHL logins to ensure proper OAuth authentication.
+</Tip>
+
+---
+
+## 📞 Making Calls via GHL Workflows
+
+### Adding Vodex Action to Workflows
+
+<Steps>
+  <Step title="Create or Edit Workflow">
+    **Access GHL Workflows**
+    - Navigate to your GHL workflow builder
+    - Create a new workflow or edit an existing one
+    - Choose your trigger conditions
+  </Step>
+  
+  <Step title="Add Vodex Action">
+    **Insert Vodex Action**
+    - In the workflow builder, search for "Vodex"
+    - Insert the Vodex action where you want calls to be triggered
+    - The action will appear as a configurable step
+  </Step>
+  
+  <Step title="Configure Action Settings">
+    **Set Up Call Parameters**
+    - Open the Vodex action configuration
+    - Fill in all required fields (detailed below)
+    - Test the configuration before going live
+  </Step>
+</Steps>
+
+### Required Configuration Fields
+
+<AccordionGroup>
+  <Accordion title="📋 Basic Settings">
+    **Core Configuration**
+    
+    | Field | Description | Example |
+    |-------|-------------|---------|
+    | **PROJECT** | Select the Vodex project to use | "Sales Outreach Q4" |
+    | **CALENDAR** | GHL calendar for appointment booking | "Sales Team Calendar" |
+    | **TIME ZONE** | Contact's time zone | `+05:30` or `America/Denver` |
+    
+    <Note>
+      **Time Zone Format:** Use the same format as described in [Custom Fields documentation](/custom-fields/introduction) - either UTC offset (`+05:30`) or timezone names (`America/Denver`).
+    </Note>
+  </Accordion>
+  
+  <Accordion title="🏷️ Custom Fields">
+    **Additional Data Fields**
+    
+    **CUSTOMFIELD1 through CUSTOMFIELD5**
+    
+    Use these fields for custom data beyond the standard FirstName, LastName, and PhoneNum:
+    
+    ```
+    CUSTOMFIELD1: {{contact.company}}
+    CUSTOMFIELD2: {{contact.source}}
+    CUSTOMFIELD3: {{contact.lead_score}}
+    CUSTOMFIELD4: {{contact.last_interaction}}
+    CUSTOMFIELD5: {{contact.interest_level}}
+    ```
+    
+    <Tip>
+      **GHL Variables:** Use GHL's contact variables to dynamically populate custom fields with contact-specific data.
+    </Tip>
+  </Accordion>
+  
+  <Accordion title="✨ Insights Configuration">
+    **QUESTIONS Field**
+    
+    Configure AI insights using the special GHL format instead of JSON:
+    
+    **Format:** `question#key#type;`
+    
+    **Examples:**
+    ```
+    Is the user not interested in taking loans?#not_interested#boolean;
+    What is the name that user said?#first_name#string;
+    How many days until they need the service?#timeline_days#number;
+    What specific requirements did they mention?#requirements#string;
+    ```
+    
+    **Field Types:**
+    - `string` - Text responses
+    - `number` - Numeric values  
+    - `boolean` - True/false responses
+  </Accordion>
+  
+  <Accordion title="🏷️ Response Tagging">
+    **CALL RESPONSE TAG**
+    
+    Set a prefix for automatic tagging based on call outcomes:
+    
+    **Example:** If prefix is `vodex_auto`, tags will be:
+    - `vodex_auto_voicemail` - Voicemail detected
+    - `vodex_auto_call_failed` - Call failed to connect
+    - `vodex_auto_call_ended` - Call completed successfully
+    - `vodex_auto_transferred` - Call transferred to human
+    
+    **Usage:**
+    ```
+    CALL RESPONSE TAG: vodex_auto
+    ```
+  </Accordion>
+  
+  <Accordion title="👤 Contact Identification">
+    **CONTACT_ID Field**
+    
+    **Required Value:** `{{contact.id}}`
+    
+    ```
+    CONTACT_ID: {{contact.id}}
+    ```
+    
+    <Warning>
+      **Hard Code Required:** Always use exactly `{{contact.id}}` - this GHL variable ensures proper contact linking.
+    </Warning>
+  </Accordion>
+</AccordionGroup>
+
+---
+
+## 📅 Enterprise Appointment Management
+
+### Booking Appointments via AI
+
+<Warning>
+  **Enterprise Feature:** Appointment booking, canceling, and rescheduling are available exclusively for Enterprise plan customers.
+</Warning>
+
+#### Using the (appointment) Tag
+
+To enable appointment booking, use the special `(appointment)` tag in your AI prompt:
+
+<CodeGroup>
+```text Example Prompt
+"Hello {FirstName}, I'm calling to schedule your consultation. 
+
+If the user gives you a specific time and date to book an appointment, then please say that you are booking an appointment and add (appointment) to your response. The backend will book and confirm the appointment for you.
+
+What day and time works best for you this week?"
+```
+
+```text Strict Booking Prompt
+"Hello {FirstName}, I'm calling to schedule your consultation.
+
+If the user gives you a specific time and date, say 'I'm booking your appointment now' and add (appointment) to your response. 
+
+You please do not tell anything by yourself, the backend will book the appointment, you just say that you are booking."
+```
+</CodeGroup>
+
+<Warning>
+  **Strict Mode:** For better control, use the strict version that prevents the AI from making promises about appointment details. The backend handles all booking confirmations.
+</Warning>
+
+#### Available Appointment Slots
+
+Use the `(slots)` tag to have the AI read available appointment slots:
+
+```text
+"Let me check our available slots for you. (slots) 
+
+Which of these times works best for you?"
+```
+
+The system will automatically insert available slots from your GHL calendar.
+
+---
+
+## ⚙️ Appointment Configuration
+
+### Customizing Appointment Messages
+
+<Note>
+  **Static Configuration:** The fields in the appointment-config page are static. Bots cannot dynamically say "Congratulations, your appointment has been booked on [date] at [time]" - all appointment messaging is pre-configured.
+</Note>
+
+#### Accessing Appointment Config
+
+To customize how the AI communicates appointment information:
+
+1. Navigate to: `https://app.vodex.ai/account/project/<project_id>/appointment-config`
+2. Replace `<project_id>` with your actual project ID
+3. Configure static messages for different appointment scenarios
+
+#### Configuration Options
+
+<AccordionGroup>
+  <Accordion title="📝 Appointment Messages">
+    **Static Message Templates**
+    - Booking confirmation message
+    - Cancellation confirmation message  
+    - Rescheduling confirmation message
+    - Slot availability message
+    - Error handling messages
+  </Accordion>
+  
+  <Accordion title="🕒 Slot Presentation">
+    **Available Slots Format**
+    - How slots are read to customers
+    - Time format preferences
+    - Date format preferences
+    - Slot grouping options
+  </Accordion>
+  
+  <Accordion title="⚠️ Error Handling">
+    **Fallback Messages**
+    - No slots available message
+    - Booking failure message
+    - Calendar conflict message
+    - System error message
+  </Accordion>
+</AccordionGroup>
+
+---
+
+## 🔄 Workflow Examples
+
+### Basic Lead Qualification Workflow
+
+<CodeGroup>
+```yaml GHL Workflow Configuration
+Trigger: New Lead Added
+↓
+Vodex Action:
+  PROJECT: "Lead Qualification"
+  CALENDAR: "Sales Team"
+  TIME_ZONE: "{{contact.timezone}}"
+  CUSTOMFIELD1: "{{contact.source}}"
+  CUSTOMFIELD2: "{{contact.budget}}"
+  QUESTIONS: "Is the lead interested in our service?#interested#boolean;What is their budget range?#budget#string;"
+  CALL_RESPONSE_TAG: "lead_qual"
+  CONTACT_ID: "{{contact.id}}"
+```
+
+```text AI Prompt Example
+"Hi {{FirstName}}, this is Sarah from ABC Company. I see you expressed interest in our services through {{source}}.
+
+I'd love to learn more about your needs and see if we're a good fit. 
+
+What specific challenges are you looking to solve with our service?
+
+[Continue conversation based on responses...]
+
+If they're interested and want to schedule a consultation, say: 'Let me book a consultation for you' and add (appointment) to your response."
+```
+</CodeGroup>
+
+### Appointment Reminder Workflow
+
+<CodeGroup>
+```yaml GHL Workflow Configuration
+Trigger: 24 Hours Before Appointment
+↓
+Vodex Action:
+  PROJECT: "Appointment Reminders"
+  CALENDAR: "Main Calendar"
+  TIME_ZONE: "{{contact.timezone}}"
+  QUESTIONS: "Will the customer attend the appointment?#will_attend#boolean;Do they need to reschedule?#needs_reschedule#boolean;"
+  CALL_RESPONSE_TAG: "reminder"
+  CONTACT_ID: "{{contact.id}}"
+```
+
+```text AI Prompt Example
+"Hi {{FirstName}}, this is a reminder about your appointment tomorrow at {{appointment.time}}.
+
+Will you be able to make it at the scheduled time?
+
+If they need to reschedule: 'Let me help you reschedule' and add (appointment) to your response.
+
+If they want to cancel: 'I'll cancel that for you' and add (appointment) to your response."
+```
+</CodeGroup>
+
+---
+
+## 📊 Integration Benefits
+
+### Automated Workflow Advantages
+
+<Columns cols={2}>
+  <Card title="🎯 Seamless Automation" icon="robot">
+    **Complete Integration**
+    - Trigger calls from any GHL workflow
+    - Automatic data sync between platforms
+    - No manual intervention required
+    - Real-time updates and responses
+  </Card>
+  
+  <Card title="📈 Enhanced CRM" icon="chart-line">
+    **Rich Data Collection**
+    - Automatic note updates after calls
+    - Intelligent tagging based on outcomes
+    - Insights data synced to contact records
+    - Complete conversation history
+  </Card>
+  
+  <Card title="📅 Smart Scheduling" icon="calendar">
+    **Enterprise Appointments**
+    - AI-powered appointment booking
+    - Automatic calendar management
+    - Conflict resolution and rescheduling
+    - Confirmation and reminder automation
+  </Card>
+  
+  <Card title="⚡ Operational Efficiency" icon="lightning">
+    **Streamlined Operations**
+    - Reduced manual calling tasks
+    - Consistent follow-up processes
+    - Scalable lead management
+    - Improved conversion rates
+  </Card>
+</Columns>
+
+---
+
+## 🛠️ Troubleshooting
+
+### Common Integration Issues
+
+| Issue | Cause | Solution |
+|-------|-------|----------|
+| **OAuth Failed** | Different browsers used | Use same browser for both platforms |
+| **App Not Found** | Integration not completed | Retry integration process |
+| **Calls Not Triggering** | Incorrect field configuration | Verify all required fields |
+| **Appointments Not Booking** | Enterprise feature not enabled | Contact support for Enterprise upgrade |
+
+### Best Practices
+
+<AccordionGroup>
+  <Accordion title="🔧 Configuration Tips">
+    **Setup Best Practices**
+    - Test workflows with small contact lists first
+    - Use descriptive project names for easy identification
+    - Set up proper time zones for accurate scheduling
+    - Configure meaningful tag prefixes for organization
+  </Accordion>
+  
+  <Accordion title="📝 Prompt Optimization">
+    **AI Prompt Guidelines**
+    - Keep appointment booking prompts simple and direct
+    - Use the strict booking approach for better control
+    - Test prompts with various customer responses
+    - Include clear fallback options for edge cases
+  </Accordion>
+  
+  <Accordion title="📊 Monitoring & Analytics">
+    **Performance Tracking**
+    - Monitor call success rates through GHL tags
+    - Track appointment booking conversion rates
+    - Review insights data for optimization opportunities
+    - Set up alerts for failed integrations
+  </Accordion>
+</AccordionGroup>
+
+---
+
+## 🚀 Getting Started
+
+### Quick Setup Checklist
+
+<Steps>
+  <Step title="Prerequisites">
+    **Before You Begin**
+    - [ ] Active Vodex.ai premium account
+    - [ ] Go High Level account with workflow access
+    - [ ] Project created in Vodex dashboard
+    - [ ] GHL calendar set up for appointments (if using Enterprise features)
+  </Step>
+  
+  <Step title="Integration Setup">
+    **Connect the Platforms**
+    - [ ] Complete OAuth integration process
+    - [ ] Verify "Integration Successfully" message
+    - [ ] Test Vodex action appears in GHL workflows
+  </Step>
+  
+  <Step title="First Workflow">
+    **Create Test Workflow**
+    - [ ] Set up simple lead qualification workflow
+    - [ ] Configure all required Vodex action fields
+    - [ ] Test with a small contact list
+    - [ ] Verify call triggers and data sync
+  </Step>
+  
+  <Step title="Optimization">
+    **Refine and Scale**
+    - [ ] Review call outcomes and insights
+    - [ ] Optimize AI prompts based on results
+    - [ ] Scale to larger contact lists
+    - [ ] Set up additional workflows as needed
+  </Step>
+</Steps>
+
+---
+
+## 💡 Next Steps
+
+After setting up your GHL integration:
+
+1. **Start Small** - Test with a limited contact list first
+2. **Monitor Results** - Track call outcomes and appointment bookings
+3. **Optimize Prompts** - Refine AI instructions based on performance
+4. **Scale Gradually** - Expand to larger workflows once optimized
+5. **Explore Enterprise** - Consider Enterprise features for advanced appointment management
+
+<Check>
+  **Ready to automate your GHL workflows?** The Vodex-GHL integration provides powerful automation capabilities that can transform your lead management and customer engagement processes.
+</Check>
+
+---
+
+**Need help with the integration?** Contact our support team at [support@vodex.ai](mailto:support@vodex.ai) with "GHL Integration Support" in the subject line for specialized assistance.

@@ -14,34 +14,34 @@
         "tab": "Guides",
         "groups": [
           {
-            "group": "Overview",
+            "group": "📖 Overview",
             "pages": [
               "introduction"
             ]
           },
           {
-            "group": "Agents",
+            "group": "🤖 Agents",
             "pages": [
               "agents/prompt",
               "agents/tags"
             ]
           },
           {
-            "group": "Custom Fields",
+            "group": "🏷️ Custom Fields",
             "pages": [
               "custom-fields/introduction",
               "custom-fields/best-practices"
             ]
           },
           {
-            "group": "Call Settings",
+            "group": "⚙️ Call Settings",
             "pages": [
               "call-settings/overview",
               "call-settings/advanced-settings"
             ]
           },
           {
-            "group": "Send SMS, WhatsApp or Email on Call",
+            "group": "💬 Send SMS, WhatsApp or Email on Call",
             "pages": [
               "messaging/on-call-messaging"
             ]
@@ -53,7 +53,26 @@
             ]
           },
           {
-            "group": "Troubleshooting Guide",
+            "group": "🔗 Go High Level Integration",
+            "pages": [
+              "ghl/integration"
+            ]
+          },
+           {
+            "group": "🏢 Enterprise Features",
+            "pages": [
+              "enterprise/overview"
+            ]
+          },
+          {
+            "group": "📞 Inbound/ViciDialer",
+            "pages": [
+              "inbound/overview"
+            ]
+          },
+         
+          {
+            "group": "🛠️ Troubleshooting Guide",
             "pages": [
               "troubleshooting/common-issues"
             ]
@@ -63,6 +82,12 @@
       {
         "tab": "API reference",
         "groups": [
+          {
+            "group": "Getting Started",
+            "pages": [
+              "api-reference/introduction"
+            ]
+          },
           {
             "group": "Projects",
             "pages": [
