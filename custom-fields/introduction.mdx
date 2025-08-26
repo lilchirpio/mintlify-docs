@@ -52,14 +52,19 @@ These are the most commonly used custom fields:
 | `{LastName}` | Inserts the user's last name | "Mr. **Smith**" |
 | `{FullName}` | Inserts complete name | "**John Smith**" |
 
-### **Time and Date Fields**
+### **Time and Date Fields (default)**
 
 These provide dynamic time information:
 
 | Field | What It Does | Example Output |
 |-------|--------------|----------------|
 | `{today}` | Current date | "Today is **March 15, 2024**" |
-| `{time_zone}` | User's time zone | "Your time zone is **Eastern Time**" |
+| `{time_zone}` | User's time zone | "Your time zone is **+05:00**" |
+
+<Note> The field `today` should be left blank when trying to make a call either via Agent Call, Campaign Run, Or API. Vodex will fill it automatically using `time_zone` field </Note>
+
+<Warning> The `time_zone` field must be a valid time zone field. The time zone can be **Asia/Kolkata** or **+05:30**. If any other is provided, an unexpected error `Something went wrong` will be thrown  </Warning>
+
 
 ### **Account and Financial Fields**
 

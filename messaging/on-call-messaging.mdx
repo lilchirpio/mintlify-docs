@@ -1,0 +1,336 @@
+---
+title: 'Send SMS, WhatsApp or Email on Call'
+description: 'Configure automated messaging during AI calls using your own SMS, WhatsApp, and email providers'
+---
+
+# Send SMS, WhatsApp or Email on Call
+
+<Info>
+  **What you'll learn:** How to configure automated messaging during AI calls using your own messaging providers to send SMS, WhatsApp messages, and emails with static content.
+</Info>
+
+## Overview
+
+The messaging feature allows your AI agent to automatically send messages during calls using your own messaging service providers. This is useful for sending confirmations, appointment details, links, or other important information while the conversation is happening.
+
+<Warning>
+  **Important:** These messages are **static/fixed content only**. You must provide your own SMS, WhatsApp, and email service providers through cURL integration.
+</Warning>
+
+---
+
+## Configuration Setup
+
+### Messaging Section Location
+
+In every project, you'll find the messaging configuration in the **Messaging Section** with three input fields:
+
+1. **SMS Provider cURL**
+2. **WhatsApp Provider cURL** 
+3. **Email Provider cURL**
+
+### Provider Requirements
+
+<Card title="Bring Your Own Providers" icon="exclamation-triangle">
+  **You must provide:**
+  - Your own SMS service provider (Twilio, AWS SNS, etc.)
+  - Your own WhatsApp Business API provider
+  - Your own email service provider (SendGrid, Mailgun, etc.)
+  
+  **Vodex does not provide these messaging services - only the integration capability.**
+</Card>
+
+---
+
+## SMS Configuration
+
+### SMS Provider Setup
+
+Configure your SMS provider by entering the complete cURL command in the SMS field.
+
+<CodeGroup>
+```bash Example SMS cURL (Twilio)
+curl -X POST "https://api.twilio.com/2010-04-01/Accounts/YOUR_ACCOUNT_SID/Messages.json" \
+-u "YOUR_ACCOUNT_SID:YOUR_AUTH_TOKEN" \
+-d "From=+1234567890" \
+-d "To={PhoneNum}" \
+-d "Body=Your appointment is confirmed for tomorrow at 10 AM. Please arrive 15 minutes early."
+```
+
+```bash Example SMS cURL (AWS SNS)
+curl -X POST "https://sns.us-east-1.amazonaws.com/" \
+-H "Authorization: AWS4-HMAC-SHA256 Credential=YOUR_ACCESS_KEY/..." \
+-H "Content-Type: application/x-amz-json-1.0" \
+-H "X-Amz-Target: AmazonSNS.Publish" \
+-d '{
+  "PhoneNumber": "{PhoneNum}",
+  "Message": "Your appointment is confirmed for tomorrow at 10 AM."
+}'
+```
+</CodeGroup>
+
+### SMS Field Mapping
+
+<Tip>
+  **Phone Number Field:** Use `{PhoneNum}` as the placeholder for the recipient's phone number in your cURL command.
+</Tip>
+
+| Field | Placeholder | Description |
+|-------|-------------|-------------|
+| **Recipient Phone** | `{PhoneNum}` | Automatically replaced with the caller's phone number |
+| **Message Content** | Static text | Fixed message content (cannot be dynamic) |
+
+---
+
+## WhatsApp Configuration
+
+### WhatsApp Provider Setup
+
+Configure your WhatsApp Business API provider with the complete cURL command.
+
+<CodeGroup>
+```bash Example WhatsApp cURL (WhatsApp Business API)
+curl -X POST "https://graph.facebook.com/v17.0/YOUR_PHONE_NUMBER_ID/messages" \
+-H "Authorization: Bearer YOUR_ACCESS_TOKEN" \
+-H "Content-Type: application/json" \
+-d '{
+  "messaging_product": "whatsapp",
+  "to": "{PhoneNum}",
+  "type": "text",
+  "text": {
+    "body": "Hello! Your appointment is confirmed for tomorrow at 10 AM. We look forward to seeing you."
+  }
+}'
+```
+
+```bash Example WhatsApp cURL (Third-party Provider)
+curl -X POST "https://api.your-whatsapp-provider.com/v1/messages" \
+-H "Authorization: Bearer YOUR_API_KEY" \
+-H "Content-Type: application/json" \
+-d '{
+  "phone": "{PhoneNum}",
+  "message": "Your appointment is confirmed for tomorrow at 10 AM."
+}'
+```
+</CodeGroup>
+
+### WhatsApp Field Mapping
+
+<Tip>
+  **Phone Number Field:** Use `{PhoneNum}` as the placeholder for the recipient's WhatsApp number in your cURL command.
+</Tip>
+
+| Field | Placeholder | Description |
+|-------|-------------|-------------|
+| **Recipient Phone** | `{PhoneNum}` | Automatically replaced with the caller's phone number |
+| **Message Content** | Static text | Fixed message content (cannot be dynamic) |
+
+---
+
+## Email Configuration
+
+### Email Provider Setup
+
+Configure your email service provider with the complete cURL command.
+
+<Warning>
+  **Email Field Requirement:** You must upload the `email` custom field in your audience list or include it in the API payload when triggering calls via API.
+</Warning>
+
+<CodeGroup>
+```bash Example Email cURL (SendGrid)
+curl -X POST "https://api.sendgrid.com/v3/mail/send" \
+-H "Authorization: Bearer YOUR_API_KEY" \
+-H "Content-Type: application/json" \
+-d '{
+  "personalizations": [{
+    "to": [{"email": "{email}"}],
+    "subject": "Appointment Confirmation"
+  }],
+  "from": {"email": "noreply@yourcompany.com"},
+  "content": [{
+    "type": "text/plain",
+    "value": "Your appointment is confirmed for tomorrow at 10 AM. Please arrive 15 minutes early."
+  }]
+}'
+```
+
+```bash Example Email cURL (Mailgun)
+curl -X POST "https://api.mailgun.net/v3/YOUR_DOMAIN/messages" \
+-u "api:YOUR_API_KEY" \
+-F "from=noreply@yourcompany.com" \
+-F "to={email}" \
+-F "subject=Appointment Confirmation" \
+-F "text=Your appointment is confirmed for tomorrow at 10 AM."
+```
+</CodeGroup>
+
+### Email Field Mapping
+
+<Tip>
+  **Email Field:** Use `{email}` as the placeholder for the recipient's email address in your cURL command.
+</Tip>
+
+| Field | Placeholder | Description |
+|-------|-------------|-------------|
+| **Recipient Email** | `{email}` | Must be provided in audience data or API payload |
+| **Email Content** | Static text | Fixed email content (cannot be dynamic) |
+
+### Email Data Requirements
+
+<Steps>
+  <Step title="Audience Upload Method">
+    **Include Email in Audience List**
+    - Add an `email` column to your audience CSV
+    - Ensure all contacts have valid email addresses
+    - Upload the audience with email data included
+  </Step>
+  
+  <Step title="API Trigger Method">
+    **Include Email in API Payload**
+    - Add `email` field to your API request payload
+    - Ensure the email address is valid and properly formatted
+    - Include it in the custom fields section
+  </Step>
+</Steps>
+
+---
+
+## Important Limitations and Warnings
+
+### Email Collection Limitations
+
+<Warning>
+  **Email Collection Not Recommended:** Our AI agents can capture emails during calls, but they cannot send emails to those specific captured emails. We strongly advise against collecting emails during calls due to:
+  
+  - **Accent recognition issues** - Different pronunciations cause errors
+  - **Alphabet identification problems** - Spelling out emails is error-prone  
+  - **Customer frustration** - Repeated spelling attempts irritate callers
+  - **Time consumption** - Email collection significantly extends call duration
+</Warning>
+
+### Static Message Limitation
+
+<Warning>
+  **Static Messages Only:** All messages (SMS, WhatsApp, Email) are completely static and cannot include dynamic content from the conversation. The message content is fixed at configuration time.
+</Warning>
+
+### Provider Responsibility
+
+<Warning>
+  **Your Providers Required:** Vodex does not provide SMS, WhatsApp, or email services. You must:
+  - Set up your own messaging service accounts
+  - Handle provider billing and limits
+  - Ensure compliance with provider terms of service
+  - Manage delivery rates and failures
+</Warning>
+
+---
+
+## Best Practices
+
+### Message Content Guidelines
+
+<AccordionGroup>
+  <Accordion title="SMS Best Practices">
+    **SMS Message Guidelines:**
+    - Keep messages under 160 characters when possible
+    - Include clear call-to-action or next steps
+    - Add your company name for identification
+    - Include opt-out instructions if required by regulations
+    
+    **Example:** "ABC Company: Your appointment is confirmed for Jan 15 at 2 PM. Reply STOP to opt out."
+  </Accordion>
+  
+  <Accordion title="WhatsApp Best Practices">
+    **WhatsApp Message Guidelines:**
+    - Use conversational, friendly tone
+    - Include relevant emojis if appropriate
+    - Keep messages concise but informative
+    - Follow WhatsApp Business Policy guidelines
+    
+    **Example:** "Hi! 👋 Your appointment with ABC Company is confirmed for Jan 15 at 2 PM. See you soon!"
+  </Accordion>
+  
+  <Accordion title="Email Best Practices">
+    **Email Message Guidelines:**
+    - Use clear, descriptive subject lines
+    - Include complete information in the body
+    - Add your company contact information
+    - Follow email marketing compliance rules
+    
+    **Example Subject:** "Appointment Confirmation - ABC Company"
+  </Accordion>
+</AccordionGroup>
+
+### Technical Implementation Tips
+
+<Tip>
+  **Testing Recommendation:** Test your cURL commands independently before adding them to Vodex to ensure they work correctly with your providers.
+</Tip>
+
+<Tip>
+  **Error Handling:** Configure your messaging providers with appropriate error handling and retry logic for failed deliveries.
+</Tip>
+
+<Tip>
+  **Rate Limits:** Be aware of your messaging provider's rate limits and plan your call volume accordingly.
+</Tip>
+
+---
+
+## Troubleshooting
+
+### Common Issues
+
+| Issue | Cause | Solution |
+|-------|-------|----------|
+| **Messages not sending** | Incorrect cURL syntax | Test cURL command independently |
+| **Wrong phone number format** | Missing {PhoneNum} placeholder | Use exact placeholder: `{PhoneNum}` |
+| **Email not found** | Missing email in audience/API | Ensure email field is included in data |
+| **Provider authentication error** | Invalid API keys/tokens | Verify provider credentials |
+
+### Testing Your Setup
+
+<Steps>
+  <Step title="Test cURL Commands">
+    **Verify Provider Integration**
+    - Test each cURL command in terminal/command prompt
+    - Replace placeholders with actual test data
+    - Confirm messages are delivered successfully
+  </Step>
+  
+  <Step title="Test with Vodex">
+    **Integration Testing**
+    - Configure cURL commands in Vodex messaging section
+    - Run test calls with known phone numbers/emails
+    - Verify messages are triggered during calls
+  </Step>
+  
+  <Step title="Monitor Delivery">
+    **Check Provider Dashboards**
+    - Monitor delivery rates in provider dashboards
+    - Check for failed deliveries or errors
+    - Adjust configuration if needed
+  </Step>
+</Steps>
+
+---
+
+## Next Steps
+
+After configuring messaging:
+
+1. **Set up your messaging providers** and obtain API credentials
+2. **Test cURL commands** independently to ensure they work
+3. **Configure the messaging section** in your Vodex project
+4. **Test with sample calls** to verify integration
+5. **Monitor delivery rates** and adjust as needed
+
+<Check>
+  **Ready to send messages during calls?** Proper messaging configuration enables automated follow-up and confirmation delivery, enhancing your customer experience and reducing manual work.
+</Check>
+
+---
+
+**Need help with call settings?** Check out our [Call Settings Overview](/call-settings/overview) and [Advanced Settings](/call-settings/advanced-settings) for comprehensive call configuration guidance.

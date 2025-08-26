@@ -1,0 +1,437 @@
+---
+title: 'Call Settings Overview'
+description: 'Configure your AI calling campaigns with advanced call settings, AI models, voice options, and transfer capabilities'
+---
+
+# Call Settings Overview
+
+<Info>
+  **What you'll learn:** How to configure call settings including transfer numbers, AI models, voice options, caller ID, and call management features for optimal campaign performance.
+</Info>
+
+## Core Call Settings
+
+### Call Transfer Number
+
+The phone number or SIP URI that your AI bot will transfer calls to when needed.
+
+<Tabs>
+  <Tab title="Phone Number">
+    **Standard Phone Number Format**
+    
+    Enter the phone number without the `+` prefix:
+    
+    ```
+    12185262990
+    ```
+    
+    <Note>
+      The system will automatically format the number with the appropriate country code during call processing.
+    </Note>
+  </Tab>
+  
+  <Tab title="SIP URI">
+    **SIP URI Format**
+    
+    For SIP-based transfers, use the standard SIP URI format:
+    
+    ```
+    sip:username@domain.com
+    sip:12185262990@sip.provider.com
+    ```
+    
+    <Warning>
+      SIP URIs must start with `sip:` to be recognized by the system.
+    </Warning>
+  </Tab>
+  
+  <Tab title="Custom Configuration">
+    **Custom Trunk and DID**
+    
+    For advanced setups with custom trunks and Direct Inward Dialing (DID):
+    
+    - **Open field configuration** allows flexible routing
+    - **Custom trunk integration** for enterprise solutions
+    - **DID mapping** for specific number routing
+    
+    <Tip>
+      Contact [support@vodex.ai](mailto:support@vodex.ai) for custom trunk configuration assistance.
+    </Tip>
+  </Tab>
+</Tabs>
+
+---
+
+### Disconnect Call Automatically
+
+Automatically disconnect calls after a specified duration to prevent misuse and control costs.
+
+#### **Why Use Auto-Disconnect?**
+
+<AccordionGroup>
+  <Accordion title="Prevent Bot Abuse">
+    **Protection Against Misuse**
+    - Stops people from playing with your bot indefinitely
+    - Prevents unnecessary resource consumption
+    - Maintains professional call handling
+  </Accordion>
+  
+  <Accordion title="Budget Control">
+    **Cost Management**
+    - Limits maximum call duration charges
+    - Prevents runaway costs from stuck calls
+    - Ensures predictable billing
+  </Accordion>
+  
+  <Accordion title="System Efficiency">
+    **Resource Optimization**
+    - Frees up system resources for legitimate calls
+    - Maintains optimal performance
+    - Reduces server load
+  </Accordion>
+</AccordionGroup>
+
+#### **Configuration Options**
+
+| Duration | Use Case | Recommended For |
+|----------|----------|-----------------|
+| **2-3 minutes** | Quick surveys, confirmations | Simple interactions |
+| **5-7 minutes** | Customer service, support | Standard conversations |
+| **10-15 minutes** | Sales calls, consultations | Complex discussions |
+| **Custom** | Specialized use cases | Enterprise needs |
+
+---
+
+### Gateway Configuration
+
+The communication gateway through which your calls are routed and processed.
+
+#### **Default Gateway Options**
+
+<Card title="Standard Gateways" icon="network-wired">
+  **Included with all plans:**
+  - Vodex default gateway (Only for testing)
+  - Standard SIP routing
+  - Basic call management
+  - Standard quality assurance
+</Card>
+
+#### **Custom SIP Integration**
+
+<Card title="Enterprise SIP Solutions" icon="server">
+  **Available for paid tiers:**
+  - Custom SIP provider integration
+  - Enterprise-grade routing
+  - Advanced call management
+  - Dedicated support
+  
+  **To integrate:** Contact [support@vodex.ai](mailto:support@vodex.ai)
+</Card>
+
+---
+
+## AI Model Selection
+
+Choose the AI model that best fits your use case and performance requirements.
+
+### Out-of-the-Box Models
+
+Professional AI models ready for immediate use:
+
+<Tabs>
+  <Tab title="Claude Models">
+    **Anthropic Claude Series**
+    
+    | Model | Best For | Characteristics |
+    |-------|----------|-----------------|
+    | **Claude Haiku** | Quick responses, simple tasks | Fast, efficient, cost-effective |
+    | **Claude Sonnet** | Balanced conversations | Good reasoning, natural dialogue |
+    
+    **Ideal for:**
+    - Customer service interactions
+    - Appointment scheduling
+    - Information gathering
+    - Professional conversations
+  </Tab>
+  
+  <Tab title="GPT Models">
+    **OpenAI GPT Series**
+    
+    | Model | Best For | Characteristics |
+    |-------|----------|-----------------|
+    | **GPT-3.5 Turbo** | General conversations | Fast, reliable, cost-effective |
+    | **GPT-4** | Complex reasoning | Advanced understanding, detailed responses |
+    | **GPT-4 Turbo** | Long conversations | Extended context, efficient processing |
+    | **GPT-4o** | Multimodal interactions | Vision, audio, text capabilities |
+    | **GPT-4o Mini** | Lightweight multimodal | Fast multimodal processing, cost-effective |
+    | **GPT-5** | Next-generation AI | Advanced reasoning, enhanced capabilities |
+    | **GPT-5 Mini** | Efficient next-gen | Optimized performance, faster responses |
+    | **GPT-5 Chat** | Conversational excellence | Specialized for dialogue, natural flow |
+    
+    **Ideal for:**
+    - Sales conversations
+    - Technical support
+    - Detailed consultations
+    - Multi-step processes
+    - Multimodal applications
+    - Next-generation AI experiences
+  </Tab>
+  
+  <Tab title="Llama Models">
+    **Meta Llama Series**
+    
+    | Model | Best For | Characteristics |
+    |-------|----------|-----------------|
+    | **Llama 2** | Open-source flexibility | Customizable, privacy-focused |
+    | **Llama 3** | Enhanced performance | Improved reasoning, better responses |
+    | **Code Llama** | Technical discussions | Programming, technical support |
+    
+    **Ideal for:**
+    - Technical conversations
+    - Privacy-sensitive applications
+    - Custom implementations
+    - Specialized domains
+  </Tab>
+</Tabs>
+
+### Vodex Optimized Models
+
+Specially tuned models optimized for calling scenarios:
+
+<Tabs>
+  <Tab title="Spark Series">
+    **Vodex Spark Models**
+    
+    Based on Google's Gemini architecture, optimized for voice conversations:
+    
+    | Model | Optimization |
+    |-------|--------------|
+    | **Spark** |  Balanced performance for professional calls |
+    | **Spark Flash** |Ultra-fast responses, real-time conversations |
+    | **Spark Flash Lite** | Lightweight, cost-effective interactions |
+  </Tab>
+  
+  <Tab title="Performance Characteristics">
+    **Spark Foundation**
+    - **Advanced reasoning** for complex conversations
+    - **Multimodal capabilities** for rich interactions
+    - **Large context window** for detailed discussions
+    - **High accuracy** in understanding and responses
+    
+    **Spark Flash Foundation**
+    - **Ultra-low latency** for real-time conversations
+    - **Efficient processing** for high-volume campaigns
+    - **Optimized for speed** without sacrificing quality
+    - **Cost-effective** for large-scale operations
+    
+    **Spark Flash Lite Foundation**
+    - **Minimal resource usage** for simple interactions
+    - **Maximum cost efficiency** for basic conversations
+    - **Quick deployment** for straightforward use cases
+    - **Reliable performance** for standard scenarios
+  </Tab>
+</Tabs>
+
+<Tip>
+  **Model Selection Guide:** Choose Spark for complex sales calls, Spark Flash for customer service, and Spark Flash Lite for simple confirmations or surveys.
+</Tip>
+
+---
+
+## Voice Configuration
+
+Select from premium voice providers to create the perfect audio experience for your calls.
+
+### Available Voice Providers
+
+<Tabs>
+  <Tab title="ElevenLabs (Default)">
+    **Premium AI Voices**
+    
+    **Features:**
+    - Ultra-realistic voice synthesis
+    - Multiple voice personalities
+    - Emotional expression capabilities
+    - Multiple languages and accents
+    
+    **Availability:** ✅ **Included with all plans**
+    
+    **Best for:**
+    - Professional business calls
+    - Customer service interactions
+    - Sales conversations
+    - Any scenario requiring natural-sounding voices
+  </Tab>
+  
+  <Tab title="RimeLabs">
+    **Advanced Voice Technology**
+    
+    **Features:**
+    - High-quality voice synthesis
+    - Natural conversation flow
+    - Specialized voice models
+    - Custom voice training options
+    
+    **Availability:** 📞 **Contact support for access**
+    
+    **Best for:**
+    - Specialized industry applications
+    - Custom voice requirements
+    - Enterprise implementations
+  </Tab>
+  
+  <Tab title="Azure Cognitive Services">
+    **Microsoft Azure Voices**
+    
+    **Features:**
+    - Enterprise-grade reliability
+    - Global language support
+    - Neural voice technology
+    - SSML support for fine control
+    
+    **Availability:** 📞 **Contact support for access**
+    
+    **Best for:**
+    - Enterprise applications
+    - Multi-language campaigns
+    - Integration with Microsoft ecosystem
+  </Tab>
+  
+  <Tab title="Google Ultra Realistic">
+    **Google Cloud Text-to-Speech**
+    
+    **Features:**
+    - WaveNet technology
+    - Ultra-realistic voices
+    - Multiple languages and variants
+    - Custom voice models
+    
+    **Availability:** 📞 **Contact support for access**
+    
+    **Best for:**
+    - High-quality voice requirements
+    - Global campaigns
+    - Google Cloud integrations
+  </Tab>
+</Tabs>
+
+<Warning>
+  **Voice Provider Access:** While ElevenLabs is available by default, access to RimeLabs, Azure, and Google voices requires contacting [support@vodex.ai](mailto:support@vodex.ai) for configuration.
+</Warning>
+
+---
+
+## Voicemail Detection
+
+Advanced voicemail detection system to optimize call handling and costs.
+
+### How It Works
+
+<Steps>
+  <Step title="VAD-Based Detection">
+    **Voice Activity Detection Technology**
+    - Non-LLM based detection system
+    - Works across all countries and languages
+    - Independent of ASR, LLM, and voice settings
+    - **85% accuracy rate** in standard conditions
+  </Step>
+  
+  <Step title="Smart Timing">
+    **Optimized Detection Timing**
+    - Bot starts speaking after **10 seconds** of voicemail detection
+    - Allows for various voicemail greeting lengths
+    - Reduces false positives from long greetings
+  </Step>
+  
+  <Step title="Beep Detection">
+    **Enhanced Accuracy with Beep Recognition**
+    - Detects voicemail beep signals
+    - Restarts message delivery after beep detection
+    - Ensures **90% voicemail drop success rate**
+    - Maximizes message delivery effectiveness
+  </Step>
+</Steps>
+
+### Cost Structure
+
+| Scenario | Charge | Explanation |
+|----------|--------|-------------|
+| **Voicemail Detected + Disconnected** | **3 cents** | Call ends without leaving message |
+| **Voicemail Detected + Message Left** | **3 cents** | Successful voicemail delivery |
+| **Live Person Answered** | **Standard rate** | Normal conversation charges apply |
+
+<Info>
+  **Cost Optimization:** The 3-cent voicemail charge is significantly lower than full conversation rates, helping you manage costs while maintaining campaign effectiveness.
+</Info>
+
+---
+
+## Caller ID Configuration
+
+### Twilio Caller ID Management
+
+<Warning>
+  **Twilio Exclusive Feature:** Caller ID configuration is only available when using Twilio as your gateway provider.
+</Warning>
+
+#### **How Twilio Caller ID Works**
+
+Twilio's Caller ID system allows you to display specific phone numbers to recipients, improving answer rates and call legitimacy.
+
+#### **Configuration Requirements**
+
+<Steps>
+  <Step title="Phone Number Verification">
+    **Verify Your Numbers**
+    - All caller ID numbers must be verified with Twilio
+    - Verification prevents spoofing and ensures compliance
+    - Process typically takes 24-48 hours
+  </Step>
+  
+  <Step title="Compliance Setup">
+    **Regulatory Compliance**
+    - Follow local telecommunications regulations
+    - Ensure proper business registration
+    - Maintain accurate caller identification
+  </Step>
+  
+  <Step title="Number Pool Management">
+    **Optimize Number Usage**
+    - Rotate between verified numbers
+    - Match caller ID to campaign type
+    - Monitor number reputation and performance
+  </Step>
+</Steps>
+
+#### **Best Practices**
+
+<Tip>
+  **Caller ID Strategy:** Use local numbers for regional campaigns, toll-free numbers for national campaigns, and business numbers for professional services.
+</Tip>
+
+| Campaign Type | Recommended Caller ID | Benefits |
+|---------------|----------------------|----------|
+| **Local Business** | Local area code numbers | Higher answer rates, local trust |
+| **National Service** | Toll-free numbers | Professional appearance, no charges to recipients |
+| **Customer Service** | Main business line | Brand recognition, established trust |
+| **Sales Outreach** | Dedicated sales numbers | Call tracking, performance measurement |
+
+---
+
+## Next Steps
+
+Now that you understand call settings:
+
+1. **Configure your transfer number** based on your routing needs
+2. **Select the appropriate AI model** for your use case
+3. **Choose your voice provider** (contact support for premium options)
+4. **Set up voicemail detection** to optimize costs
+5. **Configure caller ID** if using Twilio
+
+<Check>
+  **Ready to optimize your calls?** Proper call settings configuration ensures professional, cost-effective, and successful AI calling campaigns. Take time to configure each setting according to your specific needs.
+</Check>
+
+---
+
+**Need advanced configuration?** Check out our [Advanced Settings](/call-settings/advanced-settings) guide for language codes, ASR options, webhooks, and transfer configurations.

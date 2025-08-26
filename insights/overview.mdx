@@ -1,0 +1,457 @@
+---
+title: '✨ Insights (Ask AI)'
+description: 'Create intelligent post-call analysis questions to extract valuable insights from every conversation using AI'
+---
+
+# ✨ Insights (Ask AI)
+
+<Info>
+  **What you'll learn:** How to create precise AI-powered questions that automatically analyze your calls and extract valuable business insights from every conversation.
+</Info>
+
+<Warning>
+  **Critical:** Make your insights questions as **precise as possible**. Don't just ask "if the customer is interested" - ask very specifically what you need to know. Precise questions generate accurate, actionable insights.
+</Warning>
+
+## What Are Insights?
+
+Insights are intelligent questions that you feed into the Vodex system. After every call, Vodex's AI automatically generates answers to these questions based on the conversation content, providing you with structured data and valuable business intelligence.
+
+### Key Benefits
+
+- **Automated Analysis:** No manual call review needed
+- **Structured Data:** Get consistent, queryable results
+- **Business Intelligence:** Track trends, conversion rates, and customer behavior
+- **Webhook Integration:** Automatically receive insights via API
+- **Campaign Optimization:** Use data to improve future campaigns
+
+---
+
+## How Insights Work
+
+<Steps>
+  <Step title="Create Insights Questions">
+    **Before Running Campaigns**
+    - Define specific questions you want answered
+    - Set up insights at the campaign level
+    - Configure via API or dashboard interface
+  </Step>
+  
+  <Step title="Run Your Campaign">
+    **During Calls**
+    - AI listens to the entire conversation
+    - Records all relevant information
+    - Prepares data for analysis
+  </Step>
+  
+  <Step title="AI Analysis">
+    **After Each Call**
+    - AI analyzes the complete conversation
+    - Answers your predefined questions
+    - Generates structured insights data
+  </Step>
+  
+  <Step title="Receive Results">
+    **Get Your Insights**
+    - Access via dashboard
+    - Receive via webhook (if configured)
+    - Use data for business decisions
+  </Step>
+</Steps>
+
+<Note>
+  **Important:** Insights must be created **before** you run the campaign. You cannot add insights to calls that have already completed.
+</Note>
+
+---
+
+## Insights Configuration
+
+### Three Required Fields
+
+Every insight requires these three components:
+
+<Tabs>
+  <Tab title="Name">
+    **Programming Variable**
+    
+    The technical identifier for your insight, used in webhooks and API responses.
+    
+    **Rules:**
+    - No spaces allowed
+    - No dashes allowed  
+    - Only underscores for separation
+    - Use descriptive, clear names
+    
+    **Examples:**
+    ```
+    ✅ customer_interested
+    ✅ payment_timeline
+    ✅ product_requirements
+    ✅ appointment_confirmed
+    
+    ❌ customer interested (spaces)
+    ❌ customer-interested (dashes)
+    ❌ interested (too vague)
+    ```
+  </Tab>
+  
+  <Tab title="Type">
+    **Data Type Selection**
+    
+    Choose the appropriate data type for your expected answer:
+    
+    | Type | Use Case | Example Output |
+    |------|----------|----------------|
+    | **Text** | Open-ended responses | "Customer needs premium features" |
+    | **Number** | Numeric values | `30` (days), `5000` (budget) |
+    | **True/False** | Yes/no questions | `true`, `false`, `N/A` |
+    
+    **Selection Guide:**
+    - Use **Text** for descriptions, requirements, feedback
+    - Use **Number** for quantities, timelines, budgets
+    - Use **True/False** for confirmation, agreement, decisions
+  </Tab>
+  
+  <Tab title="Question">
+    **AI Analysis Prompt**
+    
+    The specific question you want the AI to answer about each call.
+    
+    **Best Practices:**
+    - Be extremely specific and detailed
+    - Include fallback instructions (return "N/A" if unclear)
+    - Define exactly what constitutes a positive/negative response
+    - Provide context for edge cases
+    
+    **Question Quality:**
+    ```
+    ❌ Poor: "Is the customer interested?"
+    ✅ Good: "Did the customer verbally agree that they are going to purchase the product? Return True or False. If the customer does not commit or is unclear, return N/A"
+    ```
+  </Tab>
+</Tabs>
+
+---
+
+## Insights Examples
+
+### Example 1: Purchase Intent
+
+<Card title="Customer Purchase Agreement" icon="handshake">
+  **Name:** `customer_interested`
+  
+  **Type:** True/False
+  
+  **Question:** "Did the customer agree verbally that they are going to purchase the product? Return True or False. If the customer does not have anything definitive or seems uncertain, return N/A"
+  
+  **Use Case:** Track conversion rates and sales pipeline
+</Card>
+
+### Example 2: Payment Timeline
+
+<Card title="Payment Schedule" icon="calendar-days">
+  **Name:** `num_days`
+  
+  **Type:** Number
+  
+  **Question:** "In how many days did the customer say they are going to make the payment? Return only the number of days mentioned. If no specific timeline was discussed or the customer was vague, return N/A"
+  
+  **Use Case:** Cash flow planning and follow-up scheduling
+</Card>
+
+### Example 3: Customer Requirements
+
+<Card title="Product Requirements" icon="list-check">
+  **Name:** `requirements`
+  
+  **Type:** Text
+  
+  **Question:** "What are the customer's specific requirements for the product? Include any features, specifications, or conditions they mentioned. If no specific requirements were discussed, return N/A"
+  
+  **Use Case:** Product customization and service delivery
+</Card>
+
+### Example 4: Appointment Confirmation
+
+<Card title="Appointment Booking" icon="calendar-check">
+  **Name:** `appointment_confirmed`
+  
+  **Type:** True/False
+  
+  **Question:** "Did the customer confirm a specific appointment date and time? Return True only if both date and time were agreed upon. If only tentative or partial scheduling occurred, return False. If no appointment was discussed, return N/A"
+  
+  **Use Case:** Schedule management and confirmation tracking
+</Card>
+
+### Example 5: Budget Information
+
+<Card title="Customer Budget" icon="dollar-sign">
+  **Name:** `customer_budget`
+  
+  **Type:** Number
+  
+  **Question:** "What budget amount did the customer mention they are willing to spend? Return only the numerical value without currency symbols. If they mentioned a range, return the higher number. If no budget was discussed, return N/A"
+  
+  **Use Case:** Pricing strategy and proposal preparation
+</Card>
+
+---
+
+## Advanced Insights Strategies
+
+### Precision Guidelines
+
+<AccordionGroup>
+  <Accordion title="Be Specific About Conditions">
+    **Instead of vague questions, define exact conditions:**
+    
+    ❌ **Vague:** "Is the customer happy?"
+    
+    ✅ **Specific:** "Did the customer express satisfaction with our service using positive language such as 'great', 'excellent', 'satisfied', or similar positive terms? Return True only for clearly positive feedback, False for negative feedback, and N/A for neutral or unclear responses."
+  </Accordion>
+  
+  <Accordion title="Handle Edge Cases">
+    **Always provide instructions for unclear situations:**
+    
+    ✅ **Good Example:** "What is the customer's company size? Return the number of employees if mentioned. If they say 'small business' return 10, if 'medium business' return 100, if 'large business' return 500. If no size information is provided, return N/A."
+  </Accordion>
+  
+  <Accordion title="Define Success Criteria">
+    **Be explicit about what constitutes different responses:**
+    
+    ✅ **Clear Criteria:** "Did the customer agree to a follow-up call? Return True only if they agreed to a specific time or said 'yes' to scheduling. Return False if they declined or said they would call back. Return N/A if follow-up was not discussed."
+  </Accordion>
+</AccordionGroup>
+
+### Multi-Layered Insights
+
+Create complementary insights that provide deeper analysis:
+
+```
+Primary: customer_interested (True/False)
+Secondary: interest_level (Number 1-10)
+Supporting: objections_mentioned (Text)
+Timeline: decision_timeframe (Number - days)
+```
+
+---
+
+## Implementation Methods
+
+### Method 1: Campaign-Level Configuration
+
+<Steps>
+  <Step title="Access Campaign Settings">
+    **Navigate to Your Campaign**
+    - Open your campaign in the Vodex dashboard
+    - Go to the Insights section
+    - Click "Add New Insight"
+  </Step>
+  
+  <Step title="Configure Insights">
+    **Set Up Each Insight**
+    - Enter the Name (programming variable)
+    - Select the Type (Text/Number/True-False)
+    - Write the precise Question
+    - Save the configuration
+  </Step>
+  
+  <Step title="Test and Validate">
+    **Before Going Live**
+    - Run test calls to verify insights work
+    - Check that questions are answered accurately
+    - Adjust questions if needed
+  </Step>
+</Steps>
+
+### Method 2: API Integration
+
+<CodeGroup>
+```json API Payload Example
+{
+
+    ... other params
+  "campaign_id": "your_campaign_id",
+  "insights": [
+    {
+      "name": "customer_interested",
+      "type": "boolean",
+      "question": "Did the customer agree verbally that they are going to purchase the product? Return True or False. If the customer does not commit definitively, return N/A"
+    },
+    {
+      "name": "payment_days",
+      "type": "number", 
+      "question": "In how many days did the customer say they will make payment? Return only the number. If no timeline mentioned, return N/A"
+    },
+    {
+      "name": "requirements",
+      "type": "text",
+      "question": "What specific product requirements did the customer mention? List all features and specifications discussed. If none mentioned, return N/A"
+    }
+  ]
+}
+```
+
+```json Webhook Response Example
+{
+  "call_uuid": "12345-67890",
+  "questions": [
+    {"key": "customer_interested", "value": true},
+    {"key": "payment_days", "value": 30},
+    {"key": "requirements", "value": "Premium features with 24/7 support"}
+  ]
+}
+```
+</CodeGroup>
+
+---
+
+## Best Practices
+
+### Question Writing Guidelines
+
+<Tip>
+  **Precision is Key:** The more specific your question, the more accurate and useful your insights will be. Take time to craft detailed, unambiguous questions.
+</Tip>
+
+| Aspect | Best Practice | Example |
+|--------|---------------|---------|
+| **Clarity** | Use simple, direct language | "Did the customer confirm..." not "Was there confirmation..." |
+| **Specificity** | Define exact conditions | "Return True only if they said 'yes' or 'I agree'" |
+| **Fallbacks** | Always include N/A instructions | "If unclear or not discussed, return N/A" |
+| **Context** | Provide relevant background | "Based on the sales conversation..." |
+
+### Data Type Selection
+
+<AccordionGroup>
+  <Accordion title="When to Use Text">
+    **Best for:**
+    - Customer feedback and comments
+    - Product requirements and specifications  
+    - Objections and concerns
+    - Open-ended responses
+    
+    **Example:** "What objections did the customer raise about the pricing?"
+  </Accordion>
+  
+  <Accordion title="When to Use Number">
+    **Best for:**
+    - Quantities and amounts
+    - Timelines and dates
+    - Ratings and scores
+    - Measurable values
+    
+    **Example:** "How many users will be using the system?"
+  </Accordion>
+  
+  <Accordion title="When to Use True/False">
+    **Best for:**
+    - Yes/no decisions
+    - Confirmation of actions
+    - Binary states
+    - Agreement/disagreement
+    
+    **Example:** "Did the customer agree to the proposed terms?"
+  </Accordion>
+</AccordionGroup>
+
+---
+
+## Insights in Webhooks
+
+When you configure post-call insights webhooks, the insights data is included in the `questions` array:
+
+<CodeGroup>
+```json Webhook Payload Structure
+{
+  "call_uuid": "unique-call-id",
+  "questions": [
+    {"key": "your_insight_name", "value": "extracted_value"},
+    {"key": "another_insight", "value": true},
+    {"key": "numeric_insight", "value": 45}
+  ],
+  // ... other call data
+}
+```
+
+```javascript Processing Insights Data
+// Example: Processing webhook data
+const insights = webhookData.questions;
+
+insights.forEach(insight => {
+  switch(insight.key) {
+    case 'customer_interested':
+      if (insight.value === true) {
+        // Add to hot leads list
+        addToHotLeads(webhookData.call_uuid);
+      }
+      break;
+    case 'payment_days':
+      if (insight.value !== 'N/A') {
+        // Schedule follow-up
+        scheduleFollowUp(webhookData.call_uuid, insight.value);
+      }
+      break;
+  }
+});
+```
+</CodeGroup>
+
+---
+
+## Troubleshooting Insights
+
+### Common Issues
+
+| Problem | Cause | Solution |
+|---------|-------|----------|
+| **Insights not appearing** | Created after campaign run | Create insights before running campaigns |
+| **Inaccurate responses** | Vague questions | Make questions more specific and detailed |
+| **N/A responses** | Information not discussed in call | Normal behavior - indicates topic wasn't covered |
+| **Wrong data type** | Type mismatch with expected answer | Verify question matches selected data type |
+
+### Quality Assurance
+
+<Steps>
+  <Step title="Test Questions">
+    **Validate Your Insights**
+    - Run sample calls with known outcomes
+    - Verify AI answers match expected results
+    - Refine questions based on accuracy
+  </Step>
+  
+  <Step title="Monitor Results">
+    **Track Insight Quality**
+    - Review insights from first few calls
+    - Look for patterns in N/A responses
+    - Adjust questions if needed
+  </Step>
+  
+  <Step title="Iterate and Improve">
+    **Continuous Optimization**
+    - Refine questions based on results
+    - Add new insights as needs evolve
+    - Remove insights that aren't valuable
+  </Step>
+</Steps>
+
+---
+
+## Next Steps
+
+To get started with Insights:
+
+1. **Plan your questions** - Identify what information you need from calls
+2. **Write precise questions** - Follow the specificity guidelines above
+3. **Create insights** - Set up insights before running campaigns
+4. **Test thoroughly** - Validate accuracy with sample calls
+5. **Monitor and optimize** - Continuously improve question quality
+
+<Check>
+  **Ready to extract valuable insights?** Well-crafted insights questions transform your call data into actionable business intelligence, helping you make data-driven decisions and optimize your campaigns.
+</Check>
+
+---
+
+**Need help with webhooks?** Check out our [Advanced Settings](/call-settings/advanced-settings) guide to learn how to receive insights data automatically via webhooks.

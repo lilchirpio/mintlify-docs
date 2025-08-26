@@ -1,0 +1,282 @@
+---
+title: 'Troubleshooting Guide'
+description: 'Common issues and solutions when using Vodex AI calling platform'
+---
+
+# Troubleshooting Guide
+
+<Info>
+  **Quick Help:** Find solutions to the most common issues encountered while using Vodex AI calling platform. Each issue includes the cause and step-by-step resolution.
+</Info>
+
+## Common Issues and Solutions
+
+### 1. Something Went Wrong While Triggering Calls
+
+<Warning>
+  **Error Message:** "Something went wrong while triggering calls"
+</Warning>
+
+#### **Root Cause**
+This error occurs when the `time_zone` field is not properly formatted or contains invalid timezone information.
+
+#### **Solution**
+Ensure your `time_zone` field uses one of these valid formats:
+
+| ✅ **Correct Format** | ❌ **Incorrect Format** |
+|----------------------|------------------------|
+| `Asia/Kolkata` | `IST` |
+| `America/New_York` | `EST` |
+| `+05:30` | `+5:30` |
+| `-08:00` | `PST` |
+
+#### **How to Fix**
+1. **Check your time zone format** in the custom fields
+2. **Use IANA timezone names** like `Asia/Kolkata` or `America/New_York`
+3. **Use UTC offset format** like `+05:30` or `-08:00`
+4. **Avoid abbreviations** like IST, EST, PST
+
+<CodeGroup>
+```json Correct Time Zone Examples
+{
+  "time_zone": "Asia/Kolkata"
+}
+```
+
+```json Alternative UTC Format
+{
+  "time_zone": "+05:30"
+}
+```
+</CodeGroup>
+
+---
+
+### 2. Missing Custom Field Error
+
+<Warning>
+  **Error Message:** "Missing custom field but no custom field is showing"
+</Warning>
+
+#### **Root Cause**
+This error occurs when custom field names contain spaces, which breaks the field recognition system.
+
+#### **The Problem**
+Custom fields with spaces in their names cannot be processed by the system:
+
+```
+❌ Wrong: {First Name}
+❌ Wrong: {Account Number}
+❌ Wrong: {Payment Amount}
+```
+
+#### **The Solution**
+Replace spaces with underscores in all custom field names:
+
+```
+✅ Correct: {FirstName}
+✅ Correct: {Account_Number}
+✅ Correct: {Payment_Amount}
+```
+
+#### **Step-by-Step Fix**
+1. **Identify fields with spaces** in your prompt
+2. **Replace all spaces with underscores**
+3. **Update your data source** to match the new field names
+4. **Test the updated prompt** before going live
+
+<Tip>
+  **Pro Tip:** Use `PascalCase` (`{FirstName}`) throughout your system to avoid confusion.
+</Tip>
+
+---
+
+### 3. Call Limit Exceeded Error
+
+<Warning>
+  **Error Message:** "Call Limit exceeded, please upgrade"
+</Warning>
+
+#### **Root Cause**
+Free-tier customers have a limited number of calls available when using Vodex's default Twilio integration.
+
+#### **Available Solutions**
+
+<Tabs>
+  <Tab title="Contact Support">
+    **Option 1: Upgrade Your Plan**
+    
+    Contact our support team to discuss upgrading your plan for higher call limits:
+    
+    - **Email:** [support@vodex.ai](mailto:support@vodex.ai)
+    - **Subject:** "Call Limit Upgrade Request"
+    - **Include:** Your account details and expected call volume
+  </Tab>
+  
+  <Tab title="Integrate Your Twilio">
+    **Option 2: Use Your Own Twilio Account**
+    
+    Integrate your own Twilio account to remove call limits:
+    
+    1. **Get Twilio credentials** from your Twilio dashboard
+    2. **Navigate to Settings** in your Vodex dashboard
+    3. **Add Twilio integration** with your credentials
+    4. **Test the connection** before running campaigns
+  </Tab>
+</Tabs>
+
+#### **Prevention Tips**
+- **Monitor your usage** regularly in the dashboard
+- **Plan campaigns** according to your call limits
+- **Consider upgrading** before reaching limits during important campaigns
+
+---
+
+### 4. Bot Not Speaking Customer Names
+
+<Warning>
+  **Issue:** "Bot is not speaking the name of the customer in the call, but I have uploaded FirstName correctly"
+</Warning>
+
+#### **Root Cause**
+The customer name data may not be properly uploaded or formatted in your audience list.
+
+#### **Troubleshooting Steps**
+
+<Steps>
+  <Step title="Verify Audience Data">
+    1. **Open your audience list** in the Vodex dashboard
+    2. **Check the FirstName column** for the specific contacts
+    3. **Look for empty cells** or formatting issues
+    4. **Verify data is visible** in the preview
+  </Step>
+  
+  <Step title="Check Field Mapping">
+    1. **Confirm field names match** between your prompt and audience data
+    2. **Ensure no extra spaces** in field names
+    3. **Verify case sensitivity** (FirstName vs firstname)
+  </Step>
+  
+  <Step title="Test with Sample Data">
+    1. **Create a test contact** with a simple name
+    2. **Run a test call** to verify the field works
+    3. **Compare working vs non-working entries**
+  </Step>
+  
+  <Step title="Contact Support if Needed">
+    If the issue persists after verification:
+    - **Email:** [support@vodex.ai](mailto:support@vodex.ai)
+    - **Include:** Screenshot of your audience data
+    - **Provide:** Sample prompt and field names used
+  </Step>
+</Steps>
+
+#### **Common Data Issues**
+
+| **Problem** | **Solution** |
+|-------------|--------------|
+| Empty name fields | Fill in missing data or use fallback text |
+| Special characters in names | Remove or replace special characters |
+| Inconsistent formatting | Standardize name format across all entries |
+| Wrong column mapping | Ensure column headers match field names exactly |
+
+---
+
+## Quick Diagnostic Checklist
+
+Use this checklist to quickly identify and resolve common issues:
+
+<AccordionGroup>
+  <Accordion title="Call Triggering Issues">
+    - [ ] Time zone format is correct (`Asia/Kolkata` or `+05:30`)
+    - [ ] No spaces in custom field names
+    - [ ] All required fields are populated
+    - [ ] Prompt syntax is correct
+    - [ ] Account has sufficient call credits
+  </Accordion>
+  
+  <Accordion title="Custom Field Issues">
+    - [ ] Field names use underscores instead of spaces
+    - [ ] Field names match exactly between prompt and data
+    - [ ] Data is properly uploaded to audience list
+    - [ ] No special characters in field names
+    - [ ] Consistent naming convention used
+  </Accordion>
+  
+  <Accordion title="Audio and Voice Issues">
+    - [ ] Customer data is properly formatted
+    - [ ] Field mapping is correct
+    - [ ] Test calls work with sample data
+    - [ ] No empty or null values in critical fields
+  </Accordion>
+</AccordionGroup>
+
+---
+
+## Getting Additional Help
+
+### **Before Contacting Support**
+
+Gather this information to help us assist you faster:
+
+1. **Error message** (exact text or screenshot)
+2. **Steps to reproduce** the issue
+3. **Sample data** that's causing problems
+4. **Prompt content** you're using
+5. **Account information** and project details
+
+### **Contact Information**
+
+<Card title="Vodex Support" icon="envelope">
+  **Email:** [support@vodex.ai](mailto:support@vodex.ai)
+  
+  **Response Time:** Within 24 hours during business days
+  
+  **Include in your message:**
+  - Clear description of the issue
+  - Screenshots or error messages
+  - Steps you've already tried
+</Card>
+
+### **Community Resources**
+
+- **Documentation:** Browse our complete guides and API reference
+- **Best Practices:** Learn from our recommended approaches
+- **Updates:** Stay informed about new features and fixes
+
+---
+
+## Prevention Best Practices
+
+### **Avoid Common Mistakes**
+
+<Tip>
+  **Field Naming:** Always use underscores instead of spaces in custom field names from the start.
+</Tip>
+
+<Tip>
+  **Time Zones:** Use standard IANA timezone names or proper UTC offset formats.
+</Tip>
+
+<Tip>
+  **Data Quality:** Regularly audit your audience data for completeness and accuracy.
+</Tip>
+
+<Tip>
+  **Testing:** Always test with sample data before running full campaigns.
+</Tip>
+
+### **Regular Maintenance**
+
+- **Review error logs** weekly to catch recurring issues
+- **Update field mappings** when changing data sources
+- **Monitor call limits** and upgrade proactively
+- **Keep audience data** clean and up-to-date
+
+<Check>
+  **Issue Resolved?** Most common issues can be resolved by following the solutions above. If you're still experiencing problems, don't hesitate to contact our support team for personalized assistance.
+</Check>
+
+---
+
+**Need more help with custom fields?** Check out our [Custom Fields Introduction](/custom-fields/introduction) and [Best Practices](/custom-fields/best-practices) guides for comprehensive information.

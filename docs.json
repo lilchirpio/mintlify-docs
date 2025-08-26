@@ -32,6 +32,31 @@
               "custom-fields/introduction",
               "custom-fields/best-practices"
             ]
+          },
+          {
+            "group": "Call Settings",
+            "pages": [
+              "call-settings/overview",
+              "call-settings/advanced-settings"
+            ]
+          },
+          {
+            "group": "Send SMS, WhatsApp or Email on Call",
+            "pages": [
+              "messaging/on-call-messaging"
+            ]
+          },
+          {
+            "group": "✨ Insights (Ask AI)",
+            "pages": [
+              "insights/overview"
+            ]
+          },
+          {
+            "group": "Troubleshooting Guide",
+            "pages": [
+              "troubleshooting/common-issues"
+            ]
           }
         ]
       },
