@@ -154,5 +154,12 @@
     "socials": {
       "linkedin": "https://www.linkedin.com/company/vodexai/"
     }
+  },
+  "background": {
+    "image": {
+      "dark": "logo/vodex-full.svg",
+      "light": "logo/vodex-full.svg"
+    },
+    "decoration": "windows"
   }
 }
