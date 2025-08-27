@@ -1,0 +1,248 @@
+---
+title: 'Requirements for SIP Trunk Integrations'
+description: 'Complete guide to SIP Trunk integration requirements and setup for Vodex.ai'
+---
+
+<Warning>
+  **💰 Paid Plan Feature:** SIP Trunk integration is available on paid plans only. Free tier users can integrate Twilio SIP Trunks as an alternative.
+</Warning>
+
+## Overview
+
+SIP (Session Initiation Protocol) Trunks allow you to connect your existing telephony infrastructure with Vodex.ai for seamless call routing and management. This guide outlines the technical requirements and information needed for successful SIP Trunk integration.
+
+---
+
+## Required Information
+
+To integrate a SIP Trunk with Vodex.ai, you'll need to provide the following technical details:
+
+### 1. Connection Details
+
+<CardGroup cols={2}>
+  <Card title="🌐 IP Address or FQDN" icon="globe">
+    **IP Address:** Static IP address of your SIP Trunk provider
+    
+    **FQDN:** Fully Qualified Domain Name (e.g., sip.yourprovider.com)
+    
+    *Example: `203.0.113.10` or `trunk.siprovider.com`*
+  </Card>
+  <Card title="🔌 Port Configuration" icon="plug">
+    **SIP Port:** Usually 5060 (UDP) or 5061 (TLS)
+    
+    **RTP Port Range:** For media transmission
+    
+    *Example: `5060` or `5061`*
+  </Card>
+</CardGroup>
+
+### 2. Authentication (If Required)
+
+<Note>
+  Authentication is only required if your SIP Trunk is not configured for peer-to-peer connection.
+</Note>
+
+| Field | Description | Example |
+|-------|-------------|---------|
+| **Username** | SIP authentication username | `vodex_user_123` |
+| **Password** | SIP authentication password | `SecurePass123!` |
+| **Realm** | Authentication realm (optional) | `sip.provider.com` |
+
+### 3. Caller Line Identification (CLI)
+
+<Tip>
+  CLI management allows Vodex to handle caller ID presentation and routing.
+</Tip>
+
+**CLI Requirements:**
+- **Format:** E.164 format preferred (+1234567890)
+- **Validation:** Must be authorized by your SIP provider
+- **Presentation:** Configure how caller ID appears to recipients
+
+### 4. DID Configuration (Optional)
+
+#### DID Range
+Specify the range of Direct Inward Dialing numbers available:
+
+```
+Start DID: +1234567000
+End DID:   +1234567999
+Total DIDs: 1000 numbers
+```
+
+#### DID Prefix
+Configure number formatting and routing:
+
+```
+Country Code: +1
+Area Code: 234
+Prefix: 567
+Format: +1234567XXXX
+```
+
+---
+
+## SIP Trunk Types
+
+### Peer-to-Peer Connection
+- **Authentication:** Not required
+- **Security:** IP-based authentication
+- **Configuration:** Simpler setup
+- **Use Case:** Direct carrier connections
+
+### Registered Connection
+- **Authentication:** Username/Password required
+- **Security:** Credential-based authentication
+- **Configuration:** More secure
+- **Use Case:** Third-party SIP providers
+
+---
+
+## Technical Requirements
+
+### Network Configuration
+
+<Steps>
+  <Step title="Firewall Configuration">
+    Open required ports for SIP signaling and RTP media:
+    - **SIP Signaling:** 5060 (UDP) or 5061 (TLS)
+    - **RTP Media:** 10000-20000 (UDP range)
+  </Step>
+  <Step title="NAT Considerations">
+    Configure NAT traversal if your SIP Trunk is behind NAT:
+    - Enable STUN/TURN servers if needed
+    - Configure proper port forwarding
+  </Step>
+  <Step title="Quality of Service">
+    Implement QoS policies for optimal call quality:
+    - Prioritize SIP and RTP traffic
+    - Ensure sufficient bandwidth allocation
+  </Step>
+</Steps>
+
+### Codec Support
+
+Vodex.ai supports the following audio codecs:
+
+| Codec | Bitrate | Quality | Bandwidth Usage |
+|-------|---------|---------|-----------------|
+| **G.711 (PCMU/PCMA)** | 64 kbps | High | ~87 kbps |
+| **G.729** | 8 kbps | Good | ~31 kbps |
+| **G.722** | 64 kbps | HD Audio | ~87 kbps |
+
+---
+
+## Integration Checklist
+
+Before submitting your SIP Trunk integration request, ensure you have:
+
+- [ ] **Connection Details**
+  - [ ] IP Address or FQDN
+  - [ ] Port configuration
+  - [ ] Protocol specification (UDP/TCP/TLS)
+
+- [ ] **Authentication Information** (if required)
+  - [ ] Username and password
+  - [ ] Authentication realm
+
+- [ ] **CLI Configuration**
+  - [ ] Authorized caller ID numbers
+  - [ ] CLI presentation preferences
+
+- [ ] **DID Information** (if applicable)
+  - [ ] DID range specification
+  - [ ] Number formatting preferences
+  - [ ] Routing requirements
+
+- [ ] **Network Preparation**
+  - [ ] Firewall rules configured
+  - [ ] NAT traversal setup (if needed)
+  - [ ] QoS policies implemented
+
+---
+
+## Common Configuration Examples
+
+### Example 1: Basic Peer-to-Peer Setup
+
+```yaml
+Connection Type: Peer-to-Peer
+SIP Server: 203.0.113.10
+Port: 5060
+Protocol: UDP
+Authentication: None
+CLI: +1234567890
+```
+
+### Example 2: Registered SIP Trunk
+
+```yaml
+Connection Type: Registered
+SIP Server: sip.provider.com
+Port: 5061
+Protocol: TLS
+Username: vodex_account
+Password: SecurePassword123
+CLI Range: +1234567000 to +1234567999
+DID Prefix: +1234567
+```
+
+### Example 3: Enterprise Setup
+
+```yaml
+Connection Type: Registered
+SIP Server: enterprise.siptrunk.com
+Port: 5060
+Protocol: UDP
+Username: enterprise_user
+Password: EnterprisePass456
+CLI Management: Vodex Managed
+DID Range: +1555000000 to +1555000099
+DID Prefix: +1555000
+Codec Preference: G.711, G.729
+```
+
+---
+
+## Free Tier Alternative: Twilio Integration
+
+<Info>
+  Free tier users can integrate Twilio SIP Trunks for telephony functionality.
+</Info>
+
+For free tier users, consider using Twilio SIP Trunks:
+
+1. **Create Twilio Account:** Sign up at [twilio.com](https://twilio.com)
+2. **Configure SIP Trunk:** Set up SIP trunk in Twilio console
+3. **Get Credentials:** Obtain SIP domain and authentication details
+4. **Integrate with Vodex:** Use Twilio SIP credentials in Vodex configuration
+
+**Twilio SIP Configuration Example:**
+```yaml
+SIP Domain: yourapp.sip.twilio.com
+Username: Your Twilio Account SID
+Password: Your Twilio Auth Token
+```
+
+---
+
+## Support and Next Steps
+
+### Getting Help
+
+If you need assistance with SIP Trunk integration:
+
+- **Technical Support:** [support@vodex.ai](mailto:support@vodex.ai)
+- **Documentation:** Review our [Call Settings Guide](/call-settings/overview)
+- **Live Chat:** Available in your Vodex dashboard
+
+### Integration Process
+
+1. **Gather Requirements:** Complete the checklist above
+2. **Submit Request:** Contact support with your SIP Trunk details
+3. **Testing Phase:** We'll configure and test the connection
+4. **Go Live:** Activate your SIP Trunk integration
+
+<Tip>
+  **Pro Tip:** Have your network administrator available during the integration process to assist with any firewall or network configuration changes that may be needed.
+</Tip>

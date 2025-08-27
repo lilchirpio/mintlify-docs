@@ -76,6 +76,12 @@
             "pages": [
               "troubleshooting/common-issues"
             ]
+          },
+          {
+            "group": "❓ FAQs",
+            "pages": [
+              "faqs/sip-trunk-requirements"
+            ]
           }
         ]
       },
