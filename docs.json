@@ -152,7 +152,8 @@
   },
   "footer": {
     "socials": {
-      "linkedin": "https://www.linkedin.com/company/vodexai/"
+      "linkedin": "https://www.linkedin.com/company/vodexai/",
+      "website": "https://vodex.ai"
     }
   },
   "background": {
