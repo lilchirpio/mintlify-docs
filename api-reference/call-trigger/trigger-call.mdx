@@ -155,11 +155,13 @@ Use the `insightsTriggerCall` schema for data collection:
   "insights": [
     {
       "question": "How satisfied are you with our service?",
-      "type": "rating"
+      "type": "boolean",
+      "name": "satisfied"
     },
     {
       "question": "What improvements would you suggest?",
-      "type": "text"
+      "type": "string",
+      "name": "suggestion"
     }
   ],
   "consentForCalls": true
