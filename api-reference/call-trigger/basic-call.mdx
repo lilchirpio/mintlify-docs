@@ -1,0 +1,24 @@
+---
+openapi: post /api/v1/trigger-call
+---
+
+<Warning>
+  **🚨 Privacy & Consent Required:** We value the privacy and preferences of customers. Phone calls can only be made to individuals who have explicitly provided their consent. Failing to comply with this policy may result in account suspension.
+</Warning>
+
+<Warning>
+  **⚠️ Terms Confirmation:** By using this API, you confirm that you have obtained the necessary consent from the provided phone numbers to be contacted. Please ensure you have reviewed and agree to our terms and conditions.
+</Warning>
+
+## Important Consent Requirements
+
+Before using this API, you **must** ensure:
+
+- ✅ **Explicit Consent:** All phone numbers have explicitly consented to receive calls
+- ✅ **Documentation:** You have documented proof of consent for each contact
+- ✅ **Compliance:** You comply with local privacy laws (GDPR, CCPA, etc.)
+- ✅ **Opt-out Options:** You provide clear opt-out mechanisms for contacts
+
+<Note>
+  The `consentForCalls` parameter must be set to `true` in your API request to confirm you have obtained proper consent from all contacts.
+</Note>

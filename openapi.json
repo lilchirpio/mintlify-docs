@@ -905,9 +905,9 @@
         "tags": [
           "Call Trigger"
         ],
-        "summary": "Trigger Campaign Call",
-        "description": "Initiate automated calls for a campaign. You can pass custom parameters defined in your agent configuration by including the field name and value for each contact.",
-        "operationId": "triggerAutomaticCallController",
+        "summary": "Basic Trigger Call",
+        "description": "Trigger basic automated calls with firstName, lastName, and phone number. This is the simplest way to initiate calls with minimal required information.",
+        "operationId": "triggerBasicCallController",
         "parameters": [
           {
             "name": "Authorization",
@@ -917,14 +917,193 @@
             "schema": {
               "type": "string"
             }
+          },
+          {
+            "name": "dburl",
+            "in": "header",
+            "description": "Database URL - unique account identifier",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
           }
         ],
         "requestBody": {
-          "description": "payload",
+          "description": "Basic call trigger payload with consent confirmation",
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/triggerCall"
+                "$ref": "#/components/schemas/basicTriggerCall"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Basic calls triggered successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/triggerCallResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request - Invalid call data or missing consent",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized - Invalid API key",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        },
+        "x-swagger-router-controller": "triggerCallController",
+        "x-codegen-request-body-name": "body"
+      }
+    },
+    "/api/v1/trigger-call/dynamic-fields": {
+      "post": {
+        "tags": [
+          "Call Trigger"
+        ],
+        "summary": "Trigger Call with Dynamic Fields",
+        "description": "Trigger calls with custom dynamic fields beyond firstName and lastName. Perfect for personalized conversations using agent prompts with custom field variables.",
+        "operationId": "triggerDynamicFieldsCallController",
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "API Key - authentication token for your account",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "dburl",
+            "in": "header",
+            "description": "Database URL - unique account identifier",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "Call trigger payload with dynamic custom fields",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/dynamicFieldsTriggerCall"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Dynamic field calls triggered successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/triggerCallResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request - Invalid dynamic field data",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized - Invalid API key",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        },
+        "x-swagger-router-controller": "triggerCallController",
+        "x-codegen-request-body-name": "body"
+      }
+    },
+    "/api/v1/trigger-call/with-campaign": {
+      "post": {
+        "tags": [
+          "Call Trigger"
+        ],
+        "summary": "Trigger Call with Campaign",
+        "description": "Trigger calls organized under a specific campaign name for better tracking, analytics, and management. Essential for businesses running multiple campaigns.",
+        "operationId": "triggerCampaignCallController",
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "API Key - authentication token for your account",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "dburl",
+            "in": "header",
+            "description": "Database URL - unique account identifier",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "Call trigger payload with campaign organization",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/campaignTriggerCall"
               }
             }
           },
@@ -936,13 +1115,98 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ApiResponse"
+                  "$ref": "#/components/schemas/campaignTriggerCallResponse"
                 }
               }
             }
           },
           "400": {
-            "description": "Bad Request - Invalid call data",
+            "description": "Bad Request - Invalid campaign data",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized - Invalid API key",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        },
+        "x-swagger-router-controller": "triggerCallController",
+        "x-codegen-request-body-name": "body"
+      }
+    },
+    "/api/v1/trigger-call/with-insights": {
+      "post": {
+        "tags": [
+          "Call Trigger"
+        ],
+        "summary": "Trigger Call with Insights",
+        "description": "Trigger calls with AI-powered insights collection. Automatically gather structured data from conversations using predefined questions and response types.",
+        "operationId": "triggerInsightsCallController",
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "API Key - authentication token for your account",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "dburl",
+            "in": "header",
+            "description": "Database URL - unique account identifier",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "Call trigger payload with insights collection configuration",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/insightsTriggerCall"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Insights calls triggered successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/insightsTriggerCallResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request - Invalid insights configuration",
             "content": {
               "application/json": {
                 "schema": {
@@ -3546,6 +3810,305 @@
             "type": "array",
             "items": {
               "$ref": "#/components/schemas/ValidationError"
+            }
+          }
+        }
+      },
+      "basicTriggerCall": {
+        "required": [
+          "callList",
+          "projectId",
+          "consentForCalls"
+        ],
+        "type": "object",
+        "properties": {
+          "callList": {
+            "type": "array",
+            "description": "Array of contact objects with basic information",
+            "items": {
+              "$ref": "#/components/schemas/basicContact"
+            }
+          },
+          "projectId": {
+            "type": "string",
+            "description": "Your Vodex project ID"
+          },
+          "consentForCalls": {
+            "type": "boolean",
+            "description": "Must be true to confirm consent for calling"
+          }
+        }
+      },
+      "basicContact": {
+        "required": [
+          "firstName",
+          "lastName",
+          "phone"
+        ],
+        "type": "object",
+        "properties": {
+          "firstName": {
+            "type": "string",
+            "description": "Contact's first name"
+          },
+          "lastName": {
+            "type": "string",
+            "description": "Contact's last name"
+          },
+          "phone": {
+            "type": "string",
+            "description": "Contact's phone number with country code"
+          }
+        }
+      },
+      "dynamicFieldsTriggerCall": {
+        "required": [
+          "callList",
+          "projectId",
+          "consentForCalls"
+        ],
+        "type": "object",
+        "properties": {
+          "callList": {
+            "type": "array",
+            "description": "Array of contact objects with dynamic custom fields",
+            "items": {
+              "$ref": "#/components/schemas/dynamicContact"
+            }
+          },
+          "projectId": {
+            "type": "string",
+            "description": "Your Vodex project ID"
+          },
+          "consentForCalls": {
+            "type": "boolean",
+            "description": "Must be true to confirm consent for calling"
+          }
+        }
+      },
+      "dynamicContact": {
+        "required": [
+          "firstName",
+          "lastName",
+          "phone"
+        ],
+        "type": "object",
+        "properties": {
+          "firstName": {
+            "type": "string",
+            "description": "Contact's first name"
+          },
+          "lastName": {
+            "type": "string",
+            "description": "Contact's last name"
+          },
+          "phone": {
+            "type": "string",
+            "description": "Contact's phone number with country code"
+          },
+          "address": {
+            "type": "string",
+            "description": "Contact's address (dynamic field example)"
+          },
+          "email": {
+            "type": "string",
+            "description": "Contact's email address (dynamic field example)"
+          },
+          "company": {
+            "type": "string",
+            "description": "Contact's company name (dynamic field example)"
+          }
+        },
+        "additionalProperties": {
+          "type": "string",
+          "description": "Any additional custom fields used in your agent prompt"
+        }
+      },
+      "campaignTriggerCall": {
+        "required": [
+          "callList",
+          "projectId",
+          "campaignName",
+          "consentForCalls"
+        ],
+        "type": "object",
+        "properties": {
+          "callList": {
+            "type": "array",
+            "description": "Array of contact objects for the campaign",
+            "items": {
+              "$ref": "#/components/schemas/basicContact"
+            }
+          },
+          "projectId": {
+            "type": "string",
+            "description": "Your Vodex project ID"
+          },
+          "campaignName": {
+            "type": "string",
+            "description": "Name to organize calls under for tracking and analytics"
+          },
+          "consentForCalls": {
+            "type": "boolean",
+            "description": "Must be true to confirm consent for calling"
+          }
+        }
+      },
+      "insightsTriggerCall": {
+        "required": [
+          "callList",
+          "projectId",
+          "insights",
+          "consentForCalls"
+        ],
+        "type": "object",
+        "properties": {
+          "callList": {
+            "type": "array",
+            "description": "Array of contact objects for insights collection",
+            "items": {
+              "$ref": "#/components/schemas/basicContact"
+            }
+          },
+          "projectId": {
+            "type": "string",
+            "description": "Your Vodex project ID"
+          },
+          "insights": {
+            "type": "array",
+            "description": "Array of insight questions to collect during calls",
+            "items": {
+              "$ref": "#/components/schemas/insightQuestion"
+            }
+          },
+          "consentForCalls": {
+            "type": "boolean",
+            "description": "Must be true to confirm consent for calling"
+          }
+        }
+      },
+      "insightQuestion": {
+        "required": [
+          "question",
+          "type",
+          "key"
+        ],
+        "type": "object",
+        "properties": {
+          "question": {
+            "type": "string",
+            "description": "The question to ask or information to collect"
+          },
+          "type": {
+            "type": "string",
+            "enum": ["text", "number", "boolean"],
+            "description": "Type of response expected"
+          },
+          "key": {
+            "type": "string",
+            "description": "A variable name for the question"
+          }
+          
+        }
+      },
+      "triggerCallResponse": {
+        "type": "object",
+        "properties": {
+          "success": {
+            "type": "boolean",
+            "description": "Whether the call trigger was successful"
+          },
+          "message": {
+            "type": "string",
+            "description": "Response message"
+          },
+          "data": {
+            "type": "object",
+            "properties": {
+              "callsTriggered": {
+                "type": "integer",
+                "description": "Number of calls triggered"
+              },
+              "callIds": {
+                "type": "array",
+                "description": "Array of call IDs generated",
+                "items": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      },
+      "campaignTriggerCallResponse": {
+        "type": "object",
+        "properties": {
+          "success": {
+            "type": "boolean",
+            "description": "Whether the campaign call trigger was successful"
+          },
+          "message": {
+            "type": "string",
+            "description": "Response message"
+          },
+          "data": {
+            "type": "object",
+            "properties": {
+              "campaignName": {
+                "type": "string",
+                "description": "Name of the campaign"
+              },
+              "callsTriggered": {
+                "type": "integer",
+                "description": "Number of calls triggered"
+              },
+              "callIds": {
+                "type": "array",
+                "description": "Array of call IDs generated",
+                "items": {
+                  "type": "string"
+                }
+              },
+              "campaignId": {
+                "type": "string",
+                "description": "Generated campaign ID"
+              }
+            }
+          }
+        }
+      },
+      "insightsTriggerCallResponse": {
+        "type": "object",
+        "properties": {
+          "success": {
+            "type": "boolean",
+            "description": "Whether the insights call trigger was successful"
+          },
+          "message": {
+            "type": "string",
+            "description": "Response message"
+          },
+          "data": {
+            "type": "object",
+            "properties": {
+              "callsTriggered": {
+                "type": "integer",
+                "description": "Number of calls triggered"
+              },
+              "callIds": {
+                "type": "array",
+                "description": "Array of call IDs generated",
+                "items": {
+                  "type": "string"
+                }
+              },
+              "insightsConfigured": {
+                "type": "array",
+                "description": "List of insight questions configured",
+                "items": {
+                  "type": "string"
+                }
+              }
             }
           }
         }

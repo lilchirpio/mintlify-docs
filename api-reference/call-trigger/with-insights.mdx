@@ -1,0 +1,43 @@
+---
+openapi: post /api/v1/trigger-call/with-insights
+---
+
+<Warning>
+  **🚨 Privacy & Consent Required:** We value the privacy and preferences of customers. Phone calls can only be made to individuals who have explicitly provided their consent. Failing to comply with this policy may result in account suspension.
+</Warning>
+
+<Warning>
+  **⚠️ Terms Confirmation:** By using this API, you confirm that you have obtained the necessary consent from the provided phone numbers to be contacted. Please ensure you have reviewed and agree to our terms and conditions.
+</Warning>
+
+## Important Consent Requirements
+
+Before collecting insights during calls, you **must** ensure:
+
+- ✅ **Explicit Consent:** All phone numbers have explicitly consented to receive calls
+- ✅ **Data Collection Consent:** Contacts have agreed to participate in surveys/data collection
+- ✅ **AI Processing Consent:** Contacts understand their responses will be processed by AI
+- ✅ **Documentation:** You have documented proof of consent for each contact
+- ✅ **Compliance:** You comply with local privacy laws (GDPR, CCPA, etc.)
+- ✅ **Opt-out Options:** You provide clear opt-out mechanisms for contacts
+- ✅ **Transparency:** Contacts understand what data is being collected and how it will be used
+
+<Note>
+  The `consentForCalls` parameter must be set to `true` in your API request to confirm you have obtained proper consent from all contacts for both calling and data collection through insights.
+</Note>
+
+## Insights-Specific Privacy Considerations
+
+When collecting AI-powered insights, additional privacy protections are required:
+
+- **Survey Consent:** Contacts must explicitly agree to participate in surveys or data collection
+- **AI Processing:** Inform contacts that their responses will be analyzed by AI systems
+- **Data Usage:** Clearly explain how collected insights will be used and stored
+- **Response Recording:** Notify contacts if their responses will be recorded or transcribed
+- **Data Sharing:** Disclose if insights data will be shared with third parties
+- **Retention Period:** Specify how long insights data will be retained
+- **Access Rights:** Provide contacts with rights to access, modify, or delete their response data
+
+<Tip>
+  Consider implementing a double opt-in process for insights collection to ensure clear consent for both the call and the data collection activities.
+</Tip>

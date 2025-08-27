@@ -1,0 +1,33 @@
+---
+openapi: post /api/v1/trigger-call/dynamic-fields
+---
+
+<Warning>
+  **🚨 Privacy & Consent Required:** We value the privacy and preferences of customers. Phone calls can only be made to individuals who have explicitly provided their consent. Failing to comply with this policy may result in account suspension.
+</Warning>
+
+<Warning>
+  **⚠️ Terms Confirmation:** By using this API, you confirm that you have obtained the necessary consent from the provided phone numbers to be contacted. Please ensure you have reviewed and agree to our terms and conditions.
+</Warning>
+
+## Important Consent Requirements
+
+Before using this API with dynamic fields, you **must** ensure:
+
+- ✅ **Explicit Consent:** All phone numbers have explicitly consented to receive calls
+- ✅ **Data Privacy:** Contacts have consented to the use of their personal data (address, email, company info, etc.)
+- ✅ **Documentation:** You have documented proof of consent for each contact and their data usage
+- ✅ **Compliance:** You comply with local privacy laws (GDPR, CCPA, etc.)
+- ✅ **Opt-out Options:** You provide clear opt-out mechanisms for contacts
+
+<Note>
+  The `consentForCalls` parameter must be set to `true` in your API request to confirm you have obtained proper consent from all contacts for both calling and using their personal data in dynamic fields.
+</Note>
+
+## Dynamic Fields & Privacy
+
+When using dynamic fields, you're handling additional personal information beyond basic contact details. Ensure you have proper consent for:
+
+- **Personal Data Usage:** Using custom fields like address, email, company information
+- **Data Processing:** AI processing of personal information during calls
+- **Data Storage:** Storing and accessing personal data for call personalization
