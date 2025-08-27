@@ -89,88 +89,12 @@
             ]
           },
           {
-            "group": "Projects",
-            "pages": [
-              "./api-reference/projects/create-projects",
-              "./api-reference/projects/get-all-projects",
-              "./api-reference/projects/delete-projects"
-            ]
-          },
-          {
-            "group": "Audience",
-            "pages": [
-              "./api-reference/audience/create-audience-list",
-              "./api-reference/audience/get-audience-list",
-              "./api-reference/audience/edit-audience-list",
-              "./api-reference/audience/delete-audience-list-by-id"
-            ]
-          },
-          {
-            "group": "Agent Setting",
-            "pages": [
-              "./api-reference/agent-setting/create-agent-setting",
-              "./api-reference/agent-setting/get-agent-setting",
-              "./api-reference/agent-setting/edit-agent-setting",
-              "./api-reference/agent-setting/import-agent",
-              "./api-reference/agent-setting/set-default-agent"
-            ]
-          },
-          {
-            "group": "Campaign",
-            "pages": [
-              "./api-reference/campaign/create-campaign",
-              "./api-reference/campaign/get-all-campaign",
-              "./api-reference/campaign/delete-campaign"
-            ]
-          },
-          {
-            "group": "Campaign Runs",
-            "pages": [
-              "./api-reference/campaign-runs/get-all-campaign-runs"
-            ]
-          },
-          {
             "group": "Call Trigger",
             "pages": [
               "./api-reference/call-trigger/basic-call",
               "./api-reference/call-trigger/dynamic-fields",
               "./api-reference/call-trigger/with-campaign",
               "./api-reference/call-trigger/with-insights"
-            ]
-          },
-          {
-            "group": "Call Setting",
-            "pages": [
-              "./api-reference/call-setting/post-apiv1call-settings",
-              "./api-reference/call-setting/get-call-setting-by-projectid",
-              "./api-reference/call-setting/delete-call-setting-by-id"
-            ]
-          },
-          {
-            "group": "Advance Settings",
-            "pages": [
-              "./api-reference/advance-settings/create-or-update-advance-settings",
-              "./api-reference/advance-settings/get-advance-settings"
-            ]
-          },
-          {
-            "group": "Appointment Settings",
-            "pages": [
-              "./api-reference/appointment-settings/post-apiv1appointment-settings",
-              "./api-reference/appointment-settings/get-appointment-setting-by-projectid"
-            ]
-          },
-          {
-            "group": "Dashboard",
-            "pages": [
-              "./api-reference/dashboard/dashboard-api",
-              "./api-reference/dashboard/dashboard-charts-api"
-            ]
-          },
-          {
-            "group": "Run Campaign Details",
-            "pages": [
-              "./api-reference/run-campaign-details/get-run-campaign-details"
             ]
           },
           {
