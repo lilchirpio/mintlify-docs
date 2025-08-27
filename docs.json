@@ -1,6 +1,6 @@
 {
   "$schema": "https://mintlify.com/docs.json",
-  "theme": "mint",
+  "theme": "almond",
   "name": "Vodex.ai Documentation",
   "colors": {
     "primary": "#FF4D00",
