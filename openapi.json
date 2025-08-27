@@ -905,9 +905,9 @@
         "tags": [
           "Call Trigger"
         ],
-        "summary": "Basic Trigger Call",
-        "description": "Trigger basic automated calls with firstName, lastName, and phone number. This is the simplest way to initiate calls with minimal required information.",
-        "operationId": "triggerBasicCallController",
+        "summary": "Trigger Call",
+        "description": "Trigger automated calls with various configurations: basic calls, dynamic fields, campaign organization, or insights collection. The API supports multiple request formats based on your needs.",
+        "operationId": "triggerCallController",
         "parameters": [
           {
             "name": "Authorization",
@@ -929,11 +929,28 @@
           }
         ],
         "requestBody": {
-          "description": "Basic call trigger payload with consent confirmation",
+          "description": "Call trigger payload - supports basic calls, dynamic fields, campaigns, or insights collection",
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/basicTriggerCall"
+                "oneOf": [
+                  {
+                    "$ref": "#/components/schemas/basicTriggerCall",
+                    "title": "Basic Call"
+                  },
+                  {
+                    "$ref": "#/components/schemas/dynamicFieldsTriggerCall",
+                    "title": "Call with Dynamic Fields"
+                  },
+                  {
+                    "$ref": "#/components/schemas/campaignTriggerCall",
+                    "title": "Call with Campaign"
+                  },
+                  {
+                    "$ref": "#/components/schemas/insightsTriggerCall",
+                    "title": "Call with Insights"
+                  }
+                ]
               }
             }
           },
@@ -941,272 +958,27 @@
         },
         "responses": {
           "200": {
-            "description": "Basic calls triggered successfully",
+            "description": "Calls triggered successfully",
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/triggerCallResponse"
+                  "oneOf": [
+                    {
+                      "$ref": "#/components/schemas/triggerCallResponse"
+                    },
+                    {
+                      "$ref": "#/components/schemas/campaignTriggerCallResponse"
+                    },
+                    {
+                      "$ref": "#/components/schemas/insightsTriggerCallResponse"
+                    }
+                  ]
                 }
               }
             }
           },
           "400": {
             "description": "Bad Request - Invalid call data or missing consent",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponse"
-                }
-              }
-            }
-          },
-          "401": {
-            "description": "Unauthorized - Invalid API key",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponse"
-                }
-              }
-            }
-          },
-          "500": {
-            "description": "Internal Server Error",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponse"
-                }
-              }
-            }
-          }
-        },
-        "x-swagger-router-controller": "triggerCallController",
-        "x-codegen-request-body-name": "body"
-      }
-    },
-    "/api/v1/trigger-call/dynamic-fields": {
-      "post": {
-        "tags": [
-          "Call Trigger"
-        ],
-        "summary": "Trigger Call with Dynamic Fields",
-        "description": "Trigger calls with custom dynamic fields beyond firstName and lastName. Perfect for personalized conversations using agent prompts with custom field variables.",
-        "operationId": "triggerDynamicFieldsCallController",
-        "parameters": [
-          {
-            "name": "Authorization",
-            "in": "header",
-            "description": "API Key - authentication token for your account",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "dburl",
-            "in": "header",
-            "description": "Database URL - unique account identifier",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "requestBody": {
-          "description": "Call trigger payload with dynamic custom fields",
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/dynamicFieldsTriggerCall"
-              }
-            }
-          },
-          "required": true
-        },
-        "responses": {
-          "200": {
-            "description": "Dynamic field calls triggered successfully",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/triggerCallResponse"
-                }
-              }
-            }
-          },
-          "400": {
-            "description": "Bad Request - Invalid dynamic field data",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponse"
-                }
-              }
-            }
-          },
-          "401": {
-            "description": "Unauthorized - Invalid API key",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponse"
-                }
-              }
-            }
-          },
-          "500": {
-            "description": "Internal Server Error",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponse"
-                }
-              }
-            }
-          }
-        },
-        "x-swagger-router-controller": "triggerCallController",
-        "x-codegen-request-body-name": "body"
-      }
-    },
-    "/api/v1/trigger-call/with-campaign": {
-      "post": {
-        "tags": [
-          "Call Trigger"
-        ],
-        "summary": "Trigger Call with Campaign",
-        "description": "Trigger calls organized under a specific campaign name for better tracking, analytics, and management. Essential for businesses running multiple campaigns.",
-        "operationId": "triggerCampaignCallController",
-        "parameters": [
-          {
-            "name": "Authorization",
-            "in": "header",
-            "description": "API Key - authentication token for your account",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "dburl",
-            "in": "header",
-            "description": "Database URL - unique account identifier",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "requestBody": {
-          "description": "Call trigger payload with campaign organization",
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/campaignTriggerCall"
-              }
-            }
-          },
-          "required": true
-        },
-        "responses": {
-          "200": {
-            "description": "Campaign calls triggered successfully",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/campaignTriggerCallResponse"
-                }
-              }
-            }
-          },
-          "400": {
-            "description": "Bad Request - Invalid campaign data",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponse"
-                }
-              }
-            }
-          },
-          "401": {
-            "description": "Unauthorized - Invalid API key",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponse"
-                }
-              }
-            }
-          },
-          "500": {
-            "description": "Internal Server Error",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponse"
-                }
-              }
-            }
-          }
-        },
-        "x-swagger-router-controller": "triggerCallController",
-        "x-codegen-request-body-name": "body"
-      }
-    },
-    "/api/v1/trigger-call/with-insights": {
-      "post": {
-        "tags": [
-          "Call Trigger"
-        ],
-        "summary": "Trigger Call with Insights",
-        "description": "Trigger calls with AI-powered insights collection. Automatically gather structured data from conversations using predefined questions and response types.",
-        "operationId": "triggerInsightsCallController",
-        "parameters": [
-          {
-            "name": "Authorization",
-            "in": "header",
-            "description": "API Key - authentication token for your account",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "dburl",
-            "in": "header",
-            "description": "Database URL - unique account identifier",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "requestBody": {
-          "description": "Call trigger payload with insights collection configuration",
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/insightsTriggerCall"
-              }
-            }
-          },
-          "required": true
-        },
-        "responses": {
-          "200": {
-            "description": "Insights calls triggered successfully",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/insightsTriggerCallResponse"
-                }
-              }
-            }
-          },
-          "400": {
-            "description": "Bad Request - Invalid insights configuration",
             "content": {
               "application/json": {
                 "schema": {

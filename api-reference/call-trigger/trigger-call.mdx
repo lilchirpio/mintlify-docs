@@ -1,0 +1,173 @@
+---
+openapi: post /api/v1/trigger-call
+---
+
+<Warning>
+  **🚨 Privacy & Consent Required:** We value the privacy and preferences of customers. Phone calls can only be made to individuals who have explicitly provided their consent. Failing to comply with this policy may result in account suspension.
+</Warning>
+
+<Warning>
+  **⚠️ Terms Confirmation:** By using this API, you confirm that you have obtained the necessary consent from the provided phone numbers to be contacted. Please ensure you have reviewed and agree to our terms and conditions.
+</Warning>
+
+## API Overview
+
+The Trigger Call API supports multiple call configurations through a single endpoint. You can trigger:
+
+<CardGroup cols={2}>
+  <Card title="🔹 Basic Calls" icon="phone">
+    Simple calls with firstName, lastName, and phone number
+  </Card>
+  <Card title="🎯 Dynamic Fields" icon="database">
+    Calls with custom fields for personalized conversations
+  </Card>
+  <Card title="📊 Campaign Calls" icon="chart-line">
+    Calls organized under campaign names for tracking
+  </Card>
+  <Card title="🧠 Insights Collection" icon="brain">
+    Calls with AI-powered data collection and analysis
+  </Card>
+</CardGroup>
+
+## Important Consent Requirements
+
+Before using this API, you **must** ensure:
+
+- ✅ **Explicit Consent:** All phone numbers have explicitly consented to receive calls
+- ✅ **Documentation:** You have documented proof of consent for each contact
+- ✅ **Compliance:** You comply with local privacy laws (GDPR, CCPA, etc.)
+- ✅ **Opt-out Options:** You provide clear opt-out mechanisms for contacts
+
+<Note>
+  The `consentForCalls` parameter must be set to `true` in your API request to confirm you have obtained proper consent from all contacts.
+</Note>
+
+## Call Configuration Types
+
+### 1. Basic Calls
+Use the `basicTriggerCall` schema for simple calls with minimal information:
+- `firstName`, `lastName`, `phone`
+- `projectId` and `consentForCalls`
+
+### 2. Dynamic Fields Calls
+Use the `dynamicFieldsTriggerCall` schema for personalized calls:
+- All basic fields plus custom fields (address, email, company, etc.)
+- Perfect for agent prompts that use `{customField}` variables
+- **Additional Privacy:** Ensure consent for personal data usage
+
+### 3. Campaign Calls
+Use the `campaignTriggerCall` schema for organized campaigns:
+- All basic fields plus `campaignName`
+- Better tracking and analytics
+- **Marketing Compliance:** Ensure consent for campaign communications
+
+### 4. Insights Collection
+Use the `insightsTriggerCall` schema for data collection:
+- All basic fields plus `insights` array with questions
+- AI-powered response analysis
+- **Survey Consent:** Ensure consent for data collection and AI processing
+
+## Privacy Considerations by Type
+
+<Tabs>
+  <Tab title="Basic Calls">
+    - Explicit consent for calling
+    - Clear opt-out mechanisms
+    - Compliance with local laws
+  </Tab>
+  <Tab title="Dynamic Fields">
+    - Consent for personal data usage
+    - Data processing transparency
+    - Custom field privacy protection
+  </Tab>
+  <Tab title="Campaign Calls">
+    - Marketing communication consent
+    - Campaign tracking disclosure
+    - Unsubscribe mechanisms
+  </Tab>
+  <Tab title="Insights Collection">
+    - Survey participation consent
+    - AI processing disclosure
+    - Data retention policies
+    - Response recording notification
+  </Tab>
+</Tabs>
+
+## Example Request Bodies
+
+<CodeGroup>
+
+```json Basic Call
+{
+  "callList": [
+    {
+      "firstName": "John",
+      "lastName": "Doe",
+      "phone": "+1234567890"
+    }
+  ],
+  "projectId": "your-project-id",
+  "consentForCalls": true
+}
+```
+
+```json Dynamic Fields
+{
+  "callList": [
+    {
+      "firstName": "Jane",
+      "lastName": "Smith",
+      "phone": "+1987654321",
+      "company": "Acme Corp",
+      "email": "jane@acme.com"
+    }
+  ],
+  "projectId": "your-project-id",
+  "consentForCalls": true
+}
+```
+
+```json Campaign Call
+{
+  "callList": [
+    {
+      "firstName": "Bob",
+      "lastName": "Johnson",
+      "phone": "+1555123456"
+    }
+  ],
+  "projectId": "your-project-id",
+  "campaignName": "Summer_Sale_2024",
+  "consentForCalls": true
+}
+```
+
+```json Insights Collection
+{
+  "callList": [
+    {
+      "firstName": "Alice",
+      "lastName": "Brown",
+      "phone": "+1555987654"
+    }
+  ],
+  "projectId": "your-project-id",
+  "insights": [
+    {
+      "question": "How satisfied are you with our service?",
+      "type": "rating"
+    },
+    {
+      "question": "What improvements would you suggest?",
+      "type": "text"
+    }
+  ],
+  "consentForCalls": true
+}
+```
+
+</CodeGroup>
+
+<Tip>
+  The API automatically detects which type of call to trigger based on the fields present in your request body. No need to specify the call type explicitly.
+</Tip>

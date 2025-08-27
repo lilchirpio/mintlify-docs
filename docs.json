@@ -91,10 +91,7 @@
           {
             "group": "Call Trigger",
             "pages": [
-              "./api-reference/call-trigger/basic-call",
-              "./api-reference/call-trigger/dynamic-fields",
-              "./api-reference/call-trigger/with-campaign",
-              "./api-reference/call-trigger/with-insights"
+              "./api-reference/call-trigger/trigger-call"
             ]
           },
           {
