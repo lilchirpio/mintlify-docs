@@ -1,0 +1,235 @@
+---
+title: '📋 Upload Sheet Format Guide'
+description: 'Learn the critical formatting requirements for uploading audience sheets - avoid upload failures with proper column headers and data formatting'
+---
+
+<Warning>
+  **Critical Information:** The format of your upload sheet is the most important factor for successful audience uploads. Even small mistakes will cause your upload to fail completely.
+</Warning>
+
+## Why File Format Matters So Much
+
+Think of your upload sheet like a **key that must fit perfectly** into a lock. If the key is even slightly wrong - wrong shape, wrong size, wrong teeth - the lock won't open. The same is true for your audience upload sheet.
+
+**Small formatting mistakes = Complete upload failure**
+
+## The Golden Rule: Column Headers Must Match Custom Fields Exactly
+
+### **What This Means:**
+
+If your custom field is `{duedate}`, your column header must be exactly `duedate` - not `due date`, not `DueDate`, not `duedate  ` (with extra spaces).
+
+### **Why This Happens:**
+
+The system looks for **exact matches** between your custom field names and your column headers. It's like a computer looking for a file named "report.txt" - it won't find "Report.txt" or "report .txt".
+
+## Required Columns (Always Present)
+
+These columns **must** be in your sheet for any upload to work:
+
+| Column Header | Must Be Exactly | What It Contains | Example |
+|---------------|-----------------|------------------|---------|
+| `FirstName` | `FirstName` | Person's first name | John |
+| `LastName` | `LastName` | Person's last name | Smith |
+| `PhoneNum` | `PhoneNum` | Contact phone number | 555-123-4567 |
+
+<Info>
+  **Important:** These three columns are the foundation of every audience upload. Without them, your upload will fail immediately.
+</Info>
+
+## Custom Field Columns (Based on Your Prompt)
+
+### **How to Know What to Include:**
+
+1. **Look at your AI agent's prompt** - Find all the custom fields in curly braces like `{FirstName}`, `{AmountDue}`, `{DueDate}`
+2. **Add a column for each custom field** - The column header must match exactly
+3. **Remove the curly braces** - `{DueDate}` becomes `DueDate` in your sheet
+
+### **Example Custom Field Mapping:**
+
+| Custom Field in Prompt | Column Header in Sheet | What to Enter |
+|------------------------|------------------------|----------------|
+| `{FirstName}` | `FirstName` | John |
+| `{AmountDue}` | `AmountDue` | $500.00 |
+| `{DueDate}` | `DueDate` | 2024-03-30 |
+| `{AccountNumber}` | `AccountNumber` | ACC12345 |
+
+## Common Formatting Mistakes That Cause Failures
+
+### **❌ WRONG - These Will Fail:**
+
+| What You Have | What It Should Be | Why It Fails |
+|---------------|-------------------|--------------|
+| `First Name` | `FirstName` | Spaces are not allowed |
+| `firstname` | `firstname` | Wrong capitalization |
+| `FirstName ` | `FirstName` | Extra spaces at the end |
+| `first_name` | `firstname` | Underscores are different |
+| `Due Date` | `DueDate` | Spaces break the match |
+| `duedate` | `DueDate` | Wrong capitalization |
+
+### **✅ CORRECT - These Will Work:**
+
+| Column Header | Status | Why It Works |
+|---------------|--------|--------------|
+| `FirstName` | ✅ Correct | Matches `{FirstName}` exactly |
+| `AmountDue` | ✅ Correct | Matches `{AmountDue}` exactly |
+| `DueDate` | ✅ Correct | Matches `{DueDate}` exactly |
+| `AccountNumber` | ✅ Correct | Matches `{AccountNumber}` exactly |
+
+## Date Column Formatting (Critical!)
+
+### **Why Date Formatting is So Important:**
+
+Date columns are **extra sensitive** to formatting errors. The system needs to understand exactly what date you're providing.
+
+### **✅ Correct Date Formats:**
+
+| Format | Example | Status |
+|--------|---------|--------|
+| `YYYY-MM-DD` | `2024-03-30` | ✅ Best format |
+| `MM/DD/YYYY` | `03/30/2024` | ✅ Works |
+| `MM-DD-YYYY` | `03-30-2024` | ✅ Works |
+
+### **❌ Wrong Date Formats:**
+
+| Format | Example | Why It Fails |
+|--------|---------|--------------|
+| `DD-MM-YYYY` | `30-03-2024` | ❌ Confusing format |
+| `MM/DD/YY` | `03/30/24` | ❌ Ambiguous year |
+| `March 30, 2024` | `March 30, 2024` | ❌ Text, not date format |
+
+<Warning>
+  **Date Format Rule:** Always use `YYYY-MM-DD` format (like 2024-03-30) for the most reliable uploads. This format is clear and unambiguous.
+</Warning>
+
+## Complete Example Sheet
+
+Here's what a properly formatted upload sheet should look like:
+
+| firstname | lastname | phonenumber | FirstName | AmountDue | DueDate | AccountNumber |
+|-----------|----------|-------------|-----------|-----------|---------|---------------|
+| John | Smith | 555-123-4567 | John | $500.00 | 2024-03-30 | ACC12345 |
+| Jane | Doe | 555-987-6543 | Jane | $750.00 | 2024-04-15 | ACC12346 |
+| Mike | Johnson | 555-456-7890 | Mike | $300.00 | 2024-03-25 | ACC12347 |
+
+### **Key Points About This Example:**
+
+1. **Required columns** are lowercase: `firstname`, `lastname`, `phonnumber`
+2. **Custom field columns** match exactly: `FirstName`, `AmountDue`, `DueDate`, `AccountNumber`
+3. **Dates are in YYYY-MM-DD format**: `2024-03-30`
+4. **No extra spaces** anywhere in column headers
+5. **Consistent formatting** throughout
+
+## Step-by-Step Upload Sheet Preparation
+
+### **Step 1: Identify Your Custom Fields**
+
+1. **Open your AI agent's prompt**
+2. **Find all custom fields** (text in curly braces like `{FieldName}`)
+3. **Write them down** exactly as they appear
+
+### **Step 2: Create Your Column Headers**
+
+1. **Start with required columns:**
+   - `firstname`
+   - `lastname` 
+   - `phonenumber`
+
+2. **Add custom field columns:**
+   - Remove curly braces `{}`
+   - Keep exact spelling and capitalization
+   - Example: `{DueDate}` becomes `DueDate`
+
+### **Step 3: Format Your Data**
+
+1. **Names:** Use proper capitalization (John, not john)
+2. **Phone numbers:** Use consistent format (555-123-4567)
+3. **Dates:** Use YYYY-MM-DD format (2024-03-30)
+4. **Numbers:** Use consistent decimal places ($500.00, not $500)
+
+### **Step 4: Check for Common Errors**
+
+1. **No spaces in column headers** - `FirstName` not `First Name`
+2. **No extra spaces** - `FirstName` not `FirstName `
+3. **Correct capitalization** - `FirstName` not `firstname`
+4. **Proper date format** - `2024-03-30` not `30-03-2024`
+
+## Testing Your Sheet Before Upload
+
+### **Before You Upload:**
+
+1. **Double-check column headers** - Compare with your custom fields exactly
+2. **Verify date formats** - All dates should be YYYY-MM-DD
+3. **Check for extra spaces** - Look at the beginning and end of each header
+4. **Test with a small file** - Upload 2-3 contacts first to verify
+
+### **Common Upload Error Messages:**
+
+| Error Message | What It Means | How to Fix |
+|---------------|----------------|------------|
+| "Column not found" | Column header doesn't match custom field | Check spelling and capitalization |
+| "Invalid date format" | Date column has wrong format | Convert to YYYY-MM-DD |
+| "Missing required column" | Required column is missing or misspelled | Add/fix firstname, lastname, phonenumber |
+
+## Best Practices for Reliable Uploads
+
+### **1. Use Excel Templates**
+
+- **Create a template** with correct column headers
+- **Save it as .xlsx** format
+- **Reuse the template** for future uploads
+- **Never copy-paste** column headers (can add hidden characters)
+
+### **2. Validate Your Data**
+
+- **Check phone numbers** - Make sure they're valid
+- **Verify dates** - Ensure they're in the future if needed
+- **Review names** - Check for obvious typos
+- **Test calculations** - If using formulas, verify results
+
+### **3. Keep It Simple**
+
+- **Start with basic fields** - Add complexity gradually
+- **Use consistent formats** - Same style throughout
+- **Avoid special characters** - Stick to letters, numbers, and basic punctuation
+- **Test small batches** - Verify before uploading large lists
+
+## Troubleshooting Upload Failures
+
+### **If Your Upload Fails:**
+
+1. **Check the error message** - It usually tells you what's wrong
+2. **Verify column headers** - Compare with custom fields exactly
+3. **Check date formats** - Convert all dates to YYYY-MM-DD
+4. **Look for extra spaces** - Remove any trailing or leading spaces
+5. **Verify file format** - Make sure it's .xlsx or .xls
+
+### **Common Fixes:**
+
+| Problem | Solution |
+|---------|----------|
+| Column header has spaces | Remove spaces: `First Name` → `FirstName` |
+| Wrong capitalization | Fix case: `firstname` → `FirstName` |
+| Extra spaces | Trim whitespace: `FirstName ` → `FirstName` |
+| Wrong date format | Convert to YYYY-MM-DD: `30-03-2024` → `2024-03-30` |
+| Missing required column | Add the missing column with correct spelling |
+
+## Next Steps
+
+Now that you understand proper sheet formatting:
+
+1. **Review your AI agent's prompt** - Identify all custom fields
+2. **Create a properly formatted sheet** - Use correct column headers
+3. **Format your data correctly** - Especially dates and phone numbers
+4. **Test with a small upload** - Verify everything works
+5. **Upload your complete audience** - Enjoy successful, error-free uploads
+
+<Check>
+  **Ready to create perfect upload sheets?** Remember: exact column headers + proper date formatting = successful uploads every time!
+</Check>
+
+---
+
+**Need help with audiences?** Check out our [Audience Guide](/audience/guide) to learn the complete process of creating and managing your contact lists.
+
+**Want to learn about custom fields?** Visit our [Custom Fields Guide](/custom-fields/introduction) to understand how to use dynamic placeholders in your prompts.
