@@ -1,0 +1,557 @@
+---
+title: '⚡ Understanding Latency'
+description: 'Comprehensive guide to understanding latencies across ASR, AI models, and TTS systems in Vodex'
+---
+
+<Info>
+  **What you'll learn:** Detailed breakdown of latencies across all Vodex system components including ASR, AI models, and TTS providers with performance characteristics and optimization notes.
+</Info>
+
+Understanding latency is crucial for optimizing your AI calling campaigns. This guide provides comprehensive latency information for all system components to help you make informed decisions about your configuration.
+
+---
+
+## ASR (Automatic Speech Recognition) Latencies
+
+Speech recognition is the first step in processing user input. Different ASR providers offer varying latency characteristics based on their processing approach.
+
+### Streaming ASRs
+
+Real-time speech recognition that processes audio as it's being spoken:
+
+<Tabs>
+  <Tab title="Alpha Echo V2">
+    **Ultra-Low Latency Processing**
+    
+    | Metric | Value |
+    |--------|-------|
+    | **Base Latency** | 250ms |
+    | **Processing Type** | Streaming |
+    | **Best For** | Real-time conversations, interactive scenarios |
+    
+    **Characteristics:**
+    - Fastest streaming ASR option
+    - Optimized for conversational AI
+    - Minimal delay in speech recognition
+  </Tab>
+  
+  <Tab title="Nova Echo">
+    **Balanced Streaming Performance**
+    
+    | Metric | Value |
+    |--------|-------|
+    | **Base Latency** | 300ms |
+    | **Processing Type** | Streaming |
+    | **Best For** | Standard voice interactions, customer service |
+    
+    **Characteristics:**
+    - Reliable streaming performance
+    - Good balance of speed and accuracy
+    - Suitable for most use cases
+  </Tab>
+</Tabs>
+
+<Note>
+  **Streaming ASR Timing:** For streaming ASRs, we implement adaptive timing - either 300ms OR 1 second depending on user activity to prevent cutting off users mid-sentence.
+</Note>
+
+### Non-Streaming ASRs
+
+Batch processing ASRs that analyze complete audio segments:
+
+<AccordionGroup>
+  <Accordion title="Google ASR">
+    **Enterprise-Grade Recognition**
+    
+    | Metric | Value |
+    |--------|-------|
+    | **Processing Latency** | 2 seconds |
+    | **VAD Time** | 300ms (fixed) |
+    | **Total Latency** | ~2.3 seconds |
+    
+    **Best for:** High-accuracy requirements, complex audio processing
+  </Accordion>
+  
+  <Accordion title="OpenAI Whisper">
+    **Advanced AI-Powered ASR**
+    
+    | Metric | Value |
+    |--------|-------|
+    | **Processing Latency** | 700ms |
+    | **VAD Time** | 300ms (fixed) |
+    | **Total Latency** | ~1 second |
+    
+    **Best for:** Multi-language support, challenging audio conditions
+  </Accordion>
+  
+  <Accordion title="ElevenLabs Whisper">
+    **Optimized Whisper Implementation**
+    
+    | Metric | Value |
+    |--------|-------|
+    | **Processing Latency** | 400ms |
+    | **VAD Time** | 300ms (fixed) |
+    | **Total Latency** | ~700ms |
+    
+    **Best for:** Fast Whisper processing, quality audio recognition
+  </Accordion>
+  
+  <Accordion title="Azure Speech Services">
+    **Microsoft Cloud ASR**
+    
+    | Metric | Value |
+    |--------|-------|
+    | **Processing Latency** | 800ms |
+    | **VAD Time** | 300ms (fixed) |
+    | **Total Latency** | ~1.1 seconds |
+    
+    **Best for:** Enterprise integrations, Microsoft ecosystem
+  </Accordion>
+  
+  <Accordion title="Genesis Echo">
+    **Specialized Voice Recognition**
+    
+    | Metric | Value |
+    |--------|-------|
+    | **Processing Latency** | 400ms |
+    | **VAD Time** | 300ms (fixed) |
+    | **Total Latency** | ~700ms |
+    
+    **Best for:** Specialized voice processing, custom implementations
+  </Accordion>
+</AccordionGroup>
+
+<Warning>
+  **Non-Streaming ASR Note:** All non-streaming ASRs include a fixed Voice Activity Detection (VAD) time of 300ms to ensure complete speech capture before processing.
+</Warning>
+
+---
+
+## AI Model Latencies
+
+Time to first token generation - the critical metric for conversational responsiveness.
+
+<Info>
+  **Important:** Listed latencies represent time to first token. Complete response generation typically adds +300ms from the first token delivery.
+</Info>
+
+<Warning>
+  **Latency vs Capability Trade-off:** Lower latency models are typically smaller LLMs that cannot handle longer prompts, complex rules, or extensive context. Choose based on your specific use case requirements.
+</Warning>
+
+### Vodex Optimized Models
+
+Specially tuned models optimized for voice conversations:
+
+<Tabs>
+  <Tab title="Spark Series">
+    **Google Gemini-Based Architecture**
+    
+    | Model | First Token Latency | Status | Best For |
+    |-------|-------------------|--------|----------|
+    | **Spark** | 1.5s | ✅ Stable | Complex reasoning, detailed conversations |
+    | **Spark Flash** | 400ms | ✅ Stable | Balanced performance, standard interactions |
+    | **Spark Flash Lite** | 200ms | ✅ Stable | Quick responses, simple tasks |
+    
+    **Performance Characteristics:**
+    - Optimized for voice conversations
+    - Excellent reasoning capabilities
+    - Consistent performance across scenarios
+  </Tab>
+  
+  <Tab title="Performance Comparison">
+    **Spark Model Selection Guide**
+    
+    <Card title="Spark" icon="brain">
+      **Best for complex scenarios**
+      - Sales conversations requiring detailed reasoning
+      - Multi-step problem solving
+      - Technical support discussions
+      - **Trade-off:** Higher latency for better reasoning
+    </Card>
+    
+    <Card title="Spark Flash" icon="bolt">
+      **Balanced performance**
+      - Customer service interactions
+      - Standard business conversations
+      - Appointment scheduling
+      - **Sweet spot:** Good balance of speed and capability
+    </Card>
+    
+    <Card title="Spark Flash Lite" icon="zap">
+      **Ultra-fast responses**
+      - Simple confirmations
+      - Quick surveys
+      - Basic information gathering
+      - **Advantage:** Minimal latency for simple tasks
+      - **Limitation:** Cannot handle complex prompts or extensive context
+    </Card>
+  </Tab>
+</Tabs>
+
+### OpenAI Models
+
+Industry-leading AI models with varying performance characteristics:
+
+<AccordionGroup>
+  <Accordion title="GPT-4 Series">
+    **Advanced Reasoning Models**
+    
+    | Model | First Token Latency | Status | Characteristics |
+    |-------|-------------------|--------|-----------------|
+    | **GPT-4o** | 800ms | ✅ Stable | Multimodal capabilities, advanced reasoning |
+    | **GPT-4o Mini** | 500ms | ✅ Stable | Efficient multimodal processing |
+    | **GPT-4.1 Mini** | 500ms | ✅ Stable | Enhanced efficiency, cost-effective |
+    
+    **Best for:** Complex conversations, detailed analysis, multimodal interactions
+  </Accordion>
+  
+  <Accordion title="GPT-5 Series (Next Generation)">
+    **Cutting-Edge AI Models**
+    
+    | Model | First Token Latency | Status | Characteristics |
+    |-------|-------------------|--------|-----------------|
+    | **GPT-5 Nano** | 350ms | ⚠️ Latency issues | Ultra-efficient processing, limited context |
+    | **GPT-5 Mini** | 200ms | ⚠️ Latency issues | Fast responses, simplified reasoning |
+    | **GPT-5 Chat** | 500ms | ✅ Stable | Optimized for conversations |
+    
+    <Warning>
+      **GPT-5 Status:** GPT-5 Nano and Mini are currently experiencing latency issues. Monitor performance closely if using these models.
+    </Warning>
+  </Accordion>
+  
+  <Accordion title="Specialized Models">
+    **Purpose-Built AI Solutions**
+    
+    | Model | First Token Latency | Status | Characteristics |
+    |-------|-------------------|--------|-----------------|
+    | **OpenAI GSS** | 1.2s | ✅ Stable | Specialized processing, high accuracy |
+    
+    **Best for:** Specialized applications requiring high accuracy
+  </Accordion>
+</AccordionGroup>
+
+### Open Source & Alternative Models
+
+High-performance alternatives to proprietary models:
+
+<Tabs>
+  <Tab title="Meta Llama">
+    **Open Source Excellence**
+    
+    | Model | First Token Latency | Status | Characteristics |
+    |-------|-------------------|--------|-----------------|
+    | **Llama 3.3 70B** | 450ms | ✅ Stable | Large parameter model, excellent reasoning |
+    | **Llama 4 Maverick** | 450ms | ✅ Stable | Next-generation open source |
+    
+    **Advantages:**
+    - Open source flexibility
+    - Privacy-focused processing
+    - Customizable implementations
+    - Cost-effective scaling
+  </Tab>
+  
+  <Tab title="DeepSeek">
+    **High-Performance Alternative**
+    
+    | Model | First Token Latency | Status | Characteristics |
+    |-------|-------------------|--------|-----------------|
+    | **Deepseek v3.1** | 300ms | ✅ Stable | Fast processing, competitive performance |
+    
+    **Benefits:**
+    - Excellent speed-to-performance ratio
+    - Reliable processing
+    - Cost-effective option
+  </Tab>
+</Tabs>
+
+---
+
+## TTS (Text-to-Speech) Latencies
+
+Time to first audio chunk - critical for maintaining conversation flow.
+
+<Info>
+  **TTS Streaming:** All TTS providers support streaming, allowing audio playback to begin as soon as the first chunk is available, reducing perceived latency.
+</Info>
+
+### ElevenLabs (Default Provider)
+
+Premium AI voice synthesis with multiple performance tiers:
+
+<Tabs>
+  <Tab title="Turbo Series">
+    **High-Quality Voice Synthesis**
+    
+    | Model | First Chunk Latency | Quality | Best For |
+    |-------|-------------------|---------|----------|
+    | **Turbo 2** | 250ms | High | Professional conversations, customer service |
+    | **Turbo 2.5** | 250ms | Enhanced | Premium voice quality, sales calls |
+    
+    **Characteristics:**
+    - Premium voice quality
+    - Natural emotional expression
+    - Multiple voice personalities
+    - Excellent for professional use
+  </Tab>
+  
+  <Tab title="Flash Series">
+    **Ultra-Fast Voice Generation**
+    
+    | Model | First Chunk Latency | Quality | Best For |
+    |-------|-------------------|---------|----------|
+    | **Flash 2** | 95ms | Good | Real-time conversations, interactive scenarios |
+    | **Flash 2.5** | 95ms | Enhanced | Fast interactions with improved quality |
+    
+    **Advantages:**
+    - Ultra-low latency
+    - Real-time conversation capability
+    - Optimized for speed
+    - Maintains good voice quality
+  </Tab>
+</Tabs>
+
+<Tip>
+  **ElevenLabs Selection:** Use Flash series for real-time interactions where speed is critical, and Turbo series for professional scenarios where voice quality is paramount.
+</Tip>
+
+### Alternative TTS Providers
+
+Additional voice synthesis options for specialized needs:
+
+<AccordionGroup>
+  <Accordion title="RimeLabs">
+    **Advanced Voice Technology**
+    
+    | Metric | Value |
+    |--------|-------|
+    | **First Chunk Latency** | 350ms |
+    | **Quality** | High |
+    | **Availability** | Contact support |
+    
+    **Best for:**
+    - Specialized voice requirements
+    - Custom voice training
+    - Enterprise implementations
+  </Accordion>
+  
+  <Accordion title="Google UR Realistic">
+    **WaveNet Technology**
+    
+    | Metric | Value |
+    |--------|-------|
+    | **First Chunk Latency** | 400ms |
+    | **Quality** | Ultra-realistic |
+    | **Availability** | Contact support |
+    
+    **Best for:**
+    - Ultra-realistic voice requirements
+    - Multi-language campaigns
+    - Google Cloud integrations
+  </Accordion>
+  
+  <Accordion title="Azure Cognitive Services">
+    **Microsoft Neural Voices**
+    
+    | Metric | Value |
+    |--------|-------|
+    | **First Chunk Latency** | 800ms |
+    | **Quality** | Enterprise-grade |
+    | **Availability** | Contact support |
+    
+    **Best for:**
+    - Enterprise applications
+    - Microsoft ecosystem integration
+    - Multi-language support
+  </Accordion>
+</AccordionGroup>
+
+---
+
+## Latency Optimization Strategies
+
+### Configuration Recommendations
+
+<Tabs>
+  <Tab title="Real-Time Conversations">
+    **Ultra-Low Latency Setup**
+    
+    **Recommended Configuration:**
+    - **ASR:** Alpha Echo V2 (250ms)
+    - **Model:** Spark Flash Lite (200ms) or GPT-5 Mini (200ms)*
+    - **TTS:** ElevenLabs Flash 2.5 (95ms)
+    
+    **Total Pipeline Latency:** ~545ms
+    
+    <Warning>
+      **Limitations:** Ultra-low latency models cannot handle complex prompts, extensive context, or sophisticated rules. Best for simple, straightforward interactions only.
+    </Warning>
+    
+    <Warning>
+      *GPT-5 Mini currently experiencing latency issues
+    </Warning>
+  </Tab>
+  
+  <Tab title="Balanced Performance">
+    **Speed-Quality Balance**
+    
+    **Recommended Configuration:**
+    - **ASR:** Nova Echo (300ms)
+    - **Model:** Spark Flash (400ms) or GPT-4o Mini (500ms)
+    - **TTS:** ElevenLabs Turbo 2.5 (250ms)
+    
+    **Total Pipeline Latency:** ~950ms - 1050ms
+  </Tab>
+  
+  <Tab title="High-Quality Processing">
+    **Premium Quality Setup**
+    
+    **Recommended Configuration:**
+    - **ASR:** OpenAI Whisper (700ms + 300ms VAD)
+    - **Model:** Spark (1.5s) or GPT-4o (800ms)
+    - **TTS:** ElevenLabs Turbo 2.5 (250ms)
+    
+    **Total Pipeline Latency:** ~1.8s - 2.25s
+  </Tab>
+</Tabs>
+
+### Performance Monitoring
+
+<Steps>
+  <Step title="Baseline Measurement">
+    **Establish Performance Baselines**
+    - Monitor end-to-end conversation latency
+    - Track component-specific performance
+    - Document peak and average response times
+  </Step>
+  
+  <Step title="Optimization Testing">
+    **A/B Test Configurations**
+    - Compare different ASR providers
+    - Test various AI model combinations
+    - Evaluate TTS provider performance
+  </Step>
+  
+  <Step title="Continuous Monitoring">
+    **Ongoing Performance Tracking**
+    - Set up latency alerts
+    - Monitor for performance degradation
+    - Track user experience metrics
+  </Step>
+</Steps>
+
+---
+
+## Technical Considerations
+
+### Latency Factors
+
+<Card title="Network Latency" icon="network-wired">
+  **External Factors**
+  - Geographic distance to servers
+  - Network congestion and routing
+  - Internet service provider performance
+  - CDN and edge server optimization
+</Card>
+
+<Card title="Processing Load" icon="microchip">
+  **System Performance**
+  - Server capacity and utilization
+  - Concurrent request handling
+  - Model loading and initialization
+  - Resource allocation efficiency
+</Card>
+
+<Card title="Audio Quality" icon="volume-high">
+  **Input Characteristics**
+  - Audio sample rate and quality
+  - Background noise levels
+  - Speaker clarity and volume
+  - Connection stability
+</Card>
+
+### Best Practices
+
+<AccordionGroup>
+  <Accordion title="ASR Optimization">
+    **Speech Recognition Best Practices**
+    
+    - Choose streaming ASR for real-time scenarios
+    - Consider non-streaming for accuracy-critical applications
+    - Account for VAD timing in latency calculations
+    - Test with representative audio samples
+  </Accordion>
+  
+  <Accordion title="Model Selection">
+    **AI Model Optimization**
+    
+    - Match model complexity to use case requirements
+    - Monitor for model-specific latency issues
+    - Consider fallback options for unstable models
+    - Balance reasoning capability with response speed
+  </Accordion>
+  
+  <Accordion title="TTS Configuration">
+    **Voice Synthesis Optimization**
+    
+    - Use streaming TTS for reduced perceived latency
+    - Select voice quality appropriate for use case
+    - Consider multiple TTS providers for redundancy
+    - Test voice quality across different scenarios
+  </Accordion>
+</AccordionGroup>
+
+---
+
+## Next Steps
+
+<Check>
+  **Ready to optimize your latency?** Use this comprehensive guide to select the optimal configuration for your specific use case and performance requirements.
+</Check>
+
+**Recommended Actions:**
+
+1. **Assess your requirements** - Determine if you need real-time, balanced, or high-quality processing
+2. **Test configurations** - Experiment with different component combinations
+3. **Monitor performance** - Track latency metrics in production
+4. **Optimize iteratively** - Continuously refine based on real-world performance
+
+<Info>
+  **Need help with configuration?** Contact [support@vodex.ai](mailto:support@vodex.ai) for personalized latency optimization assistance.
+</Info>
+
+---
+
+## Related Configuration Settings
+
+Configure these latency-related settings in your Vodex dashboard:
+
+<Card title="ASR Configuration" icon="microphone">
+  **Speech Recognition Settings**
+  
+  Configure ASR providers and settings in [Call Settings](/call-settings/overview) and [Advanced Settings](/call-settings/advanced-settings).
+  
+  - Choose between streaming and non-streaming ASR
+  - Configure language codes and detection
+  - Set up custom ASR parameters
+</Card>
+
+<Card title="AI Model Selection" icon="brain">
+  **Model Configuration**
+  
+  Select and configure AI models in [Call Settings](/call-settings/overview).
+  
+  - Choose from Vodex optimized models
+  - Configure OpenAI, Llama, and other providers
+  - Balance latency vs capability requirements
+</Card>
+
+<Card title="Voice/TTS Settings" icon="volume-high">
+  **Text-to-Speech Configuration**
+  
+  Configure voice providers and settings in [Call Settings](/call-settings/overview).
+  
+  - Select ElevenLabs Turbo or Flash series
+  - Configure alternative TTS providers
+  - Optimize voice quality vs speed
+</Card>

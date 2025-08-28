@@ -70,7 +70,12 @@
               "inbound/overview"
             ]
           },
-         
+          {
+            "group": "⚡ Latency",
+            "pages": [
+              "latency/understanding-latency"
+            ]
+          },
           {
             "group": "🛠️ Troubleshooting Guide",
             "pages": [
