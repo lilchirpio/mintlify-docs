@@ -44,7 +44,8 @@
           {
             "group": "📢 Campaign",
             "pages": [
-              "campaign/guide"
+              "campaign/guide",
+              "campaign/campaign-run"
             ]
           },
           {
@@ -99,6 +100,7 @@
           {
             "group": "❓ FAQs",
             "pages": [
+              "faqs/general-faqs",
               "faqs/sip-trunk-requirements"
             ]
           }

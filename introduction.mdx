@@ -38,6 +38,88 @@ This documentation covers everything you need to know about Vodex.ai:
 
 ---
 
+## Vodex.ai Component Flow
+
+Below is the complete workflow showing how all Vodex.ai components interact and depend on each other:
+
+```mermaid
+graph TD
+    A[🚀 Start: Create Project] --> B[📁 Project Created]
+    B --> C[🤖 Create AI Agent]
+    B --> D[👥 Create Audience List]
+    
+    C --> E[✅ Agent Configured]
+    D --> F[✅ Audience List Ready]
+    
+    E --> G[📋 Create Campaign]
+    F --> G
+    
+    G --> H[🎯 Campaign Created]
+    H --> I[✨ Create Insights]
+    
+    I --> J[📊 Insights Configured]
+    J --> K[🚀 Launch Campaign]
+    
+    K --> L[📞 Calls Executed]
+    L --> M[📈 Data Collected]
+    M --> N[💡 Insights Generated]
+    
+    N --> P[🔄 Optimize & Iterate]
+    P --> G
+    
+    style A fill:#e1f5fe
+    style B fill:#f3e5f5
+    style C fill:#e8f5e8
+    style D fill:#fff3e0
+    style E fill:#e8f5e8
+    style F fill:#fff3e0
+    style G fill:#fce4ec
+    style H fill:#fce4ec
+    style I fill:#e0f2f1
+    style J fill:#e0f2f1
+    style K fill:#e8eaf6
+    style L fill:#e8eaf6
+    style M fill:#f1f8e9
+    style N fill:#f1f8e9
+    style O fill:#fff8e1
+    style P fill:#fce4ec
+```
+
+### Component Dependencies & Flow Explanation
+
+**1. Project Foundation** 📁
+- **Project Creation**: The starting point that contains all other components
+- **Project Settings**: Configure basic parameters, API keys, and integrations
+
+**2. Agent Configuration** 🤖
+- **Agent Creation**: Design AI personality, prompts, and conversation flows
+- **Agent Testing**: Validate responses and refine behavior
+- **Agent Assignment**: Link agents to specific projects
+
+**3. Audience Management** 👥
+- **Audience List Creation**: Upload contacts, segment by criteria
+- **Contact Validation**: Ensure phone numbers are valid and compliant
+- **Audience Segmentation**: Group contacts by demographics, behavior, or custom fields
+
+**4. Campaign Setup** 📋
+- **Campaign Configuration**: Define objectives, timing, and call parameters
+- **Agent Assignment**: Select which AI agent handles the campaign
+- **Audience Selection**: Choose which audience list to target
+- **Call Settings**: Configure voice, language, and transfer options
+
+**5. Insights & Analytics** ✨
+- **Insight Questions**: Define what data to extract from calls
+- **Data Types**: Configure response formats and validation rules
+- **Webhook Setup**: Enable real-time data delivery to your systems
+
+**6. Execution & Optimization** 🚀
+- **Campaign Launch**: Start calling campaigns with configured settings
+- **Real-time Monitoring**: Track call progress and performance
+- **Data Collection**: Gather insights and conversation data
+- **Performance Analysis**: Review metrics and identify optimization opportunities
+
+---
+
 ## Quick Start Guide
 
 Get your first AI calling campaign up and running in minutes:
