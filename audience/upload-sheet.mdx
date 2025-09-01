@@ -54,7 +54,7 @@ These columns **must** be in your sheet for any upload to work:
 |---------------|-----------------|------------------|---------|
 | `FirstName` | `FirstName` | Person's first name | John |
 | `LastName` | `LastName` | Person's last name | Smith |
-| `PhoneNum` | `PhoneNum` | Contact phone number | 555-123-4567 |
+| `PhoneNum` | `PhoneNum` | Contact phone number | 12185262990 |
 
 <Info>
   **Important:** These three columns are the foundation of every audience upload. Without them, your upload will fail immediately.
@@ -99,6 +99,36 @@ These columns **must** be in your sheet for any upload to work:
 | `DueDate` | ✅ Correct | Matches `{DueDate}` exactly |
 | `AccountNumber` | ✅ Correct | Matches `{AccountNumber}` exactly |
 
+## Phone Number Formatting (Critical!)
+
+### **Why Phone Number Formatting is So Important:**
+
+Phone numbers must include the **country code without the + sign** and have **no dashes, spaces, or special characters**. The system needs the complete international format to ensure successful SMS delivery.
+
+### **✅ Correct Phone Number Formats:**
+
+**Required Format:** Country code + phone number (no + sign, no dashes, no spaces)
+
+| Country | Example Format | What to Enter |
+|---------|----------------|---------------|
+| **US/Canada** | +1 (218) 526-2990 | `12185262990` |
+| **India** | +91 99639 05554 | `919963905554` |
+| **UK** | +44 20 7946 0958 | `442079460958` |
+| **Australia** | +61 2 9374 4000 | `61293744000` |
+
+### **❌ Wrong Phone Number Formats:**
+
+| What You Have | Why It Fails |
+|---------------|--------------|
+| `+12185262990` | Contains + sign |
+| `218-526-2990` | Missing country code and has dashes |
+| `1 218 526 2990` | Contains spaces |
+| `(218) 526-2990` | Missing country code and has special characters |
+
+<Warning>
+  **Important:** Always include the country code and remove all formatting characters (+, -, spaces, parentheses) from phone numbers.
+</Warning>
+
 ## Date Column Formatting (Critical!)
 
 ### **Why Date Formatting is So Important:**
@@ -124,9 +154,9 @@ Here's what a properly formatted upload sheet should look like:
 
 | FirstName | LastName | PhoneNum | AmountDue | DueDate | AccountNumber |
 |-----------|----------|-----------|-----------|---------|---------------|
-| John | Smith | 555-123-4567 | $500.00 | 2024-03-30 | ACC12345 |
-| Jane | Doe | 555-987-6543 | $750.00 | 2024-04-15 | ACC12346 |
-| Mike | Johnson | 555-456-7890 | $300.00 | 2024-03-25 | ACC12347 |
+| John | Smith | 12185262990 | $500.00 | 2024-03-30 | ACC12345 |
+| Jane | Doe | 919963905554 | $750.00 | 2024-04-15 | ACC12346 |
+| Mike | Johnson | 14155552368 | $300.00 | 2024-03-25 | ACC12347 |
 
 ### **Key Points About This Example:**
 
@@ -160,7 +190,7 @@ Here's what a properly formatted upload sheet should look like:
 ### **Step 3: Format Your Data**
 
 1. **Names:** Use proper capitalization (John, not john)
-2. **Phone numbers:** Use consistent format (555-123-4567)
+2. **Phone numbers:** Use country code + phone number format (12185262990, 919963905554)
 3. **Dates:** Use stringify date format (`March 25, 2025`)
 4. **Numbers:** Use consistent decimal places ($500.00, not $500)
 
@@ -193,7 +223,7 @@ Here's what a properly formatted upload sheet should look like:
 
 ### **2. Validate Your Data**
 
-- **Check phone numbers** - Make sure they're valid
+- **Check phone numbers** - Make sure they include country code without + sign (e.g., 12185262990, 919963905554)
 - **Verify dates** - Ensure they're in the future if needed
 - **Review names** - Check for obvious typos
 - **Test calculations** - If using formulas, verify results
