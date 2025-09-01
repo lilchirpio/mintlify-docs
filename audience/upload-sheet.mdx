@@ -138,23 +138,24 @@ Here's what a properly formatted upload sheet should look like:
 
 ## Step-by-Step Upload Sheet Preparation
 
-### **Step 1: Identify Your Custom Fields**
+### **Step 1: Download the Sample Excel Template**
 
-1. **Open your AI agent's prompt**
-2. **Find all custom fields** (text in curly braces like `{FieldName}`)
-3. **Write them down** exactly as they appear
+1. **Select your desired AI agent** in the platform
+2. **Navigate to the Audience tab**
+3. **Click "Add New Audience"** to open the dialog box
+4. **Click the "Download Sample Excel File" button**
+5. **Save the sample file** to your computer
 
-### **Step 2: Create Your Column Headers**
+<Info>
+  **Perfect Template:** This sample file contains all the exact column headers you need - both system fields (FirstName, LastName, PhoneNum) and all custom fields specific to your selected agent.
+</Info>
 
-1. **Start with required columns:**
-   - `FirstName`
-   - `LastName` 
-   - `PhoneNum`
+### **Step 2: Use the Sample File as Your Template**
 
-2. **Add custom field columns:**
-   - Remove curly braces `{}`
-   - Keep exact spelling and capitalization
-   - Example: `{DueDate}` becomes `DueDate`
+1. **Open the downloaded sample Excel file**
+2. **Review all column headers** - These are exactly what you need
+3. **Keep the file structure intact** - Don't modify any column headers
+4. **Save a copy** as your working template for future uploads
 
 ### **Step 3: Format Your Data**
 
@@ -165,10 +166,10 @@ Here's what a properly formatted upload sheet should look like:
 
 ### **Step 4: Check for Common Errors**
 
-1. **No spaces in column headers** - `FirstName` not `First Name`
-2. **No extra spaces** - `FirstName` not `FirstName `
-3. **Correct capitalization** - `FirstName` not `firstname`
-4. **Proper date format** - `2024-03-30` not `30-03-2024`
+1. **Don't modify column headers** - Use exactly what's in the sample file
+2. **No extra spaces** - Don't add spaces to any headers or data
+3. **Consistent formatting** - Keep the same format throughout all rows
+4. **Proper date format** - Use stringify date format (`March 25, 2025`)
 
 ## Testing Your Sheet Before Upload
 
@@ -179,14 +180,7 @@ Here's what a properly formatted upload sheet should look like:
 3. **Check for extra spaces** - Look at the beginning and end of each header
 4. **Test with a small file** - Upload 2-3 contacts first to verify
 
-### **Common Upload Error Messages:**
 
-| Error Message | What It Means | How to Fix |
-|---------------|----------------|------------|
-| "Column not found" | Column header doesn't match custom field | Check spelling and capitalization |
-| "Invalid date format" | Date column has wrong format | Convert to  stringify date format `March 25, 2025` |
-| "Missing required column" | Required column is missing or misspelled | Add/fix firstname, lastname, phonenumber |
-| "File too large" or "Exceeds capacity" | File contains more than 20,000 customers | Split into multiple files with max 20k each |
 
 ## Best Practices for Reliable Uploads
 
