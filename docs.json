@@ -103,6 +103,15 @@
               "faqs/general-faqs",
               "faqs/sip-trunk-requirements"
             ]
+          },
+          {
+            "group": "📞 Twilio Verification",
+            "pages": [
+              "twilio-verification/overview",
+              "twilio-verification/business-verification",
+              "twilio-verification/shaken-stir",
+              "twilio-verification/cnam"
+            ]
           }
         ]
       },

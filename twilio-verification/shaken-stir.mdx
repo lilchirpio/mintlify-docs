@@ -1,0 +1,312 @@
+---
+title: "SHAKEN/STIR"
+description: "Understand SHAKEN/STIR call authentication in simple terms - learn how it prevents fake calls and protects you from scams"
+---
+
+# SHAKEN/STIR: Call Authentication
+
+## What is SHAKEN/STIR?
+
+SHAKEN/STIR is like a security system for phone calls. It helps make sure that when someone calls you, they are really who they say they are.
+
+**Think of it like:** A security guard at a building who checks everyone's ID before letting them in.
+
+## Breaking Down the Names
+
+### SHAKEN
+**Stands for:** Signature-based Handling of Asserted information using toKENs
+**What it means:** A system that puts a digital signature on phone calls to prove they're real
+
+### STIR
+**Stands for:** Secure Telephony Identity Revisited  
+**What it means:** A set of rules for making phone calls secure and trustworthy
+
+**Together:** They work like a team to prevent fake calls and caller ID spoofing.
+
+## The Problem SHAKEN/STIR Solves
+
+### Before SHAKEN/STIR
+- Scammers could fake caller ID numbers
+- You'd see "Your Bank" calling, but it was actually a scammer
+- Millions of fake calls every day
+- People lost money to phone scams
+
+### After SHAKEN/STIR
+- Every call gets a digital "fingerprint"
+- You can see if a call is really from who it says it is
+- Scammers can't easily fake caller ID anymore
+- Much safer phone system
+
+## How Does It Work?
+
+### Step 1: Making a Call
+When someone makes a call:
+1. Their phone company checks: "Is this person allowed to use this number?"
+2. If yes, they add a digital signature to the call
+3. This signature is like a seal that proves the call is legitimate
+
+### Step 2: The Call Travels
+As the call goes through different phone companies:
+1. Each company checks the signature
+2. They make sure it hasn't been tampered with
+3. If the signature is valid, they pass the call along
+
+### Step 3: You Receive the Call
+When the call reaches you:
+1. Your phone company checks the signature one last time
+2. If it's valid, the call comes through normally
+3. If it's fake or tampered with, the call might be blocked or flagged
+
+## Understanding Attestation Levels
+
+Think of attestation levels like different types of ID verification:
+
+### Level A - Full Attestation (Best)
+**What it means:** The phone company knows the caller AND confirms they have the right to use that number
+**Like having:** A driver's license with your photo and address
+**You can trust:** This call is definitely from who it says it is
+
+### Level B - Partial Attestation (Good)
+**What it means:** The phone company knows the caller, but can't confirm they have the right to use that number
+**Like having:** A student ID that shows your name but not your address
+**You can trust:** The caller is known, but be a little more careful
+
+### Level C - Gateway Attestation (Caution)
+**What it means:** The phone company doesn't know who the caller is or if they have the right to use that number
+**Like having:** A visitor's badge with just a number
+**You should:** Be extra careful with these calls
+
+## What You'll See on Your Phone
+
+### ✅ Verified Calls
+- Your phone might show a checkmark or "Verified" label
+- The caller ID will be more trustworthy
+- You'll know the call is really from who it says
+
+### ⚠️ Unverified Calls
+- Your phone might show a warning
+- The caller ID might be marked as "Unknown" or "Suspicious"
+- You should be more careful about answering
+
+### 🚫 Blocked Calls
+- Some fake calls will be blocked completely
+- You won't even see them in your call log
+- This protects you from scams
+
+## Benefits for Everyone
+
+### For You (The Caller)
+- **Higher Answer Rates:** People are more likely to answer verified calls
+- **Better Reputation:** Your business looks more trustworthy
+- **Less Spam:** Your legitimate calls won't be confused with spam
+
+### For You (The Receiver)
+- **Safer Calls:** You can see which calls are verified
+- **Fewer Scams:** Fake calls are much harder to make
+- **Better Caller ID:** You know who's really calling
+
+### For Phone Companies
+- **Less Spam:** They can block fake calls more easily
+- **Better Service:** Customers trust the phone system more
+- **Compliance:** They meet government requirements
+
+## Common Questions
+
+### Q: Do I need to do anything special?
+**A:** No! SHAKEN/STIR works automatically in the background. You don't need to install anything or change your phone settings.
+
+### Q: Will this stop all spam calls?
+**A:** It will stop most fake calls, but some spam might still get through. It's still important to be careful with unknown numbers.
+
+### Q: Does this work on all phones?
+**A:** Yes! It works on all types of phones - smartphones, landlines, and even old phones.
+
+### Q: What if I'm calling from a different country?
+**A:** SHAKEN/STIR works internationally, but the level of verification might be different depending on the country.
+
+## How to Tell if a Call is Verified
+
+### On Smartphones
+- Look for a checkmark or "Verified" label next to the caller ID
+- Some phones show a green checkmark
+- Others might show "Verified Caller" text
+
+### On Landlines
+- The caller ID might show additional information
+- Some systems display verification status
+- Ask your phone company about verification features
+
+## What to Do with Unverified Calls
+
+### If You're Not Sure
+1. **Don't answer** if you don't recognize the number
+2. **Let it go to voicemail** and listen to the message
+3. **Check online** if the number is associated with scams
+4. **Call back** using the official number from their website
+
+### Red Flags to Watch For
+- Calls asking for personal information
+- Calls asking for money or gift cards
+- Calls claiming to be from government agencies
+- Calls with threats or urgent demands
+
+## The Future of Phone Security
+
+SHAKEN/STIR is just the beginning! Phone companies are constantly working on new ways to make calls safer:
+
+- **Better AI detection** of scam calls
+- **More verification methods** for businesses
+- **International cooperation** to stop global scams
+- **User reporting systems** to catch new scam patterns
+
+## How to Set Up SHAKEN/STIR with Twilio
+
+Now that you understand what SHAKEN/STIR is, let's walk through how to actually set it up for your business through Twilio.
+
+### Prerequisites
+Before you can set up SHAKEN/STIR, you need:
+- A verified Twilio account
+- A verified Business Profile (see our [Business Verification guide](/twilio-verification/business-verification))
+- Phone numbers that you want to use for outbound calls
+
+### Step-by-Step Setup Process
+
+#### Step 1: Create Your Primary Business Profile
+1. **Log in to Twilio Console**
+   - Go to [console.twilio.com](https://console.twilio.com)
+   - Sign in with your Twilio account
+
+2. **Navigate to Trust Hub**
+   - In the left sidebar, click on "Trust Hub"
+   - Click on "Customer Profiles"
+
+3. **Create Business Profile**
+   - Click "Create Primary Business Profile"
+   - Choose "Business/Organization Profile" (not Individual)
+   - Fill in all your business details:
+     - Business name
+     - Business address
+     - Phone number
+     - Email address
+     - Business type (Corporation, LLC, etc.)
+     - Tax ID number
+     - Registration number (if required)
+   - Submit for verification
+
+4. **Wait for Approval**
+   - Approval typically takes 24-48 hours
+   - You'll receive an email notification when approved
+   - If rejected, you'll get instructions on what to fix
+
+#### Step 2: Assign Phone Numbers to Your Business Profile
+1. **Go to Your Approved Profile**
+   - In Trust Hub > Customer Profiles
+   - Click on your approved Business Profile
+
+2. **Assign Phone Numbers**
+   - Click "Assign Phone Numbers"
+   - Select the phone numbers you want to use for outbound calls
+   - These numbers will be associated with your business
+
+#### Step 3: Create SHAKEN/STIR Trust Product
+1. **Navigate to SHAKEN/STIR Section**
+   - In Twilio Console, go to Trust Hub > SHAKEN/STIR Calling
+   - Click "New SHAKEN/STIR Registration"
+
+2. **Configure Your Trust Product**
+   - **Friendly Name:** Give your Trust Product a name (e.g., "My Business SHAKEN/STIR")
+   - **Business Profile:** Select your approved Business Profile from the dropdown
+   - **Phone Numbers:** Assign the phone numbers associated with your Business Profile
+
+3. **Certify Your Information**
+   - Check the box certifying that your Business Profile is the originator of the phone calls
+   - Confirm that the display name accurately represents your business
+   - Review all information for accuracy
+
+4. **Submit for Review**
+   - Click "Submit for Review"
+   - Wait for approval (typically 24-48 hours)
+   - You'll receive email notifications about the status
+
+#### Step 4: Verification and Activation
+1. **Check Your Email**
+   - Look for approval notification from Twilio
+   - If approved, your SHAKEN/STIR is now active
+   - If rejected, follow the instructions to fix any issues
+
+2. **Test Your Setup**
+   - Make a test call from your registered number
+   - Check if the call shows as verified on the recipient's phone
+   - Verify that your business name appears correctly
+
+### What Happens After Setup
+
+#### ✅ Your Calls Are Now Authenticated
+- All outbound calls from your registered numbers will have SHAKEN/STIR authentication
+- Recipients will see verification indicators on their phones
+- Your calls are less likely to be blocked or marked as spam
+
+#### ✅ Better Call Success Rates
+- People are more likely to answer verified calls
+- Your business appears more trustworthy
+- Higher success rates for your calling campaigns
+
+#### ✅ Compliance Benefits
+- You meet regulatory requirements for call authentication
+- Your business is protected from being flagged as spam
+- You maintain a good reputation in the phone system
+
+### Troubleshooting SHAKEN/STIR Setup
+
+#### My Business Profile Was Rejected
+**Common reasons:**
+- Information doesn't match official business documents
+- Missing required information
+- Using personal instead of business information
+
+**What to do:**
+- Check the rejection email for specific reasons
+- Update your information to match official documents
+- Resubmit your Business Profile
+
+#### My SHAKEN/STIR Registration Was Rejected
+**Common reasons:**
+- Business Profile not properly verified
+- Phone numbers not properly assigned
+- Incomplete or incorrect information
+
+**What to do:**
+- Ensure your Business Profile is fully approved
+- Verify all phone numbers are assigned to your Business Profile
+- Double-check all information for accuracy
+- Resubmit your SHAKEN/STIR registration
+
+#### It's Taking Too Long
+**Normal timeline:** 24-48 hours for each step
+**If longer than 5 days:**
+- Check your email for any requests for more information
+- Contact Twilio support
+- Verify you haven't missed any required steps
+
+### Important Notes
+
+#### Phone Number Requirements
+- Only certain types of phone numbers are eligible for SHAKEN/STIR
+- US standard long code numbers work best
+- Toll-free numbers may have different requirements
+
+#### Ongoing Maintenance
+- Keep your Business Profile information up to date
+- Notify Twilio if you change your business information
+- Regularly check that your SHAKEN/STIR is still active
+
+#### Cost Considerations
+- SHAKEN/STIR setup is typically free
+- There may be ongoing costs for phone number usage
+- Check Twilio's pricing for current rates
+
+## Summary
+
+SHAKEN/STIR is like having a security guard for every phone call. It helps make sure that when someone calls you, they're really who they say they are. While it won't stop all spam calls, it makes the phone system much safer and more trustworthy for everyone.
+
+**Remember:** Even with SHAKEN/STIR, always be careful with unknown callers and never give out personal information over the phone unless you're absolutely sure who you're talking to!
