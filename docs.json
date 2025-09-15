@@ -82,7 +82,10 @@
           {
             "group": "📞 Inbound/ViciDialer",
             "pages": [
-              "inbound/overview"
+              "inbound/overview",
+              "inbound/twilio-configuration",
+              "inbound/twilio-sip-trunk-setup",
+              "inbound/generic-sip-providers"
             ]
           },
           {

@@ -1,0 +1,506 @@
+---
+title: '🌐 Generic SIP Provider Configuration'
+description: 'Configure SIP Trunks with various providers (Vonage, Bandwidth, etc.) for Vodex AI integration'
+---
+
+<Info>
+  **Universal Guide:** This guide covers SIP Trunk configuration for various providers including Vonage, Bandwidth, Flowroute, and other SIP-compatible services to integrate with Vodex AI.
+</Info>
+
+Configure SIP Trunks with any SIP provider to route incoming calls to your Vodex AI agents. While each provider has a slightly different interface, the core configuration principles remain the same.
+
+---
+
+## 🎯 Universal SIP Configuration
+
+### Core Vodex Settings
+
+**These settings apply to ALL SIP providers:**
+
+| Setting | Value | Description |
+|---------|-------|-------------|
+| **SIP Server/Host** | `34.27.110.155` | Vodex AI SIP Gateway |
+| **Port** | `5080` | SIP Communication Port |
+| **Transport** | `TCP` | Recommended transport protocol |
+| **Authentication** | None/IP-based | No username/password required |
+
+### Universal SIP URI Format
+
+```
+sip:[identifier]@34.27.110.155:5080;transport=tcp
+```
+
+<Warning>
+  **Critical:** Replace `[identifier]` with your unique Vodex SIP identifier from your Dialer Config setup. The IP address `34.27.110.155` must be used exactly as shown.
+</Warning>
+
+---
+
+## 📞 Provider-Specific Guides
+
+### Vonage (formerly Nexmo)
+
+<AccordionGroup>
+  <Accordion title="🔧 Vonage SIP Trunk Setup">
+    **Configuration Steps**
+    
+    **1. Access Vonage Dashboard:**
+    - Login to [Vonage API Dashboard](https://dashboard.nexmo.com)
+    - Navigate to Voice → SIP Endpoints or Voice → Applications
+    
+    **2. Create SIP Endpoint:**
+    ```
+    Endpoint Name: Vodex-AI-Integration
+    SIP URI: sip:[your-identifier]@34.27.110.155:5080;transport=tcp
+    ```
+    
+    **3. Routing Configuration:**
+    - **Destination:** `34.27.110.155:5080`
+    - **Protocol:** TCP
+    - **Priority:** 1 (highest)
+    - **Weight:** 100
+    
+    **4. Phone Number Linking:**
+    - Go to Numbers → Your Numbers
+    - Select the phone number to configure
+    - Set Voice webhook to route to your SIP endpoint
+    - Configure answer URL to point to Vodex SIP
+    
+    **Example Webhook URL:**
+    ```
+    sip:[your-identifier]@34.27.110.155:5080;transport=tcp
+    ```
+  </Accordion>
+  
+  <Accordion title="⚙️ Advanced Vonage Settings">
+    **Optional Configuration**
+    
+    **Call Recording:**
+    - Enable if required for compliance
+    - Configure storage settings
+    - Set recording format (MP3/WAV)
+    
+    **Fallback Routing:**
+    - Configure backup endpoints if needed
+    - Set timeout values for connection attempts
+    - Define retry logic for failed connections
+    
+    **Security Settings:**
+    - IP whitelisting (add 34.27.110.155)
+    - Rate limiting configuration
+    - Access control policies
+  </Accordion>
+</AccordionGroup>
+
+### Bandwidth
+
+<AccordionGroup>
+  <Accordion title="🔧 Bandwidth SIP Configuration">
+    **Setup Process**
+    
+    **1. Access Bandwidth Dashboard:**
+    - Login to [Bandwidth Dashboard](https://dashboard.bandwidth.com)
+    - Navigate to Voice → SIP Domains or Trunks
+    
+    **2. Create SIP Domain/Trunk:**
+    ```
+    Domain Name: vodex-ai-trunk
+    Description: Vodex AI Integration
+    ```
+    
+    **3. Termination Settings:**
+    ```
+    Termination Host: 34.27.110.155
+    Port: 5080
+    Transport: TCP
+    Authentication: None (IP-based)
+    ```
+    
+    **4. Routing Rules:**
+    - Create routing rule for inbound calls
+    - Set destination to Vodex SIP gateway
+    - Configure priority and weight settings
+    
+    **5. Phone Number Assignment:**
+    - Assign phone numbers to the SIP domain
+    - Configure voice routing to use SIP termination
+    - Test call routing to Vodex
+  </Accordion>
+  
+  <Accordion title="⚙️ Bandwidth Advanced Options">
+    **Additional Features**
+    
+    **Call Detail Records (CDR):**
+    - Configure CDR collection and storage
+    - Set up automated CDR delivery
+    - Define CDR format and fields
+    
+    **Quality Monitoring:**
+    - Enable voice quality monitoring
+    - Configure alerting for call quality issues
+    - Set up performance dashboards
+    
+    **Failover Configuration:**
+    - Define backup routing rules
+    - Configure automatic failover triggers
+    - Set up monitoring and alerting
+  </Accordion>
+</AccordionGroup>
+
+### Flowroute
+
+<AccordionGroup>
+  <Accordion title="🔧 Flowroute SIP Setup">
+    **Configuration Steps**
+    
+    **1. Flowroute Portal Access:**
+    - Login to [Flowroute Portal](https://manage.flowroute.com)
+    - Navigate to Preferences → SIP → Termination
+    
+    **2. Add Termination Target:**
+    ```
+    Target Name: Vodex-AI-Gateway
+    Target IP: 34.27.110.155
+    Port: 5080
+    Transport: TCP
+    ```
+    
+    **3. Route Configuration:**
+    - Go to Preferences → Routes
+    - Create new route for Vodex integration
+    - Set route priority and selection criteria
+    
+    **4. DID Assignment:**
+    - Navigate to Numbers → DIDs
+    - Select phone numbers to configure
+    - Assign route to direct calls to Vodex
+    - Enable and test configuration
+  </Accordion>
+  
+  <Accordion title="⚙️ Flowroute Features">
+    **Advanced Configuration**
+    
+    **Least Cost Routing (LCR):**
+    - Configure multiple termination targets
+    - Set cost-based routing priorities
+    - Define failover sequences
+    
+    **Call Analytics:**
+    - Enable detailed call reporting
+    - Configure real-time monitoring
+    - Set up automated alerts
+    
+    **Security Features:**
+    - IP access control lists
+    - Rate limiting and fraud protection
+    - Call pattern monitoring
+  </Accordion>
+</AccordionGroup>
+
+### VoIP.ms
+
+<AccordionGroup>
+  <Accordion title="🔧 VoIP.ms Configuration">
+    **Setup Process**
+    
+    **1. VoIP.ms Portal:**
+    - Login to [VoIP.ms Portal](https://voip.ms)
+    - Navigate to DID Numbers → Manage DID
+    
+    **2. DID Configuration:**
+    ```
+    Routing: SIP URI
+    SIP URI: sip:[your-identifier]@34.27.110.155:5080
+    ```
+    
+    **3. Advanced Routing:**
+    - Go to Account → Sub Accounts (if using)
+    - Configure SIP authentication settings
+    - Set up call routing preferences
+    
+    **4. Testing:**
+    - Use VoIP.ms testing tools
+    - Verify call routing to Vodex
+    - Check audio quality and connection stability
+  </Accordion>
+</AccordionGroup>
+
+---
+
+## 🛠️ Generic Configuration Template
+
+### Universal Setup Steps
+
+<Steps>
+  <Step title="Gather Requirements">
+    **Pre-Configuration Checklist**
+    - [ ] SIP provider account with admin access
+    - [ ] Phone numbers purchased and assigned
+    - [ ] Vodex Dialer Config completed
+    - [ ] Vodex SIP identifier obtained
+  </Step>
+  
+  <Step title="Access Provider Dashboard">
+    **Platform Access**
+    1. Login to your SIP provider's control panel
+    2. Navigate to SIP/Voice/Trunk configuration section
+    3. Locate termination or routing settings
+    4. Prepare to create new configuration
+  </Step>
+  
+  <Step title="Configure SIP Endpoint">
+    **Core Settings**
+    ```
+    Destination Host: 34.27.110.155
+    Port: 5080
+    Transport Protocol: TCP
+    Authentication: None/IP-based
+    SIP URI: sip:[your-identifier]@34.27.110.155:5080;transport=tcp
+    ```
+  </Step>
+  
+  <Step title="Set Routing Rules">
+    **Call Direction**
+    1. Create routing rule for inbound calls
+    2. Set Vodex SIP as the termination target
+    3. Configure priority and weight (usually Priority: 1, Weight: 100)
+    4. Enable the routing rule
+  </Step>
+  
+  <Step title="Link Phone Numbers">
+    **Number Assignment**
+    1. Select phone numbers to configure
+    2. Assign SIP routing rule to numbers
+    3. Set call handling to use SIP termination
+    4. Save and activate configuration
+  </Step>
+  
+  <Step title="Test Configuration">
+    **Validation**
+    1. Make test calls to configured numbers
+    2. Verify calls reach Vodex AI agents
+    3. Check call quality and response time
+    4. Monitor for any connection issues
+  </Step>
+</Steps>
+
+---
+
+## 🔧 Common Configuration Parameters
+
+### Standard SIP Settings
+
+| Parameter | Typical Location | Vodex Value | Notes |
+|-----------|------------------|-------------|-------|
+| **Host/Server** | Termination/Routing | `34.27.110.155` | Always use this IP |
+| **Port** | Termination/Routing | `5080` | Standard SIP port |
+| **Transport** | Advanced/Protocol | `TCP` | Preferred over UDP |
+| **Authentication** | Security/Auth | `None` or `IP-based` | No credentials needed |
+| **Codec** | Audio/Media | Provider default | Usually G.711 works best |
+| **DTMF** | Audio/Signaling | `RFC 2833` | Standard DTMF handling |
+
+### Priority and Weight Settings
+
+```
+Priority: 1-10 (lower numbers = higher priority)
+Weight: 1-100 (higher numbers = more traffic)
+
+Recommended for Vodex:
+Priority: 1
+Weight: 100
+```
+
+### Timeout and Retry Settings
+
+```
+Connection Timeout: 30 seconds
+Retry Attempts: 3
+Retry Interval: 5 seconds
+Call Timeout: 60 seconds
+```
+
+---
+
+## 🔍 Troubleshooting Guide
+
+### Common Issues Across Providers
+
+<AccordionGroup>
+  <Accordion title="🚫 Connection Failures">
+    **Symptoms:**
+    - Calls fail to connect
+    - Busy signal or fast busy
+    - "Number not in service" messages
+    
+    **Diagnosis:**
+    1. Verify IP address is exactly `34.27.110.155`
+    2. Check port is set to `5080`
+    3. Confirm transport is TCP
+    4. Validate SIP identifier in URI
+    
+    **Solutions:**
+    - Double-check all configuration parameters
+    - Test with provider's diagnostic tools
+    - Verify Vodex Dialer Config is properly set up
+    - Contact provider support for routing verification
+  </Accordion>
+  
+  <Accordion title="📞 One-Way Audio">
+    **Symptoms:**
+    - Caller can hear AI but AI can't hear caller
+    - AI can speak but caller hears silence
+    - Intermittent audio quality issues
+    
+    **Diagnosis:**
+    1. Check NAT and firewall settings
+    2. Verify RTP port ranges
+    3. Test with different transport protocols
+    4. Review media codec configuration
+    
+    **Solutions:**
+    - Ensure TCP transport is used
+    - Configure proper RTP port ranges
+    - Check provider's NAT handling
+    - Test from different network locations
+  </Accordion>
+  
+  <Accordion title="⏱️ Call Setup Delays">
+    **Symptoms:**
+    - Long delays before AI answers
+    - Timeout before connection
+    - Slow call establishment
+    
+    **Diagnosis:**
+    1. Check network latency to Vodex servers
+    2. Review provider's routing efficiency
+    3. Verify no unnecessary authentication delays
+    4. Test during different times of day
+    
+    **Solutions:**
+    - Optimize routing configuration
+    - Remove unnecessary authentication steps
+    - Consider provider network performance
+    - Contact Vodex support for server status
+  </Accordion>
+</AccordionGroup>
+
+### Provider-Specific Troubleshooting
+
+<AccordionGroup>
+  <Accordion title="📋 Diagnostic Commands">
+    **Testing Tools by Provider**
+    
+    **Vonage:**
+    ```bash
+    # Use Vonage's SIP testing tool
+    # Check webhook responses
+    # Review call logs in dashboard
+    ```
+    
+    **Bandwidth:**
+    ```bash
+    # Use Bandwidth's network testing
+    # Check SIP domain connectivity
+    # Review call detail records
+    ```
+    
+    **Flowroute:**
+    ```bash
+    # Use Flowroute's diagnostics
+    # Test termination targets
+    # Check route effectiveness
+    ```
+  </Accordion>
+  
+  <Accordion title="📊 Monitoring and Logs">
+    **What to Check**
+    
+    **Call Logs:**
+    - Call setup times and success rates
+    - SIP response codes and errors
+    - Audio quality metrics
+    
+    **Network Metrics:**
+    - Latency to Vodex servers
+    - Packet loss and jitter
+    - Connection stability
+    
+    **Configuration Audit:**
+    - Recent changes to settings
+    - Comparison with working configurations
+    - Validation of all parameters
+  </Accordion>
+</AccordionGroup>
+
+---
+
+## 📋 Configuration Checklist
+
+### Pre-Configuration
+- [ ] SIP provider account with appropriate permissions
+- [ ] Phone numbers purchased and available
+- [ ] Vodex Dialer Config completed and tested
+- [ ] SIP identifier obtained from Vodex
+
+### Provider Configuration
+- [ ] SIP endpoint/trunk created with descriptive name
+- [ ] Termination host set to `34.27.110.155`
+- [ ] Port configured as `5080`
+- [ ] Transport protocol set to TCP
+- [ ] Authentication disabled or set to IP-based
+- [ ] SIP URI properly formatted with Vodex identifier
+
+### Routing Setup
+- [ ] Routing rules created for inbound calls
+- [ ] Priority and weight values configured
+- [ ] Phone numbers assigned to SIP routing
+- [ ] Configuration saved and activated
+
+### Testing and Validation
+- [ ] Test calls completed successfully
+- [ ] AI agents respond appropriately
+- [ ] Call quality is acceptable
+- [ ] No connection errors or timeouts
+- [ ] End-to-end integration verified
+
+---
+
+## 💡 Best Practices
+
+### Configuration Management
+- **Documentation:** Keep detailed records of all provider configurations
+- **Naming Conventions:** Use consistent, descriptive names across providers
+- **Version Control:** Track changes and maintain configuration backups
+- **Testing:** Always test thoroughly before going live
+
+### Security Considerations
+- **IP Whitelisting:** Add Vodex IP (34.27.110.155) to allowed lists
+- **Access Control:** Limit configuration access to authorized personnel
+- **Monitoring:** Set up alerts for unusual call patterns or failures
+- **Regular Audits:** Review configurations periodically for security and efficiency
+
+### Performance Optimization
+- **Load Distribution:** Use multiple providers for redundancy if needed
+- **Quality Monitoring:** Track call quality metrics and optimize accordingly
+- **Cost Management:** Monitor usage and optimize routing for cost efficiency
+- **Capacity Planning:** Ensure provider capacity meets your call volume needs
+
+---
+
+## 🚀 Next Steps
+
+After configuring your SIP provider:
+
+1. **Test Thoroughly** - Verify all call flows work correctly
+2. **Monitor Performance** - Track call quality and connection reliability  
+3. **Optimize Settings** - Fine-tune based on initial performance data
+4. **Scale Operations** - Add more numbers or providers as needed
+5. **Document Everything** - Maintain detailed configuration records
+
+<Check>
+  **Generic SIP Integration Complete!** Your SIP provider is now configured to route calls to Vodex AI. Incoming calls to your configured numbers will be automatically handled by your AI agents.
+</Check>
+
+---
+
+**Need provider-specific help?** Contact your SIP provider's support team for platform-specific configuration assistance, or reach out to [Vodex support](mailto:support@vodex.ai) for integration guidance and troubleshooting.

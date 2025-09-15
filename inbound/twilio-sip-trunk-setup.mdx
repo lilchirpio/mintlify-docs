@@ -1,0 +1,448 @@
+---
+title: '📞 Twilio SIP Trunk Creation Guide'
+description: 'Complete guide to creating and configuring SIP Trunks in Twilio for Vodex AI integration'
+---
+
+<Info>
+  **Purpose:** This guide walks you through creating a SIP Trunk in Twilio that can route calls to Vodex AI agents. This is the foundation step before configuring inbound call routing.
+</Info>
+
+Learn how to create and configure SIP Trunks in Twilio to enable seamless integration with Vodex AI. SIP Trunks act as the bridge between your Twilio phone numbers and the Vodex AI system.
+
+---
+
+## 🎯 What is a SIP Trunk?
+
+### SIP Trunk Overview
+
+<Card title="SIP Trunk Functionality" icon="network-wired">
+  **Communication Bridge**
+  
+  A SIP Trunk is a virtual connection that enables Voice over IP (VoIP) communication between different systems. In our case, it connects:
+  
+  - **Twilio's phone system** ↔ **Vodex AI platform**
+  - **Your phone numbers** ↔ **AI agents**
+  - **Incoming calls** ↔ **Automated responses**
+</Card>
+
+### Why You Need a SIP Trunk
+
+<AccordionGroup>
+  <Accordion title="🔄 Call Routing">
+    **Seamless Call Direction**
+    - Routes incoming calls from Twilio to Vodex AI
+    - Enables automatic call answering by AI agents
+    - Provides reliable connection between platforms
+    - Ensures consistent call quality and delivery
+  </Accordion>
+  
+  <Accordion title="⚙️ Configuration Control">
+    **Flexible Setup Options**
+    - Configure multiple phone numbers to use one trunk
+    - Set up different trunks for different AI configurations
+    - Control call routing and failover options
+    - Manage authentication and security settings
+  </Accordion>
+  
+  <Accordion title="📊 Monitoring & Analytics">
+    **Call Tracking**
+    - Monitor call volumes and success rates
+    - Track connection quality and performance
+    - Generate reports on call routing efficiency
+    - Debug connection issues when they occur
+  </Accordion>
+</AccordionGroup>
+
+---
+
+## 🛠️ Step-by-Step SIP Trunk Creation
+
+### Step 1: Access Twilio Console
+
+<Steps>
+  <Step title="Login to Twilio">
+    **Navigate to SIP Trunking**
+    1. Go to [Twilio Console](https://console.twilio.com)
+    2. Login with your Twilio account credentials
+    3. Navigate to **Develop** → **Elastic SIP Trunking**
+    4. Click on **"Trunks"** in the sidebar menu
+  </Step>
+  
+  <Step title="Initiate Trunk Creation">
+    **Start New Trunk**
+    1. Click the **"Create new SIP Trunk"** button
+    2. You'll be directed to the trunk configuration page
+    3. Prepare to enter your trunk details
+  </Step>
+</Steps>
+
+### Step 2: Basic Trunk Configuration
+
+<Steps>
+  <Step title="Trunk Identification">
+    **Name and Description**
+    
+    **Friendly Name:** `Vodex-AI-Trunk`
+    ```
+    Recommended naming: Vodex-AI-[Purpose]
+    Examples:
+    - Vodex-AI-Support
+    - Vodex-AI-Sales  
+    - Vodex-AI-Main
+    ```
+    
+    **Domain Name:** (Optional - can be left blank)
+    ```
+    Leave empty unless you have specific requirements
+    ```
+    
+    **Description:** 
+    ```
+    SIP Trunk for routing calls to Vodex AI agents
+    IP: 34.27.110.155
+    Purpose: [Your specific use case]
+    ```
+  </Step>
+  
+  <Step title="Authentication Settings">
+    **Security Configuration**
+    
+    **Authentication:** `None` (Recommended for Vodex integration)
+    
+    <Info>
+      **Why No Authentication:** Vodex AI servers are pre-configured to accept connections from Twilio. Using IP-based authentication simplifies the setup while maintaining security.
+    </Info>
+    
+    **Secure Trunking:** Enable if required by your organization
+  </Step>
+</Steps>
+
+### Step 3: Origination Configuration
+
+<Steps>
+  <Step title="Add Origination URI">
+    **Outbound Call Routing**
+    1. Click on the **"Origination"** tab
+    2. Click **"Add Origination URI"**
+    3. Configure the URI pointing to Vodex servers
+  </Step>
+  
+  <Step title="Configure Vodex Endpoint">
+    **Origination URI Settings**
+    
+    **URI:** 
+    ```
+    sip:34.27.110.155:5080;transport=tcp
+    ```
+    
+    **Priority:** `10`
+    **Weight:** `10`
+    
+    <Warning>
+      **Important:** Use exactly `34.27.110.155` as the IP address. This is the Vodex AI SIP gateway that will handle your calls.
+    </Warning>
+  </Step>
+  
+  <Step title="Advanced Origination Settings">
+    **Optional Configuration**
+    
+    **Enabled:** ✅ Checked
+    **Friendly Name:** `Vodex-AI-Gateway`
+    
+    **Additional Parameters:**
+    - Leave other settings at default values
+    - Ensure the URI is active and enabled
+    - Save the origination configuration
+  </Step>
+</Steps>
+
+### Step 4: Termination Configuration (Optional)
+
+<Steps>
+  <Step title="Termination Setup">
+    **Inbound Call Handling**
+    
+    <Info>
+      **For Vodex Integration:** Termination configuration is typically not required for basic Vodex AI integration, as calls are primarily routed outbound to Vodex servers.
+    </Info>
+    
+    **If Termination is Required:**
+    1. Click on **"Termination"** tab
+    2. Add termination URI if needed for your specific setup
+    3. Use the same IP: `34.27.110.155:5080`
+  </Step>
+</Steps>
+
+---
+
+## ⚙️ Advanced Configuration Options
+
+### Access Control Lists (ACLs)
+
+<AccordionGroup>
+  <Accordion title="🔒 IP Whitelist Configuration">
+    **Restrict Access by IP**
+    
+    **Create ACL:**
+    1. Navigate to **"Access Control"** section
+    2. Create new ACL named `Vodex-Whitelist`
+    3. Add Vodex IP addresses to allowed list
+    
+    **Vodex IP Addresses:**
+    ```
+    34.27.110.155  (Primary Vodex Gateway)
+    ```
+    
+    **Additional IPs:** Contact Vodex support for complete IP whitelist if required
+  </Accordion>
+  
+  <Accordion title="🌍 Geographic Restrictions">
+    **Regional Access Control**
+    
+    **Geo Permissions:**
+    - Configure allowed countries/regions
+    - Restrict access based on geographic location
+    - Add specific country codes if needed
+    - Useful for compliance and security requirements
+  </Accordion>
+</AccordionGroup>
+
+### Recording and Monitoring
+
+<AccordionGroup>
+  <Accordion title="📹 Call Recording">
+    **Enable Recording Features**
+    
+    **Recording Options:**
+    - **Dual Channel:** Separate channels for each party
+    - **Single Channel:** Mixed audio recording
+    - **Trim Silence:** Remove quiet periods
+    
+    **Storage Settings:**
+    - Configure recording storage duration
+    - Set up automatic transcription if needed
+    - Define access permissions for recordings
+  </Accordion>
+  
+  <Accordion title="📊 Analytics & Insights">
+    **Monitoring Configuration**
+    
+    **Enable Insights:**
+    - Voice Insights for call quality analysis
+    - Call summary and analytics
+    - Real-time monitoring dashboards
+    - Custom alerts for issues or thresholds
+  </Accordion>
+</AccordionGroup>
+
+---
+
+## 🔧 Testing Your SIP Trunk
+
+### Verification Steps
+
+<Steps>
+  <Step title="Configuration Review">
+    **Double-Check Settings**
+    1. Verify origination URI: `sip:34.27.110.155:5080;transport=tcp`
+    2. Confirm priority and weight values are set
+    3. Check that the trunk is enabled and active
+    4. Review authentication settings (should be "None")
+  </Step>
+  
+  <Step title="Connection Test">
+    **Test Trunk Connectivity**
+    1. Use Twilio's built-in SIP testing tools
+    2. Send a test call through the trunk
+    3. Monitor for any connection errors
+    4. Verify the trunk shows as "Active" status
+  </Step>
+  
+  <Step title="End-to-End Validation">
+    **Complete Integration Test**
+    1. Configure a phone number to use this trunk
+    2. Set up inbound routing to Vodex (see Twilio Configuration guide)
+    3. Make a test call to verify AI response
+    4. Check call logs for successful routing
+  </Step>
+</Steps>
+
+### Troubleshooting Common Issues
+
+<AccordionGroup>
+  <Accordion title="🚫 Trunk Not Connecting">
+    **Connection Problems**
+    
+    **Symptoms:**
+    - Trunk shows as "Inactive" or "Failed"
+    - Calls not routing through the trunk
+    - Connection timeouts or errors
+    
+    **Solutions:**
+    1. Verify IP address is exactly `34.27.110.155`
+    2. Check port is set to `5080`
+    3. Ensure transport is specified as `tcp`
+    4. Confirm no typos in the URI format
+    5. Check Twilio account has SIP Trunking enabled
+  </Accordion>
+  
+  <Accordion title="📞 Calls Not Routing">
+    **Routing Issues**
+    
+    **Symptoms:**
+    - Trunk is active but calls fail
+    - Busy signals or disconnected calls
+    - Calls don't reach Vodex AI
+    
+    **Solutions:**
+    1. Check origination URI is enabled
+    2. Verify priority and weight settings
+    3. Ensure phone number is configured to use this trunk
+    4. Test with Twilio's SIP testing tools
+    5. Contact Vodex support to verify server status
+  </Accordion>
+  
+  <Accordion title="🔊 Audio Quality Issues">
+    **Call Quality Problems**
+    
+    **Symptoms:**
+    - Poor audio quality
+    - Choppy or delayed audio
+    - One-way audio problems
+    
+    **Solutions:**
+    1. Verify transport=tcp in URI
+    2. Check network connectivity and latency
+    3. Review Twilio's call quality insights
+    4. Test at different times to rule out network issues
+    5. Consider enabling call recording for analysis
+  </Accordion>
+</AccordionGroup>
+
+---
+
+## 📋 Configuration Checklist
+
+### Pre-Creation Requirements
+- [ ] Twilio account with SIP Trunking enabled
+- [ ] Appropriate Twilio plan (SIP Trunking may require specific plans)
+- [ ] Vodex AI project configured and ready
+- [ ] Understanding of your intended call routing
+
+### Trunk Creation
+- [ ] SIP Trunk created with descriptive name
+- [ ] Origination URI configured: `sip:34.27.110.155:5080;transport=tcp`
+- [ ] Priority set to `10`
+- [ ] Weight set to `10`
+- [ ] Authentication set to "None"
+- [ ] Trunk enabled and active
+
+### Testing and Validation
+- [ ] Trunk shows "Active" status in Twilio console
+- [ ] Test connection successful
+- [ ] No configuration errors or warnings
+- [ ] Ready for phone number assignment
+
+### Next Steps
+- [ ] Link phone numbers to the trunk
+- [ ] Configure inbound routing to Vodex
+- [ ] Set up specific AI agent routing
+- [ ] Test complete call flow
+
+---
+
+## 💡 Best Practices
+
+### Naming Conventions
+```
+Recommended Format: Vodex-AI-[Purpose]-[Environment]
+
+Examples:
+✅ Vodex-AI-Support-Prod
+✅ Vodex-AI-Sales-Test  
+✅ Vodex-AI-Main-Dev
+❌ MyTrunk
+❌ SIPTrunk1
+```
+
+### Security Considerations
+- **Monitor Usage:** Regularly check call volumes and patterns
+- **Access Control:** Use ACLs if your organization requires IP restrictions
+- **Authentication:** Use "None" for Vodex integration unless specific security requirements exist
+- **Regular Audits:** Periodically review trunk configurations and usage
+
+### Performance Optimization
+- **Multiple Trunks:** Consider separate trunks for different purposes or traffic volumes
+- **Load Balancing:** Use weight settings to distribute load across multiple URIs if needed
+- **Monitoring:** Enable Twilio Insights for call quality monitoring
+- **Documentation:** Keep detailed records of your trunk configurations
+
+---
+
+## 🔄 Managing Multiple Trunks
+
+### Use Cases for Multiple Trunks
+
+<Card title="Multi-Trunk Scenarios" icon="sitemap">
+  **When to Create Multiple Trunks**
+  
+  **Different AI Configurations:**
+  - Separate trunks for different Vodex AI agents
+  - Different business lines (Sales, Support, etc.)
+  - Testing vs. Production environments
+  
+  **Traffic Management:**
+  - High-volume vs. low-volume call routing
+  - Geographic or regional routing
+  - Failover and redundancy planning
+  
+  **Security Requirements:**
+  - Different access control needs
+  - Compliance-specific routing
+  - Department-specific restrictions
+</Card>
+
+### Trunk Management Best Practices
+
+<Steps>
+  <Step title="Organize by Purpose">
+    **Logical Grouping**
+    - Name trunks clearly to indicate their purpose
+    - Group related trunks for easy management
+    - Document the intended use of each trunk
+  </Step>
+  
+  <Step title="Monitor Performance">
+    **Regular Assessment**
+    - Track call success rates per trunk
+    - Monitor quality metrics and issues
+    - Review usage patterns and optimization opportunities
+  </Step>
+  
+  <Step title="Maintain Documentation">
+    **Configuration Records**
+    - Keep detailed records of each trunk's purpose
+    - Document any custom configurations or requirements
+    - Track which phone numbers use which trunks
+  </Step>
+</Steps>
+
+---
+
+## 🚀 Next Steps
+
+After creating your SIP Trunk:
+
+1. **Link Phone Numbers** - Configure your Twilio phone numbers to use this trunk
+2. **Set Up Inbound Routing** - Follow the [Twilio Configuration Guide](/inbound/twilio-configuration) 
+3. **Configure Vodex Integration** - Set up your Dialer Config in Vodex
+4. **Test Complete Flow** - Verify end-to-end call routing works correctly
+5. **Monitor and Optimize** - Track performance and make adjustments as needed
+
+<Check>
+  **SIP Trunk Created Successfully!** Your Twilio SIP Trunk is now ready to route calls to Vodex AI. The next step is configuring inbound call routing to connect your phone numbers to AI agents.
+</Check>
+
+---
+
+**Need help with SIP Trunk setup?** Contact Twilio support for platform-specific issues or [Vodex support](mailto:support@vodex.ai) for integration assistance.
