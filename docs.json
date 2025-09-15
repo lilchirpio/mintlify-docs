@@ -73,10 +73,16 @@
               "ghl/integration"
             ]
           },
-           {
+          {
             "group": "🏢 Enterprise Features",
             "pages": [
               "enterprise/overview"
+            ]
+          },
+          {
+            "group": "🔒 Trust & Security",
+            "pages": [
+              "security/overview"
             ]
           },
           {
