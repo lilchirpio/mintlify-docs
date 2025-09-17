@@ -365,6 +365,109 @@ graph TD
 
 ---
 
+## Call Transfer Webhook
+
+Configure real-time conversation data delivery when calls are transferred to human agents, enabling seamless handoffs with full context.
+
+### Transfer Webhook Configuration
+
+Provide your webhook URL to receive conversation history and call data immediately when a call is transferred to a human agent.
+
+<Info>
+  **Enterprise Feature:** Call Transfer Webhook enables human agents to receive complete conversation context, improving transfer quality and customer experience.
+</Info>
+
+<CodeGroup>
+```text Transfer Webhook URL Setup
+https://your-domain.com/api/call-transfer
+```
+
+```json Example Transfer Webhook Payload
+{
+  "conversation": [
+    {
+      "role": "assistant",
+      "content": "Hello, thank you for calling Vodex. I'm Sarah, how can I help you today?",
+      "type": "response"
+    },
+    {
+      "role": "user", 
+      "content": "Hi, I need help with my account billing issue",
+      "type": "input"
+    },
+    {
+      "role": "assistant",
+      "content": "I understand you have a billing concern. Let me transfer you to our billing specialist who can better assist you.",
+      "type": "response"
+    }
+  ],
+  "call_uuid": "68adc5c4-2709-40e4-9f10-ea01d0731d",
+  "tenent_id": "Vodex",
+  "phone_number": "+1234567890",
+  "user_data": {
+    "firstName": "John",
+    "lastName": "Smith",
+    "accountId": "ACC-12345",
+    "customerTier": "Premium"
+  }
+}
+```
+</CodeGroup>
+
+<Note>
+  **Conversation Format:** The conversation array supports multiple formats depending on the AI model used:
+  - Standard: `{"role": "user|assistant", "content": "message", "type": "input|response"}`
+  - Alternative: `{"author": "agent_name", "content": "message"}`
+  
+  **Important:** The conversation array may have inconsistent keys across different objects, as various AI models generate different data structures. Always validate object keys before processing.
+</Note>
+
+### Transfer Webhook Data Fields
+
+<AccordionGroup>
+  <Accordion title="Conversation History">
+    **Real-time Context:**
+    - `conversation` - Complete conversation transcript up to transfer point
+    - `role` - Speaker identification (user/assistant)
+    - `content` - Message content
+    - `type` - Message type (input/response)
+  </Accordion>
+  
+  <Accordion title="Call Identification">
+    **Transfer Context:**
+    - `call_uuid` - Unique call identifier
+    - `tenent_id` - Organization identifier
+    - `phone_number` - Customer phone number
+    - `user_data` - Custom customer data and context
+  </Accordion>
+</AccordionGroup>
+
+### Transfer Webhook Benefits
+
+<Tabs>
+  <Tab title="Agent Preparation">
+    **Informed Handoffs:**
+    - Complete conversation history
+    - Customer context and data
+    - Issue identification
+    - Previous interaction summary
+    
+    **Result:** Agents start transfers with full context, eliminating customer frustration from repeating information.
+  </Tab>
+  
+  <Tab title="Improved Experience">
+    **Seamless Transitions:**
+    - No information loss during transfer
+    - Faster resolution times
+    - Reduced customer effort
+    - Professional service continuity
+    
+    **Result:** Higher customer satisfaction and more efficient agent workflows.
+  </Tab>
+</Tabs>
+
+---
+
 ## Post-Call Insights Webhook
 
 Configure automated post-call data delivery to your systems for analysis and integration.
@@ -524,17 +627,28 @@ https://your-domain.com/api/call-insights
   <Accordion title="Development Testing">
     **Test Your Integration:**
     - Use webhook testing tools (ngrok, RequestBin)
-    - Validate JSON parsing
-    - Test error handling
-    - Verify data mapping
+    - Validate JSON parsing for both webhook types
+    - Test error handling and retry logic
+    - Verify data mapping and conversation parsing
+    - Test transfer webhook timing and delivery
   </Accordion>
   
   <Accordion title="Production Deployment">
     **Production Readiness:**
-    - Implement proper logging
-    - Set up monitoring and alerts
-    - Configure backup endpoints
-    - Document data flows
+    - Implement proper logging for all webhook events
+    - Set up monitoring and alerts for transfer webhooks
+    - Configure backup endpoints for critical transfers
+    - Document data flows and agent integration processes
+    - Ensure real-time processing for transfer webhooks
+  </Accordion>
+  
+  <Accordion title="Transfer Webhook Specific">
+    **Agent Integration:**
+    - Display conversation history in agent interface
+    - Parse user_data for customer context
+    - Implement real-time webhook processing
+    - Configure agent notification systems
+    - Test transfer scenarios thoroughly
   </Accordion>
 </AccordionGroup>
 
@@ -546,9 +660,11 @@ After configuring advanced settings:
 
 1. **Test language and ASR combinations** in development
 2. **Configure transfer settings** based on your gateway capabilities
-3. **Set up webhook endpoints** for post-call data integration
-4. **Monitor performance** and adjust settings as needed
-5. **Document your configuration** for team reference
+3. **Set up webhook endpoints** for both post-call insights and transfer notifications
+4. **Configure agent systems** to receive and display transfer webhook data
+5. **Test transfer scenarios** with conversation context delivery
+6. **Monitor performance** and adjust settings as needed
+7. **Document your configuration** for team reference
 
 <Check>
   **Advanced Configuration Complete?** These settings provide fine-grained control over your AI calling campaigns. Proper configuration ensures optimal performance, cost efficiency, and seamless integration with your existing systems.
