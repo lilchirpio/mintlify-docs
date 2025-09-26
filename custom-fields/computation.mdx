@@ -228,6 +228,10 @@ If paid by {dateutil:{today}+30d}, you can settle for
 
 ### **For Date Utilities:**
 
+<Warning>
+  **Mandatory Fields for `dateutil`:** When using any `dateutil` operations, both `{today}` and `{time_zone}` fields are **mandatory** and must be included in your prompt. During testing or when uploading audience data, you **must** provide the `time_zone` field, while `today` will be filled automatically by Vodex.
+</Warning>
+
 #### **Required Fields:**
 - `today` - Current date/time (automatically provided by Vodex)
 - `raw_today` - Raw timestamp format (automatically provided)
@@ -244,6 +248,10 @@ EST              ❌ Avoid (use full timezone names)
 <Warning>
   **Important:** The `time_zone` field must be a valid timezone. Invalid timezones will cause "Something went wrong" errors.
 </Warning>
+
+<Note>
+  The field `today` should be left blank when making calls via Agent Call, Campaign Run, or API. Vodex will fill it automatically using the `time_zone` field. For more details about these base fields, see our [Custom Fields Introduction](/custom-fields/introduction).
+</Note>
 
 ### **For Math Utilities:**
 - The referenced field must contain numeric data
