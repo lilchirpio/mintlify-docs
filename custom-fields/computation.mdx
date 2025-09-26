@@ -1,0 +1,435 @@
+---
+title: '🧮 Computation Custom Fields'
+description: 'Learn how to use advanced computation features for math calculations and date operations in your custom fields'
+tag: 'beta'
+---
+
+<Warning>
+  **Beta Feature:** Computation custom fields are currently in beta. While fully functional, this feature may receive updates and improvements. Please test thoroughly before using in production environments.
+</Warning>
+
+<Info>
+  **What you'll learn:** How to perform mathematical calculations and date manipulations directly within your custom fields using `mathutil` and `dateutil` functions.
+</Info>
+
+## What Are Computation Custom Fields?
+
+Computation custom fields are **advanced dynamic placeholders** that can perform calculations and manipulations on your data in real-time. Instead of just inserting static values, these fields can:
+
+- **Perform mathematical operations** (addition, subtraction, multiplication, division)
+- **Calculate dates** (add or subtract days, months, years, hours, minutes, seconds)
+- **Create dynamic values** based on existing custom field data
+
+Think of them as **smart calculators** embedded within your custom fields that automatically compute values when your AI conversations start.
+
+## Why Use Computation Custom Fields? 🎯
+
+### **The Problem:**
+- Need to calculate payment amounts with interest or fees
+- Want to set reminder dates based on due dates
+- Require dynamic pricing based on existing values
+- Need follow-up dates calculated automatically
+
+### **The Solution:**
+- Real-time calculations within your prompts
+- No manual math or date calculations needed
+- Dynamic values that update automatically
+- Professional, accurate, and consistent results
+
+## Math Utility (mathutil) 🔢
+
+The `mathutil` function lets you perform mathematical operations on numeric custom fields.
+
+### **Basic Syntax**
+```
+{mathutil:{FieldName}[operation][value]}
+```
+
+### **Supported Operations**
+
+| Operation | Symbol | Description | Example |
+|-----------|--------|-------------|---------|
+| **Addition** | `+` | Add a number | `{mathutil:{AmountDue}+50}` |
+| **Subtraction** | `-` | Subtract a number | `{mathutil:{AmountDue}-25}` |
+| **Multiplication** | `*` | Multiply by a number | `{mathutil:{AmountDue}*1.05}` |
+| **Division** | `/` | Divide by a number | `{mathutil:{AmountDue}/2}` |
+
+### **Math Examples**
+
+#### **Adding Late Fees**
+```
+Original Amount: {AmountDue}
+With Late Fee: {mathutil:{AmountDue}+25}
+```
+**Result:**
+```
+Original Amount: $500.00
+With Late Fee: $525.00
+```
+
+#### **Calculating Interest**
+```
+Principal: {LoanAmount}
+With 5% Interest: {mathutil:{LoanAmount}*1.05}
+```
+**Result:**
+```
+Principal: $10,000.00
+With 5% Interest: $10,500.00
+```
+
+#### **Payment Plans**
+```
+Total Amount: {AmountDue}
+Monthly Payment (12 months): {mathutil:{AmountDue}/12}
+```
+**Result:**
+```
+Total Amount: $1,200.00
+Monthly Payment (12 months): $100.00
+```
+
+#### **Discounts**
+```
+Original Price: {ProductPrice}
+After 20% Discount: {mathutil:{ProductPrice}*0.8}
+```
+**Result:**
+```
+Original Price: $250.00
+After 20% Discount: $200.00
+```
+
+### **Advanced Math Examples**
+
+#### **Complex Financial Calculations**
+```
+"Hello {FirstName}, your account {AccountNumber} has an outstanding balance 
+of {AmountDue}. With the late fee of $25, your total amount due is 
+{mathutil:{AmountDue}+25}. We can offer you a payment plan of 
+{mathutil:{AmountDue}/6} per month for 6 months."
+```
+
+#### **Pricing Adjustments**
+```
+"Based on your subscription to {PlanName} at {MonthlyRate} per month, 
+your annual cost would be {mathutil:{MonthlyRate}*12}. However, if you 
+upgrade to our annual plan, you'd pay only {mathutil:{MonthlyRate}*10} 
+for the entire year."
+```
+
+## Date Utility (dateutil) 📅
+
+The `dateutil` function lets you calculate dates by adding or subtracting time periods from existing dates.
+
+### **Basic Syntax**
+```
+{dateutil:{FieldName}[+/-][amount][unit]}
+```
+
+### **Supported Time Units**
+
+| Unit | Symbol | Description | Example |
+|------|--------|-------------|---------|
+| **Days** | `d` | Calendar days | `+5d` (5 days later) |
+| **Months** | `m` | Calendar months | `-2m` (2 months ago) |
+| **Years** | `y` | Calendar years | `+1y` (1 year later) |
+| **Hours** | `h` | Hours | `+24h` (24 hours later) |
+| **Minutes** | `min` | Minutes | `+30min` (30 minutes later) |
+| **Seconds** | `s` | Seconds | `+3600s` (1 hour later) |
+
+### **Special Date References**
+
+| Reference | Description | Usage |
+|-----------|-------------|-------|
+| `{today}` | Current date/time | `{dateutil:{today}+7d}` |
+| `{FieldName}` | Any date field | `{dateutil:{DueDate}+30d}` |
+
+### **Date Examples**
+
+#### **Payment Reminders**
+```
+Today: {today}
+Payment Due: {DueDate}
+Final Notice Date: {dateutil:{DueDate}+30d}
+```
+**Result:**
+```
+Today: March 15, 2024
+Payment Due: March 30, 2024
+Final Notice Date: April 29, 2024
+```
+
+#### **Appointment Scheduling**
+```
+Current Date: {today}
+Next Available: {dateutil:{today}+3d}
+Follow-up Date: {dateutil:{AppointmentDate}+14d}
+```
+**Result:**
+```
+Current Date: March 15, 2024 09:30:00
+Next Available: March 18, 2024 09:30:00
+Follow-up Date: April 2, 2024 14:00:00
+```
+
+#### **Contract Periods**
+```
+Contract Start: {StartDate}
+Contract End: {dateutil:{StartDate}+1y}
+Renewal Notice: {dateutil:{StartDate}+10m}
+```
+**Result:**
+```
+Contract Start: January 1, 2024
+Contract End: January 1, 2025
+Renewal Notice: November 1, 2024
+```
+
+### **Advanced Date Examples**
+
+#### **Debt Collection Timeline**
+```
+"Hello {FirstName}, your payment of {AmountDue} was due on {DueDate}. 
+It's now {dateutil:{DueDate}+15d} past due. If we don't receive payment 
+by {dateutil:{today}+7d}, we'll need to escalate this matter."
+```
+
+#### **Subscription Management**
+```
+"Your {PlanName} subscription started on {SubscriptionStart} and will 
+renew on {dateutil:{SubscriptionStart}+1m}. Your next billing date is 
+{dateutil:{today}+{DaysUntilBilling}d}."
+```
+
+## Combining Math and Date Utilities 🔄
+
+You can use both math and date utilities in the same prompt for complex calculations:
+
+### **Dynamic Payment Scheduling**
+```
+"Hello {FirstName}, your total amount of {AmountDue} can be split into 
+3 payments of {mathutil:{AmountDue}/3} each. The payment schedule would be:
+
+- First payment: {mathutil:{AmountDue}/3} due {dateutil:{today}+7d}
+- Second payment: {mathutil:{AmountDue}/3} due {dateutil:{today}+37d}  
+- Final payment: {mathutil:{AmountDue}/3} due {dateutil:{today}+67d}"
+```
+
+### **Interest Calculations with Dates**
+```
+"Your loan of {LoanAmount} has been outstanding since {LoanDate}. 
+With interest, your current balance is {mathutil:{LoanAmount}*1.05}. 
+If paid by {dateutil:{today}+30d}, you can settle for 
+{mathutil:{LoanAmount}*0.95}."
+```
+
+## Required Fields and Dependencies 📋
+
+### **For Date Utilities:**
+
+#### **Required Fields:**
+- `today` - Current date/time (automatically provided by Vodex)
+- `raw_today` - Raw timestamp format (automatically provided)
+- `time_zone` - User's timezone (must be provided)
+
+#### **Valid Timezone Formats:**
+```
+Asia/Kolkata     ✅ Correct
++05:30           ✅ Correct
+-08:00           ✅ Correct
+EST              ❌ Avoid (use full timezone names)
+```
+
+<Warning>
+  **Important:** The `time_zone` field must be a valid timezone. Invalid timezones will cause "Something went wrong" errors.
+</Warning>
+
+### **For Math Utilities:**
+- The referenced field must contain numeric data
+- Field must exist in your custom fields data
+- Values must be convertible to numbers
+
+## Error Handling and Validation ⚠️
+
+### **Common Math Errors**
+
+| Error Scenario | Cause | Solution |
+|----------------|-------|----------|
+| **Division by zero** | `{mathutil:{Amount}/0}` | Use non-zero divisors |
+| **Invalid operation** | `{mathutil:{Amount}%5}` | Use supported operators (+, -, *, /) |
+| **Non-numeric field** | Field contains text | Ensure field has numeric data |
+| **Missing field** | Referenced field doesn't exist | Verify field name and data |
+
+### **Common Date Errors**
+
+| Error Scenario | Cause | Solution |
+|----------------|-------|----------|
+| **Missing today field** | `today` not provided | Vodex provides this automatically |
+| **Invalid timezone** | Wrong timezone format | Use valid timezone strings |
+| **Invalid date format** | Can't parse source date | Use standard date formats |
+| **Missing time unit** | `{dateutil:{today}+5}` | Include unit: `+5d` |
+
+### **Error Examples**
+
+#### **Math Error - Division by Zero:**
+```
+❌ Wrong: {mathutil:{AmountDue}/0}
+✅ Correct: {mathutil:{AmountDue}/12}
+```
+
+#### **Date Error - Missing Unit:**
+```
+❌ Wrong: {dateutil:{today}+30}
+✅ Correct: {dateutil:{today}+30d}
+```
+
+#### **Field Missing Error:**
+```
+❌ Wrong: {mathutil:{NonExistentField}+100}
+✅ Correct: {mathutil:{AmountDue}+100}
+```
+
+## Best Practices for Computation Fields 🏆
+
+### **1. Always Validate Your Data**
+- Ensure numeric fields contain valid numbers
+- Verify date fields have proper date formats
+- Test with sample data before going live
+
+### **2. Use Descriptive Field Names**
+```
+✅ Good: {mathutil:{MonthlyPayment}*12}
+❌ Avoid: {mathutil:{MP}*12}
+```
+
+### **3. Handle Edge Cases**
+- Plan for missing data scenarios
+- Consider what happens with zero values
+- Test with various data types
+
+### **4. Keep Calculations Simple**
+- Use straightforward operations when possible
+- Break complex calculations into multiple fields
+- Make calculations easy to understand and verify
+
+### **5. Test Thoroughly**
+- Test with different numeric values
+- Try various date scenarios
+- Verify timezone handling
+
+## Real-World Use Cases 🌍
+
+### **Debt Collection Agency**
+```
+"Hello {FirstName}, your account {AccountNumber} shows an outstanding 
+balance of {AmountDue}. This amount has been past due since {DueDate}, 
+which is now {dateutil:{DueDate}+{DaysPastDue}d} overdue.
+
+We can offer you a settlement of {mathutil:{AmountDue}*0.8} if paid by 
+{dateutil:{today}+14d}, or a payment plan of {mathutil:{AmountDue}/6} 
+per month for 6 months."
+```
+
+### **Healthcare Appointment Reminders**
+```
+"Hi {PatientName}, this is a reminder for your appointment with 
+Dr. {DoctorName} on {AppointmentDate}. Please arrive 15 minutes early.
+
+Your next follow-up should be scheduled for approximately 
+{dateutil:{AppointmentDate}+3m}. Your estimated co-pay is 
+{mathutil:{BaseCopay}+{AdditionalFees}}."
+```
+
+### **Subscription Services**
+```
+"Hello {CustomerName}, your {PlanName} subscription of {MonthlyRate} 
+per month will renew on {dateutil:{LastBilling}+1m}. 
+
+Your annual cost is {mathutil:{MonthlyRate}*12}, but you can save 
+{mathutil:{MonthlyRate}*2} by switching to our annual plan."
+```
+
+### **Real Estate Follow-ups**
+```
+"Hi {ClientName}, it's been {dateutil:{LastContact}+{DaysSince}d} since 
+we last spoke about the {PropertyAddress} listing at {ListingPrice}.
+
+Based on current market conditions, a competitive offer would be around 
+{mathutil:{ListingPrice}*0.95}. Would you like to schedule a viewing 
+for {dateutil:{today}+2d}?"
+```
+
+## Testing Your Computation Fields 🧪
+
+### **Testing Checklist**
+
+- [ ] **Math operations work correctly** - Test all four operations
+- [ ] **Date calculations are accurate** - Verify date arithmetic
+- [ ] **Field references resolve** - Ensure all fields exist
+- [ ] **Error handling works** - Test with invalid data
+- [ ] **Timezone handling correct** - Test with different timezones
+- [ ] **Conversation flows naturally** - Verify the computed values make sense
+
+### **Sample Test Data**
+```json
+{
+  "FirstName": "John",
+  "AmountDue": "500.00",
+  "DueDate": "2024-03-30",
+  "MonthlyRate": "99.99",
+  "time_zone": "America/New_York"
+}
+```
+
+### **Expected Results**
+```
+{mathutil:{AmountDue}+25} = 525.00
+{mathutil:{MonthlyRate}*12} = 1199.88
+{dateutil:{DueDate}+30d} = 2024-04-29
+{dateutil:{today}+7d} = [7 days from current date]
+```
+
+## Troubleshooting Guide 🔧
+
+### **Math Issues**
+
+**Problem:** Field shows wrong calculation
+- Check field contains numeric data
+- Verify operation syntax
+- Test with simple values first
+
+**Problem:** Division returns unexpected results
+- Ensure you're not dividing by zero
+- Check for decimal vs integer division
+- Verify the divisor value
+
+### **Date Issues**
+
+**Problem:** Date calculation fails
+- Verify timezone is properly set
+- Check source date format
+- Ensure time unit is included
+
+**Problem:** Wrong date returned
+- Confirm timezone is correct
+- Check if daylight saving affects calculation
+- Verify source date is accurate
+
+## Next Steps 🚀
+
+Now that you understand computation custom fields:
+
+1. **Start with simple calculations** - Begin with basic math operations
+2. **Test thoroughly** - Verify calculations with sample data
+3. **Add date computations** - Include timeline calculations
+4. **Combine both features** - Create sophisticated prompts
+5. **Monitor and optimize** - Track performance and accuracy
+
+<Check>
+  **Ready to supercharge your custom fields?** Computation fields unlock powerful dynamic capabilities that make your AI conversations more intelligent, accurate, and useful. Start implementing them today to create more sophisticated and helpful interactions.
+</Check>
+
+---
+
+**Need the basics first?** Check out our [Custom Fields Introduction](/custom-fields/introduction) and [Best Practices](/custom-fields/best-practices) guides before diving into computation features.

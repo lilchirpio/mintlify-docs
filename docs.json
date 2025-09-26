@@ -31,7 +31,8 @@
             "group": "🏷️ Custom Fields",
             "pages": [
               "custom-fields/introduction",
-              "custom-fields/best-practices"
+              "custom-fields/best-practices",
+              "custom-fields/computation"
             ]
           },
           {
