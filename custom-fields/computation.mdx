@@ -1,6 +1,6 @@
 ---
 title: '🧮 Computation Custom Fields'
-description: 'Learn how to use advanced computation features for math calculations and date operations in your custom fields'
+description: 'Learn how to use advanced computation features including math calculations, date operations, end-of-week, and end-of-month utilities in your custom fields'
 tag: 'beta'
 ---
 
@@ -9,7 +9,7 @@ tag: 'beta'
 </Warning>
 
 <Info>
-  **What you'll learn:** How to perform mathematical calculations and date manipulations directly within your custom fields using `mathutil` and `dateutil` functions.
+  **What you'll learn:** How to perform mathematical calculations, date manipulations, end-of-week calculations, and end-of-month calculations directly within your custom fields using `mathutil`, `dateutil`, `end_of_week`, and `end_of_month` utilities.
 </Info>
 
 ## What Are Computation Custom Fields?
@@ -18,6 +18,8 @@ Computation custom fields are **advanced dynamic placeholders** that can perform
 
 - **Perform mathematical operations** (addition, subtraction, multiplication, division)
 - **Calculate dates** (add or subtract days, months, years, hours, minutes, seconds)
+- **Find next specific weekday** (next Monday, Friday, Sunday, etc.)
+- **Calculate end of month** (last day of current month)
 - **Create dynamic values** based on existing custom field data
 
 Think of them as **smart calculators** embedded within your custom fields that automatically compute values when your AI conversations start.
@@ -202,9 +204,165 @@ renew on {dateutil:{SubscriptionStart}+1m}. Your next billing date is
 {dateutil:{today}+{DaysUntilBilling}d}."
 ```
 
-## Combining Math and Date Utilities 🔄
+## End of Week Utility (end_of_week) 📆
 
-You can use both math and date utilities in the same prompt for complex calculations:
+The `end_of_week` function calculates the next occurrence of a specific day of the week from today's date.
+
+### **Basic Syntax**
+```
+{end_of_week:[day_number]}
+```
+
+### **Day Numbers (Python Convention)**
+
+| Day Number | Day of Week | Description |
+|------------|-------------|-------------|
+| `0` | Monday | Next Monday |
+| `1` | Tuesday | Next Tuesday |
+| `2` | Wednesday | Next Wednesday |
+| `3` | Thursday | Next Thursday |
+| `4` | Friday | Next Friday |
+| `5` | Saturday | Next Saturday |
+| `6` | Sunday | Next Sunday |
+| `7` | Sunday | Alternative for Sunday |
+
+<Note>
+  The day numbers follow Python's `weekday()` convention where Monday is 0 and Sunday is 6. You can also use `7` for Sunday.
+</Note>
+
+### **How It Works**
+
+The `end_of_week` utility calculates the **next occurrence** of the specified day:
+- If today is Tuesday and you specify `{end_of_week:0}` (Monday), you'll get the date for next Monday (6 days later)
+- If today is Monday and you specify `{end_of_week:0}` (Monday), you'll get the date for next Monday (7 days later, not today)
+- The function always returns a future date, never today's date
+
+### **End of Week Examples**
+
+#### **Setting Deadlines by Day**
+```
+Today: {today}
+By Next Monday: {end_of_week:0}
+By Next Friday: {end_of_week:4}
+By Next Sunday: {end_of_week:6}
+```
+**Result (assuming today is Wednesday, March 13, 2024):**
+```
+Today: 13 Mar 2024
+By Next Monday: 18 Mar 2024
+By Next Friday: 15 Mar 2024
+By Next Sunday: 17 Mar 2024
+```
+
+#### **Weekly Payment Reminders**
+```
+"Hello {FirstName}, your payment of {AmountDue} is due by this coming 
+Friday, {end_of_week:4}. Please ensure payment is received by end of day."
+```
+
+#### **Appointment Scheduling with Specific Days**
+```
+"We have availability next Monday ({end_of_week:0}) or next Thursday 
+({end_of_week:3}). Which day works better for you?"
+```
+
+### **Practical Use Cases**
+
+#### **Weekly Follow-ups**
+```
+"Hello {CustomerName}, we'll follow up with you by {end_of_week:4} 
+regarding your account {AccountNumber}."
+```
+
+#### **Business Week Deadlines**
+```
+"Your order {OrderNumber} will be shipped by end of business week on 
+{end_of_week:4} (Friday)."
+```
+
+#### **Weekend Coordination**
+```
+"This weekend opportunity ends on {end_of_week:6} (Sunday) at midnight. 
+Don't miss out on this special offer of {mathutil:{ProductPrice}*0.8}!"
+```
+
+## End of Month Utility (end_of_month) 📅
+
+The `end_of_month` function calculates the last day of the current month.
+
+### **Basic Syntax**
+```
+{end_of_month}
+```
+
+<Info>
+  The `end_of_month` utility is straightforward - it simply returns the last day of the current month. No parameters needed!
+</Info>
+
+### **How It Works**
+
+- Automatically calculates the last day of the current month
+- Handles varying month lengths (28, 29, 30, or 31 days)
+- Accounts for leap years in February
+- Returns date in format: "DD MMM YYYY" (e.g., "31 Mar 2024")
+
+### **End of Month Examples**
+
+#### **Monthly Deadlines**
+```
+Today: {today}
+End of This Month: {end_of_month}
+```
+**Result (assuming today is March 15, 2024):**
+```
+Today: 15 Mar 2024
+End of This Month: 31 Mar 2024
+```
+
+#### **Monthly Payment Reminders**
+```
+"Hello {FirstName}, your monthly payment of {MonthlyPayment} is due by 
+the end of this month on {end_of_month}. Please ensure timely payment 
+to avoid late fees."
+```
+
+#### **Subscription Billing**
+```
+"Your {PlanName} subscription will renew at the end of this month 
+({end_of_month}) for {mathutil:{MonthlyRate}*1}."
+```
+
+### **Practical Use Cases**
+
+#### **End of Month Campaigns**
+```
+"Hello {CustomerName}, our end-of-month sale ends on {end_of_month}! 
+Get {ProductName} for only {mathutil:{ProductPrice}*0.85} - that's 15% off 
+the regular price."
+```
+
+#### **Billing Cycles**
+```
+"Your account {AccountNumber} has a balance of {AmountDue}. Payment is 
+due by {end_of_month} to maintain your service without interruption."
+```
+
+#### **Performance Targets**
+```
+"Team, we have until {end_of_month} to reach our monthly goal. Let's 
+push forward!"
+```
+
+#### **Financial Deadlines**
+```
+"Hello {FirstName}, your quarterly payment of {QuarterlyAmount} must be 
+received by end of month ({end_of_month}). This covers your service 
+through {dateutil:{today}+3m}."
+```
+
+## Combining Multiple Utilities 🔄
+
+You can combine math, date, end-of-week, and end-of-month utilities in the same prompt for sophisticated calculations:
 
 ### **Dynamic Payment Scheduling**
 ```
@@ -224,17 +382,38 @@ If paid by {dateutil:{today}+30d}, you can settle for
 {mathutil:{LoanAmount}*0.95}."
 ```
 
+### **Weekly and Monthly Deadlines with Discounts**
+```
+"Hello {FirstName}, your account {AccountNumber} shows a balance of {AmountDue}.
+
+Pay by this Friday ({end_of_week:4}): {mathutil:{AmountDue}*0.95} (5% discount)
+Pay by end of month ({end_of_month}): {mathutil:{AmountDue}*0.98} (2% discount)
+Pay after {end_of_month}: Full amount of {AmountDue} plus {mathutil:{AmountDue}*0.05} late fee"
+```
+
+### **Comprehensive Campaign with All Utilities**
+```
+"Hi {CustomerName}, special offer ending {end_of_week:6}! 
+
+Original Price: {ProductPrice}
+Today's Discount: {mathutil:{ProductPrice}*0.80} (20% off)
+Monthly Plan: {mathutil:{ProductPrice}/12} per month
+First payment due: {end_of_week:4}
+Final payment: {dateutil:{today}+11m}
+Offer expires: {end_of_month}"
+```
+
 ## Required Fields and Dependencies 📋
 
-### **For Date Utilities:**
+### **For Date Utilities (dateutil, end_of_week, end_of_month):**
 
 <Warning>
-  **Mandatory Fields for `dateutil`:** When using any `dateutil` operations, both `{today}` and `{time_zone}` fields are **mandatory** and must be included in your prompt. During testing or when uploading audience data, you **must** provide the `time_zone` field, while `today` will be filled automatically by Vodex.
+  **Mandatory Fields for Date Operations:** When using any date utilities (`dateutil`, `end_of_week`, or `end_of_month`), both `{today}` and `{time_zone}` fields are **mandatory** and must be included in your prompt. During testing or when uploading audience data, you **must** provide the `time_zone` field, while `today` will be filled automatically by Vodex.
 </Warning>
 
 #### **Required Fields:**
 - `today` - Current date/time (automatically provided by Vodex)
-- `raw_today` - Raw timestamp format (automatically provided)
+- `raw_today` - Raw timestamp format (automatically provided, used by end_of_week and end_of_month)
 - `time_zone` - User's timezone (must be provided)
 
 #### **Valid Timezone Formats:**
@@ -274,9 +453,11 @@ EST              ❌ Avoid (use full timezone names)
 | Error Scenario | Cause | Solution |
 |----------------|-------|----------|
 | **Missing today field** | `today` not provided | Vodex provides this automatically |
+| **Missing raw_today** | Required for end_of_week/end_of_month | Vodex provides this automatically |
 | **Invalid timezone** | Wrong timezone format | Use valid timezone strings |
 | **Invalid date format** | Can't parse source date | Use standard date formats |
 | **Missing time unit** | `{dateutil:{today}+5}` | Include unit: `+5d` |
+| **Invalid day number** | `{end_of_week:8}` | Use 0-7 only (0=Mon, 6=Sun) |
 
 ### **Error Examples**
 
@@ -296,6 +477,18 @@ EST              ❌ Avoid (use full timezone names)
 ```
 ❌ Wrong: {mathutil:{NonExistentField}+100}
 ✅ Correct: {mathutil:{AmountDue}+100}
+```
+
+#### **End of Week Error - Invalid Day Number:**
+```
+❌ Wrong: {end_of_week:8}
+✅ Correct: {end_of_week:0} (Monday) or {end_of_week:6} (Sunday)
+```
+
+#### **Missing Required Field Error:**
+```
+❌ Wrong: Using {end_of_month} without time_zone in audience data
+✅ Correct: Provide time_zone field in your audience upload
 ```
 
 ## Best Practices for Computation Fields 🏆
@@ -335,8 +528,8 @@ balance of {AmountDue}. This amount has been past due since {DueDate},
 which is now {dateutil:{DueDate}+{DaysPastDue}d} overdue.
 
 We can offer you a settlement of {mathutil:{AmountDue}*0.8} if paid by 
-{dateutil:{today}+14d}, or a payment plan of {mathutil:{AmountDue}/6} 
-per month for 6 months."
+this Friday ({end_of_week:4}), or a payment plan of {mathutil:{AmountDue}/6} 
+per month for 6 months with first payment due by {end_of_month}."
 ```
 
 ### **Healthcare Appointment Reminders**
@@ -352,10 +545,11 @@ Your next follow-up should be scheduled for approximately
 ### **Subscription Services**
 ```
 "Hello {CustomerName}, your {PlanName} subscription of {MonthlyRate} 
-per month will renew on {dateutil:{LastBilling}+1m}. 
+per month will renew on {end_of_month}. 
 
 Your annual cost is {mathutil:{MonthlyRate}*12}, but you can save 
-{mathutil:{MonthlyRate}*2} by switching to our annual plan."
+{mathutil:{MonthlyRate}*2} by switching to our annual plan before 
+{end_of_week:4} (this Friday)."
 ```
 
 ### **Real Estate Follow-ups**
@@ -372,12 +566,15 @@ for {dateutil:{today}+2d}?"
 
 ### **Testing Checklist**
 
-- [ ] **Math operations work correctly** - Test all four operations
-- [ ] **Date calculations are accurate** - Verify date arithmetic
+- [ ] **Math operations work correctly** - Test all four operations (+, -, *, /)
+- [ ] **Date calculations are accurate** - Verify dateutil arithmetic
+- [ ] **End of week calculations** - Test all day numbers (0-7)
+- [ ] **End of month calculations** - Test across different months and leap years
 - [ ] **Field references resolve** - Ensure all fields exist
 - [ ] **Error handling works** - Test with invalid data
 - [ ] **Timezone handling correct** - Test with different timezones
 - [ ] **Conversation flows naturally** - Verify the computed values make sense
+- [ ] **Combined utilities work** - Test mixing multiple utility types
 
 ### **Sample Test Data**
 ```json
@@ -396,6 +593,9 @@ for {dateutil:{today}+2d}?"
 {mathutil:{MonthlyRate}*12} = 1199.88
 {dateutil:{DueDate}+30d} = 2024-04-29
 {dateutil:{today}+7d} = [7 days from current date]
+{end_of_week:4} = [Next Friday's date]
+{end_of_week:0} = [Next Monday's date]
+{end_of_month} = [Last day of current month]
 ```
 
 ## Troubleshooting Guide 🔧
@@ -418,11 +618,34 @@ for {dateutil:{today}+2d}?"
 - Verify timezone is properly set
 - Check source date format
 - Ensure time unit is included
+- Confirm raw_today is available (for end_of_week/end_of_month)
 
 **Problem:** Wrong date returned
 - Confirm timezone is correct
 - Check if daylight saving affects calculation
 - Verify source date is accurate
+
+### **End of Week Issues**
+
+**Problem:** Wrong weekday calculated
+- Verify day number (0=Monday, 6=Sunday)
+- Check that raw_today field exists
+- Confirm timezone is set correctly
+
+**Problem:** Returns today instead of next occurrence
+- System always returns next occurrence, not current day
+- If you need current day, use {today} instead
+
+### **End of Month Issues**
+
+**Problem:** Wrong last day calculated
+- Verify raw_today field exists
+- Check timezone setting
+- Confirm current month/year is correct
+
+**Problem:** Leap year not handled
+- System automatically handles leap years
+- Verify raw_today format is correct
 
 ## Next Steps 🚀
 
@@ -430,9 +653,19 @@ Now that you understand computation custom fields:
 
 1. **Start with simple calculations** - Begin with basic math operations
 2. **Test thoroughly** - Verify calculations with sample data
-3. **Add date computations** - Include timeline calculations
-4. **Combine both features** - Create sophisticated prompts
-5. **Monitor and optimize** - Track performance and accuracy
+3. **Add date computations** - Include timeline calculations with dateutil
+4. **Use weekday and month-end features** - Leverage end_of_week and end_of_month
+5. **Combine all utilities** - Create sophisticated prompts with multiple computation types
+6. **Monitor and optimize** - Track performance and accuracy
+
+## Quick Reference Summary 📚
+
+| Utility | Syntax | Example | Output Format |
+|---------|--------|---------|---------------|
+| **Math** | `{mathutil:{Field}[op][value]}` | `{mathutil:{Amount}*1.05}` | Number |
+| **Date** | `{dateutil:{Field}[+/-][count][unit]}` | `{dateutil:{today}+7d}` | Full datetime |
+| **End of Week** | `{end_of_week:[0-7]}` | `{end_of_week:4}` | DD MMM YYYY |
+| **End of Month** | `{end_of_month}` | `{end_of_month}` | DD MMM YYYY |
 
 <Check>
   **Ready to supercharge your custom fields?** Computation fields unlock powerful dynamic capabilities that make your AI conversations more intelligent, accurate, and useful. Start implementing them today to create more sophisticated and helpful interactions.
