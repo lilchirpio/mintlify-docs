@@ -1,6 +1,6 @@
 ---
 title: '🧮 Computation Custom Fields'
-description: 'Learn how to use advanced computation features including math calculations, date operations, end-of-week, and end-of-month utilities in your custom fields'
+description: 'Learn how to use advanced computation features including math calculations, date operations, end-of-week, end-of-month, and date-range utilities in your custom fields'
 tag: 'beta'
 ---
 
@@ -9,7 +9,7 @@ tag: 'beta'
 </Warning>
 
 <Info>
-  **What you'll learn:** How to perform mathematical calculations, date manipulations, end-of-week calculations, and end-of-month calculations directly within your custom fields using `mathutil`, `dateutil`, `end_of_week`, and `end_of_month` utilities.
+  **What you'll learn:** How to perform mathematical calculations, date manipulations, end-of-week calculations, end-of-month calculations, and date range calculations directly within your custom fields using `mathutil`, `dateutil`, `end_of_week`, `end_of_month`, and `date_range` utilities.
 </Info>
 
 ## What Are Computation Custom Fields?
@@ -20,6 +20,7 @@ Computation custom fields are **advanced dynamic placeholders** that can perform
 - **Calculate dates** (add or subtract days, months, years, hours, minutes, seconds)
 - **Find next specific weekday** (next Monday, Friday, Sunday, etc.)
 - **Calculate end of month** (last day of current month)
+- **Calculate date ranges** (formatted list of days from start date + number of days)
 - **Create dynamic values** based on existing custom field data
 
 Think of them as **smart calculators** embedded within your custom fields that automatically compute values when your AI conversations start.
@@ -360,9 +361,156 @@ received by end of month ({end_of_month}). This covers your service
 through {dateutil:{today}+3m}."
 ```
 
+## Date Range Utility (date_range) 📊
+
+The `date_range` function calculates a date range FROM a start date FOR a specified number of days, making it perfect for creating time-based windows, billing periods, and scheduling ranges.
+
+### **Basic Syntax**
+```
+{date_range:[start_date]-[number_of_days]}
+```
+
+### **Parameters**
+
+| Parameter | Description | Example | Required |
+|-----------|-------------|---------|----------|
+| `start_date` | Starting date (field name or {today}) | `{StartDate}` or `{today}` | ✅ Yes |
+| `number_of_days` | Number of days from start date (inclusive) | `5`, `30`, `90` | ✅ Yes |
+
+### **How It Works**
+
+The `date_range` utility calculates a date range starting from a specified date:
+- **Start Date**: Can be any custom field containing a date or `{today}`
+- **Number of Days**: Specifies how many days forward from the start date (inclusive)
+- **Result**: Returns a formatted list showing each day in the range with date and day of week
+- **Inclusive**: The range includes both the start date and the end date
+- **Format**: Each day shows as "DD MMM YYYY, DayName"
+
+### **Date Range Examples**
+
+#### **From Today for 6 Days**
+```
+Today: {today}
+Range: {date_range:{today}-6}
+```
+**Result (assuming today is October 21, 2025):**
+```
+Today: 21 Oct 2025
+Range: 
+1: 22 Oct 2025, Wednesday 
+2: 23 Oct 2025, Thursday 
+3: 24 Oct 2025, Friday 
+4: 25 Oct 2025, Saturday 
+5: 26 Oct 2025, Sunday 
+6: 27 Oct 2025, Monday
+```
+
+#### **From Start Date for 5 Days**
+```
+Start Date: {StartDate}
+Range: {date_range:{StartDate}-5}
+```
+**Result:**
+```
+Start Date: 01 Jan 2024
+Range: 
+1: 02 Jan 2024, Tuesday 
+2: 03 Jan 2024, Wednesday 
+3: 04 Jan 2024, Thursday 
+4: 05 Jan 2024, Friday 
+5: 06 Jan 2024, Saturday
+```
+
+#### **Payment Window**
+```
+Payment Due: {DueDate}
+Grace Period: {date_range:{DueDate}-7}
+```
+**Result:**
+```
+Payment Due: 15 Mar 2024
+Grace Period: 
+1: 16 Mar 2024, Saturday 
+2: 17 Mar 2024, Sunday 
+3: 18 Mar 2024, Monday 
+4: 19 Mar 2024, Tuesday 
+5: 20 Mar 2024, Wednesday 
+6: 21 Mar 2024, Thursday 
+7: 22 Mar 2024, Friday
+```
+
+### **Advanced Date Range Examples**
+
+#### **Billing Cycle Window**
+```
+"Hello {FirstName}, your billing cycle starts today ({today}) and runs 
+for 7 days. Here are your billing days:
+
+{date_range:{today}-7}
+
+Your next payment of {mathutil:{MonthlyRate}*1} is due by the last day."
+```
+
+#### **Trial Period Tracking**
+```
+"Your {ServiceName} trial started on {TrialStart} and runs for 14 days:
+
+{date_range:{TrialStart}-14}
+
+You have until the last day to upgrade to avoid service interruption."
+```
+
+#### **Project Timeline**
+```
+"Project {ProjectName} started on {ProjectStart} and has a 5-day timeline:
+
+{date_range:{ProjectStart}-5}
+
+Please complete all tasks within this timeframe."
+```
+
+### **Practical Use Cases**
+
+#### **Payment Grace Period**
+```
+"Hello {FirstName}, your payment of {AmountDue} was due on {DueDate}. 
+You have a 5-day grace period:
+
+{date_range:{DueDate}-5}
+
+After the last day, late fees of {mathutil:{AmountDue}*0.05} will apply."
+```
+
+#### **Subscription Trial**
+```
+"Your {PlanName} trial started on {TrialStart} and runs for 14 days:
+
+{date_range:{TrialStart}-14}
+
+To continue service, please upgrade by the last day."
+```
+
+#### **Campaign Duration**
+```
+"Our {CampaignName} campaign runs from {CampaignStart} for 7 days:
+
+{date_range:{CampaignStart}-7}
+
+Don't miss this limited-time offer!"
+```
+
+#### **Warranty Period**
+```
+"Your {ProductName} warranty is valid from {PurchaseDate} for 30 days:
+
+{date_range:{PurchaseDate}-30}
+
+Any claims must be submitted before the warranty expires."
+```
+
 ## Combining Multiple Utilities 🔄
 
-You can combine math, date, end-of-week, and end-of-month utilities in the same prompt for sophisticated calculations:
+You can combine math, date, end-of-week, end-of-month, and date-range utilities in the same prompt for sophisticated calculations:
 
 ### **Dynamic Payment Scheduling**
 ```
@@ -403,18 +551,32 @@ Final payment: {dateutil:{today}+11m}
 Offer expires: {end_of_month}"
 ```
 
+### **Advanced Analytics with Date Ranges**
+```
+"Hello {CustomerName}, your trial period started on {TrialStart} and 
+runs for 14 days:
+
+{date_range:{TrialStart}-14}
+
+Your subscription of {mathutil:{MonthlyRate}*12} annually will begin 
+after the trial ends. 
+
+Upgrade by the last day to avoid service interruption."
+```
+
 ## Required Fields and Dependencies 📋
 
-### **For Date Utilities (dateutil, end_of_week, end_of_month):**
+### **For Date Utilities (dateutil, end_of_week, end_of_month, date_range):**
 
 <Warning>
-  **Mandatory Fields for Date Operations:** When using any date utilities (`dateutil`, `end_of_week`, or `end_of_month`), both `{today}` and `{time_zone}` fields are **mandatory** and must be included in your prompt. During testing or when uploading audience data, you **must** provide the `time_zone` field, while `today` will be filled automatically by Vodex.
+  **Mandatory Fields for Date Operations:** When using any date utilities (`dateutil`, `end_of_week`, `end_of_month`, or `date_range`), both `{today}` and `{time_zone}` fields are **mandatory** and must be included in your prompt. During testing or when uploading audience data, you **must** provide the `time_zone` field, while `today` will be filled automatically by Vodex.
 </Warning>
 
 #### **Required Fields:**
 - `today` - Current date/time (automatically provided by Vodex)
 - `raw_today` - Raw timestamp format (automatically provided, used by end_of_week and end_of_month)
 - `time_zone` - User's timezone (must be provided)
+- **Date fields** - For `date_range`, both start and end date fields must exist and contain valid dates
 
 #### **Valid Timezone Formats:**
 ```
@@ -458,6 +620,9 @@ EST              ❌ Avoid (use full timezone names)
 | **Invalid date format** | Can't parse source date | Use standard date formats |
 | **Missing time unit** | `{dateutil:{today}+5}` | Include unit: `+5d` |
 | **Invalid day number** | `{end_of_week:8}` | Use 0-7 only (0=Mon, 6=Sun) |
+| **Missing date field** | `{date_range:{MissingField}-5}` | Ensure start date field exists |
+| **Invalid number format** | `{date_range:{today}-abc}` | Use numeric values only |
+| **Negative days** | `{date_range:{today}--5}` | Use positive numbers only |
 
 ### **Error Examples**
 
@@ -489,6 +654,24 @@ EST              ❌ Avoid (use full timezone names)
 ```
 ❌ Wrong: Using {end_of_month} without time_zone in audience data
 ✅ Correct: Provide time_zone field in your audience upload
+```
+
+#### **Date Range Error - Missing Field:**
+```
+❌ Wrong: {date_range:{NonExistentField}-5}
+✅ Correct: {date_range:{StartDate}-5}
+```
+
+#### **Date Range Error - Invalid Number:**
+```
+❌ Wrong: {date_range:{today}-abc}
+✅ Correct: {date_range:{today}-5}
+```
+
+#### **Date Range Error - Negative Days:**
+```
+❌ Wrong: {date_range:{today}--5}
+✅ Correct: {date_range:{today}-5}
 ```
 
 ## Best Practices for Computation Fields 🏆
@@ -570,6 +753,7 @@ for {dateutil:{today}+2d}?"
 - [ ] **Date calculations are accurate** - Verify dateutil arithmetic
 - [ ] **End of week calculations** - Test all day numbers (0-7)
 - [ ] **End of month calculations** - Test across different months and leap years
+- [ ] **Date range calculations** - Test all formats (days, weeks, months, years)
 - [ ] **Field references resolve** - Ensure all fields exist
 - [ ] **Error handling works** - Test with invalid data
 - [ ] **Timezone handling correct** - Test with different timezones
@@ -596,6 +780,8 @@ for {dateutil:{today}+2d}?"
 {end_of_week:4} = [Next Friday's date]
 {end_of_week:0} = [Next Monday's date]
 {end_of_month} = [Last day of current month]
+{date_range:{StartDate}-5} = "1: 02 Jan 2024, Tuesday \n2: 03 Jan 2024, Wednesday \n3: 04 Jan 2024, Thursday \n4: 05 Jan 2024, Friday \n5: 06 Jan 2024, Saturday"
+{date_range:{today}-6} = "1: 22 Oct 2025, Wednesday \n2: 23 Oct 2025, Thursday \n3: 24 Oct 2025, Friday \n4: 25 Oct 2025, Saturday \n5: 26 Oct 2025, Sunday \n6: 27 Oct 2025, Monday"
 ```
 
 ## Troubleshooting Guide 🔧
@@ -647,6 +833,25 @@ for {dateutil:{today}+2d}?"
 - System automatically handles leap years
 - Verify raw_today format is correct
 
+### **Date Range Issues**
+
+**Problem:** Wrong end date calculated
+- Verify start date field exists and contains valid date
+- Check that number of days is a positive integer
+- Confirm timezone is set correctly
+
+**Problem:** Invalid number error
+- Use only numeric values for days (5, 30, 90)
+- Avoid non-numeric characters or negative numbers
+
+**Problem:** Missing field error
+- Ensure the start date field exists in your custom fields
+- Verify field name spelling and case sensitivity
+
+**Problem:** Date format issues
+- Start date must be in a valid date format
+- System handles various date formats automatically
+
 ## Next Steps 🚀
 
 Now that you understand computation custom fields:
@@ -655,8 +860,9 @@ Now that you understand computation custom fields:
 2. **Test thoroughly** - Verify calculations with sample data
 3. **Add date computations** - Include timeline calculations with dateutil
 4. **Use weekday and month-end features** - Leverage end_of_week and end_of_month
-5. **Combine all utilities** - Create sophisticated prompts with multiple computation types
-6. **Monitor and optimize** - Track performance and accuracy
+5. **Calculate time periods** - Use date_range for duration analysis
+6. **Combine all utilities** - Create sophisticated prompts with multiple computation types
+7. **Monitor and optimize** - Track performance and accuracy
 
 ## Quick Reference Summary 📚
 
@@ -666,6 +872,7 @@ Now that you understand computation custom fields:
 | **Date** | `{dateutil:{Field}[+/-][count][unit]}` | `{dateutil:{today}+7d}` | Full datetime |
 | **End of Week** | `{end_of_week:[0-7]}` | `{end_of_week:4}` | DD MMM YYYY |
 | **End of Month** | `{end_of_month}` | `{end_of_month}` | DD MMM YYYY |
+| **Date Range** | `{date_range:{start}-{days}}` | `{date_range:{today}-6}` | "1: 22 Oct 2025, Wednesday \n2: 23 Oct 2025, Thursday..." |
 
 <Check>
   **Ready to supercharge your custom fields?** Computation fields unlock powerful dynamic capabilities that make your AI conversations more intelligent, accurate, and useful. Start implementing them today to create more sophisticated and helpful interactions.
