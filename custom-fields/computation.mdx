@@ -1,6 +1,6 @@
 ---
 title: '🧮 Computation Custom Fields'
-description: 'Learn how to use advanced computation features including math calculations, date operations, end-of-week, end-of-month, and date-range utilities in your custom fields'
+description: 'Learn how to use advanced computation features including math calculations, date operations, end-of-week, end-of-month, next-date, and date-range utilities in your custom fields'
 tag: 'beta'
 ---
 
@@ -9,7 +9,7 @@ tag: 'beta'
 </Warning>
 
 <Info>
-  **What you'll learn:** How to perform mathematical calculations, date manipulations, end-of-week calculations, end-of-month calculations, and date range calculations directly within your custom fields using `mathutil`, `dateutil`, `end_of_week`, `end_of_month`, and `date_range` utilities.
+  **What you'll learn:** How to perform mathematical calculations, date manipulations, end-of-week calculations, end-of-month calculations, next-date calculations, and date range calculations directly within your custom fields using `mathutil`, `dateutil`, `end_of_week`, `end_of_month`, `next_date`, and `date_range` utilities.
 </Info>
 
 ## What Are Computation Custom Fields?
@@ -20,6 +20,7 @@ Computation custom fields are **advanced dynamic placeholders** that can perform
 - **Calculate dates** (add or subtract days, months, years, hours, minutes, seconds)
 - **Find next specific weekday** (next Monday, Friday, Sunday, etc.)
 - **Calculate end of month** (last day of current month)
+- **Find next occurrence of day of month** (next 5th, 15th, 28th, etc.)
 - **Calculate date ranges** (formatted list of days from start date + number of days)
 - **Create dynamic values** based on existing custom field data
 
@@ -361,6 +362,138 @@ received by end of month ({end_of_month}). This covers your service
 through {dateutil:{today}+3m}."
 ```
 
+## Next Date Utility (next_date) 📆
+
+The `next_date` function calculates the next occurrence of a specific day of the month, making it perfect for setting deadlines, billing dates, and recurring monthly events.
+
+### **Basic Syntax**
+```
+{next_date:[start_date]+[day_number]}
+```
+
+### **Parameters**
+
+| Parameter | Description | Example | Required |
+|-----------|-------------|---------|----------|
+| `start_date` | Starting date (field name or {today}) | `{StartDate}` or `{today}` | ✅ Yes |
+| `day_number` | Target day of the month (1-31) | `5`, `15`, `28` | ✅ Yes |
+
+### **How It Works**
+
+The `next_date` utility calculates the next occurrence of a specific day of the month:
+- **Start Date**: Can be any custom field containing a date or `{today}`
+- **Day Number**: The target day of the month (1-31)
+- **Logic**: 
+  - If current day ≤ target day: Returns target day in the **current month**
+  - If current day > target day: Returns target day in the **next month**
+- **Result**: Returns the date in "DD MMM YYYY, (DayName)" format
+
+### **Next Date Examples**
+
+#### **From Today for Next 5th**
+```
+Today: {today}
+Next 5th: {next_date:{today}+5}
+```
+**Result (assuming today is November 1, 2024):**
+```
+Today: 01 Nov 2024
+Next 5th: 05 Nov 2024, (Tuesday)
+```
+
+**Result (assuming today is November 15, 2024):**
+```
+Today: 15 Nov 2024
+Next 5th: 05 Dec 2024, (Thursday)
+```
+
+#### **From Start Date for Next 10th**
+```
+Start Date: {StartDate}
+Next 10th: {next_date:{StartDate}+10}
+```
+**Result (if StartDate is January 8, 2024):**
+```
+Start Date: 08 Jan 2024
+Next 10th: 10 Jan 2024, (Wednesday)
+```
+
+**Result (if StartDate is January 20, 2024):**
+```
+Start Date: 20 Jan 2024
+Next 10th: 10 Feb 2024, (Saturday)
+```
+
+#### **Monthly Billing Date**
+```
+Current Date: {today}
+Next Billing: {next_date:{today}+15}
+```
+**Result:**
+```
+Current Date: 05 Mar 2024
+Next Billing: 15 Mar 2024, (Friday)
+```
+
+**Result (if today is March 20, 2024):**
+```
+Current Date: 20 Mar 2024
+Next Billing: 15 Apr 2024, (Monday)
+```
+
+### **Advanced Next Date Examples**
+
+#### **Monthly Payment Deadlines**
+```
+"Hello {FirstName}, your payment of {AmountDue} is due on the 5th of each month. 
+Your next payment deadline is {next_date:{today}+5}. Please ensure payment is 
+received by then to avoid late fees."
+```
+
+#### **Billing Cycle Management**
+```
+"Your {ServiceName} subscription bills on the 15th of each month. 
+Your next billing date is {next_date:{today}+15} for {mathutil:{MonthlyRate}*1}. 
+This will be automatically charged to your account."
+```
+
+#### **Recurring Deadlines**
+```
+"Project {ProjectName} has a monthly review on the 28th. 
+Your next review deadline is {next_date:{today}+28}. 
+Please submit your progress report by then."
+```
+
+### **Practical Use Cases**
+
+#### **Monthly Payment Reminders**
+```
+"Hello {CustomerName}, your account {AccountNumber} has a monthly payment 
+due on the 5th. Your next payment of {AmountDue} is due on 
+{next_date:{today}+5}. Please ensure payment is received by end of day."
+```
+
+#### **Subscription Renewals**
+```
+"Your {PlanName} subscription renews on the 1st of each month. 
+Your next renewal date is {next_date:{today}+1} for 
+{mathutil:{MonthlyRate}*1}. Your service will continue automatically."
+```
+
+#### **Report Submission Deadlines**
+```
+"Your monthly report is due on the 10th of each month. 
+The next submission deadline is {next_date:{today}+10}. 
+Please ensure all data is submitted by end of day."
+```
+
+#### **Rent Payment Due Dates**
+```
+"Your rent payment of {RentAmount} is due on the 1st of each month. 
+Your next payment is due on {next_date:{today}+1}. 
+Late payments after the 5th will incur a fee of {mathutil:{RentAmount}*0.05}."
+```
+
 ## Date Range Utility (date_range) 📊
 
 The `date_range` function calculates a date range FROM a start date FOR a specified number of days, making it perfect for creating time-based windows, billing periods, and scheduling ranges.
@@ -510,7 +643,7 @@ Any claims must be submitted before the warranty expires."
 
 ## Combining Multiple Utilities 🔄
 
-You can combine math, date, end-of-week, end-of-month, and date-range utilities in the same prompt for sophisticated calculations:
+You can combine math, date, end-of-week, end-of-month, next-date, and date-range utilities in the same prompt for sophisticated calculations:
 
 ### **Dynamic Payment Scheduling**
 ```
@@ -564,19 +697,29 @@ after the trial ends.
 Upgrade by the last day to avoid service interruption."
 ```
 
+### **Monthly Billing with Next Date**
+```
+"Hello {FirstName}, your {ServiceName} subscription bills monthly on the 5th. 
+Your next billing date is {next_date:{today}+5} for {mathutil:{MonthlyRate}*1}. 
+
+Your account {AccountNumber} has been active since {AccountStart}. 
+Payment will be automatically charged on {next_date:{today}+5}. 
+If payment fails, you have until {dateutil:{next_date:{today}+5}+7d} to update your payment method."
+```
+
 ## Required Fields and Dependencies 📋
 
-### **For Date Utilities (dateutil, end_of_week, end_of_month, date_range):**
+### **For Date Utilities (dateutil, end_of_week, end_of_month, next_date, date_range):**
 
 <Warning>
-  **Mandatory Fields for Date Operations:** When using any date utilities (`dateutil`, `end_of_week`, `end_of_month`, or `date_range`), both `{today}` and `{time_zone}` fields are **mandatory** and must be included in your prompt. During testing or when uploading audience data, you **must** provide the `time_zone` field, while `today` will be filled automatically by Vodex.
+  **Mandatory Fields for Date Operations:** When using any date utilities (`dateutil`, `end_of_week`, `end_of_month`, `next_date`, or `date_range`), both `{today}` and `{time_zone}` fields are **mandatory** and must be included in your prompt. During testing or when uploading audience data, you **must** provide the `time_zone` field, while `today` will be filled automatically by Vodex.
 </Warning>
 
 #### **Required Fields:**
 - `today` - Current date/time (automatically provided by Vodex)
-- `raw_today` - Raw timestamp format (automatically provided, used by end_of_week and end_of_month)
+- `raw_today` - Raw timestamp format (automatically provided, used by end_of_week, end_of_month, and next_date)
 - `time_zone` - User's timezone (must be provided)
-- **Date fields** - For `date_range`, both start and end date fields must exist and contain valid dates
+- **Date fields** - For `date_range` and `next_date`, start date fields must exist and contain valid dates
 
 #### **Valid Timezone Formats:**
 ```
@@ -623,6 +766,9 @@ EST              ❌ Avoid (use full timezone names)
 | **Missing date field** | `{date_range:{MissingField}-5}` | Ensure start date field exists |
 | **Invalid number format** | `{date_range:{today}-abc}` | Use numeric values only |
 | **Negative days** | `{date_range:{today}--5}` | Use positive numbers only |
+| **Invalid day of month** | `{next_date:{today}+32}` | Use 1-31 only (valid day of month) |
+| **Missing start date** | `{next_date:{MissingField}+5}` | Ensure start date field exists |
+| **Invalid date format** | `{next_date:{InvalidDate}+5}` | Use valid date format |
 
 ### **Error Examples**
 
@@ -672,6 +818,18 @@ EST              ❌ Avoid (use full timezone names)
 ```
 ❌ Wrong: {date_range:{today}--5}
 ✅ Correct: {date_range:{today}-5}
+```
+
+#### **Next Date Error - Invalid Day of Month:**
+```
+❌ Wrong: {next_date:{today}+32}
+✅ Correct: {next_date:{today}+5} (valid day 1-31)
+```
+
+#### **Next Date Error - Missing Field:**
+```
+❌ Wrong: {next_date:{NonExistentField}+5}
+✅ Correct: {next_date:{StartDate}+5}
 ```
 
 ## Best Practices for Computation Fields 🏆
@@ -753,7 +911,8 @@ for {dateutil:{today}+2d}?"
 - [ ] **Date calculations are accurate** - Verify dateutil arithmetic
 - [ ] **End of week calculations** - Test all day numbers (0-7)
 - [ ] **End of month calculations** - Test across different months and leap years
-- [ ] **Date range calculations** - Test all formats (days, weeks, months, years)
+- [ ] **Next date calculations** - Test with different days of month (1-31)
+- [ ] **Date range calculations** - Test with different day ranges
 - [ ] **Field references resolve** - Ensure all fields exist
 - [ ] **Error handling works** - Test with invalid data
 - [ ] **Timezone handling correct** - Test with different timezones
@@ -780,6 +939,7 @@ for {dateutil:{today}+2d}?"
 {end_of_week:4} = [Next Friday's date]
 {end_of_week:0} = [Next Monday's date]
 {end_of_month} = [Last day of current month]
+{next_date:{today}+5} = "05 Nov 2024, (Tuesday)" (if today is Nov 1) or "05 Dec 2024, (Thursday)" (if today is Nov 15)
 {date_range:{StartDate}-5} = "1: 02 Jan 2024, Tuesday \n2: 03 Jan 2024, Wednesday \n3: 04 Jan 2024, Thursday \n4: 05 Jan 2024, Friday \n5: 06 Jan 2024, Saturday"
 {date_range:{today}-6} = "1: 22 Oct 2025, Wednesday \n2: 23 Oct 2025, Thursday \n3: 24 Oct 2025, Friday \n4: 25 Oct 2025, Saturday \n5: 26 Oct 2025, Sunday \n6: 27 Oct 2025, Monday"
 ```
@@ -833,6 +993,27 @@ for {dateutil:{today}+2d}?"
 - System automatically handles leap years
 - Verify raw_today format is correct
 
+### **Next Date Issues**
+
+**Problem:** Wrong date calculated
+- Verify start date field exists and contains valid date
+- Check that day number is between 1-31
+- Confirm timezone is set correctly
+
+**Problem:** Invalid day of month error
+- Use only valid days of the month (1-31)
+- Avoid days that don't exist in certain months (e.g., Feb 30)
+- System will automatically handle month boundaries
+
+**Problem:** Missing field error
+- Ensure the start date field exists in your custom fields
+- Verify field name spelling and case sensitivity
+
+**Problem:** Date parsing error
+- Start date must be in a valid date format
+- System handles various date formats automatically
+- Check that raw_today is available when using {today}
+
 ### **Date Range Issues**
 
 **Problem:** Wrong end date calculated
@@ -860,9 +1041,10 @@ Now that you understand computation custom fields:
 2. **Test thoroughly** - Verify calculations with sample data
 3. **Add date computations** - Include timeline calculations with dateutil
 4. **Use weekday and month-end features** - Leverage end_of_week and end_of_month
-5. **Calculate time periods** - Use date_range for duration analysis
-6. **Combine all utilities** - Create sophisticated prompts with multiple computation types
-7. **Monitor and optimize** - Track performance and accuracy
+5. **Set monthly deadlines** - Use next_date for recurring monthly dates
+6. **Calculate time periods** - Use date_range for duration analysis
+7. **Combine all utilities** - Create sophisticated prompts with multiple computation types
+8. **Monitor and optimize** - Track performance and accuracy
 
 ## Quick Reference Summary 📚
 
@@ -872,6 +1054,7 @@ Now that you understand computation custom fields:
 | **Date** | `{dateutil:{Field}[+/-][count][unit]}` | `{dateutil:{today}+7d}` | Full datetime |
 | **End of Week** | `{end_of_week:[0-7]}` | `{end_of_week:4}` | DD MMM YYYY |
 | **End of Month** | `{end_of_month}` | `{end_of_month}` | DD MMM YYYY |
+| **Next Date** | `{next_date:{start}+{day}}` | `{next_date:{today}+5}` | "05 Nov 2024, (Tuesday)" |
 | **Date Range** | `{date_range:{start}-{days}}` | `{date_range:{today}-6}` | "1: 22 Oct 2025, Wednesday \n2: 23 Oct 2025, Thursday..." |
 
 <Check>
