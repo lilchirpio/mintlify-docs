@@ -24,7 +24,8 @@
             "pages": [
               "agents/overview",
               "agents/prompt",
-              "agents/tags"
+              "agents/tags",
+              "agents/automated-testing"
             ]
           },
           {
